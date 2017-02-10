@@ -23,6 +23,7 @@ namespace Discrod_bot
                     streamWriter.Write(json);
                     streamWriter.Flush();
                     streamWriter.Close();
+
                 }
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
