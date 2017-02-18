@@ -1,0 +1,253 @@
+body{
+    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/40/62/69/406269bf1d61e4177fb48b8be565f4f0.jpg");
+}
+
+h1{
+    background: red;
+    margin-left: 400px;
+    margin-right: 400px;
+    border: 5px solid black ;
+}
+
+h2{
+    background: orange;
+    margin-left: 400px;
+    margin-right: 400px;
+    border: 5px solid black ;
+}
+h3{
+    background: yellow;
+    margin-left: 400px;
+    margin-right: 400px;
+    border: 5px solid black ;
+}
+h4{
+    background: green;
+    margin-left: 400px;
+    margin-right: 400px;
+    border: 5px solid black ;
+}
+h5{
+    background: lightblue;
+    margin-left: 400px;
+    margin-right: 400px;
+    border: 5px solid black ;
+}
+h6{
+    background: blue;
+    margin-left: 400px;
+    margin-right: 400px;
+    color: #000000;
+    border: 5px solid black ;
+}
+
+#text6{
+    color: white;
+}
+
+
+@keyframes rainbow {
+    0%  {
+            background-color: red;
+            transform: rotate(0deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px red;
+        }
+    20% {
+            background-color: orange;
+            transform: rotate(72deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px orange;
+        }
+    40% {
+            background-color: yellow;
+            transform: rotate(144deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px yellow;
+        }
+    60% {
+            background-color: green;
+            transform: rotate(216deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px green;
+        }
+    80% {
+            background-color: lightblue;
+            transform: rotate(288deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px lightblue;
+        }
+    90% {
+            background-color: blue;
+            transform: rotate(319deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px blue;
+        }
+    100%{
+            background-color: purple;
+            transform:  rotate(360deg);
+            transition: 1s;
+            box-shadow: 50px 50px 20px purple;
+        }
+}
+
+@keyframes reverserainbow {
+    0%  {
+        background-color: red;
+        transform: rotate(-0deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px red;
+    }
+    20% {
+        background-color: orange;
+        transform: rotate(-72deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px orange;
+    }
+    40% {
+        background-color: yellow;
+        transform: rotate(-144deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px yellow;
+    }
+    60% {
+        background-color: green;
+        transform: rotate(-216deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px green;
+    }
+    80% {
+        background-color: lightblue;
+        transform: rotate(-288deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px lightblue;
+    }
+    90% {
+        background-color: blue;
+        transform: rotate(-319deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px blue;
+    }
+    100%{
+        background-color: purple;
+        transform:  rotate(-360deg);
+        transition: 1s;
+        box-shadow: 50px 50px 20px purple;
+    }
+}
+
+@keyframes gay {
+    0%      { color: rgba(0,0,0,0);}
+    100%    { color: rgba(0,0,0,1);}
+}
+
+
+#gay{
+    color: rgba(0,0,0,0);
+    font-size: 100px;
+    align-self: auto;
+    animation-name: gay;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+#maindiv{
+    text-align-all: justify;
+    vertical-align: top;
+}
+
+.Command{
+    background-image: url("https://a.ppy.sh/4310578_1459956821.jpg");
+
+    position: relative;
+    height: 170px;
+    width: 390px;
+    margin-left: 5%;
+
+    text-align: center;
+
+    box-shadow: 50px 50px 20px grey;
+    border: 1px solid darkturquoise ;
+    margin-bottom: 110px ;
+}
+
+.Rotater{
+    height: 25%;
+    width: 14%;
+
+    position: absolute;
+
+    margin-left: 80%;
+    margin-top: -14%;
+    margin-right: 10%;
+
+
+    box-shadow: 50px 50px 20px grey;
+    border: 1px solid darkturquoise ;
+    margin-bottom: 10%;
+
+    animation-name: rainbow;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+}
+
+.Rotater:hover{
+    animation-name: reverserainbow;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+.table{
+    overflow: inherit;
+    align-self: center;
+}
+
+.row{
+    overflow: inherit;
+    position: inherit;
+    width: 100%;
+    height: 25%;
+}
+
+.column{
+    overflow: inherit;
+    position: inherit;
+    width: 20%;
+    height: inherit;
+
+}
+
+input{
+    overflow: inherit;
+    position: inherit;
+    width: 48px ;
+    height: 50px ;
+}
+
+#boombutton{
+    align-self: auto;
+    margin-left: 35% ;
+
+    width: 500px;
+    height: 180px;
+
+    background-color: black;
+    color: red;
+    font: 100px full-width;
+}
+
+#boombutton:active{
+    background-image: url("http://kartinki.info/uploads/posts/2016-12/1482926546_2502.gif");
+    color: white;
+}
+
+.answerdiv{
+    position: absolute;
+    background-color: white;
+
+    height: 20%;
+    width: 20%;
+
+    margin-left: 40%;
+    margin-top: -14%;
+}
