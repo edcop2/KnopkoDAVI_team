@@ -27,12 +27,24 @@
         <Grid Grid.Row="0">
             <DataGrid Name="MatrixGrid" ItemsSource="{Binding Path=Matrix}" AutoGenerateColumns="False"
                       CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" Margin="10,10,10,10" ColumnWidth="SizeToHeader"
-                      CanUserReorderColumns="False" CanUserSortColumns="False">
+                      CanUserReorderColumns="False" CanUserSortColumns="False" Visibility="{Binding Path=ItVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
                     <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
                     <DataGridTextColumn Header="A3" Binding="{Binding A3}" Width="1*"/>
-                    <DataGridTextColumn Header="A4" Binding="{Binding A4}" Width="1*"/>
+                    <DataGridTextColumn Header="A4" Binding="{Binding A4}"  Width="1*" />
+                    <DataGridTextColumn Header="B" Binding="{Binding B}" Width="1*"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+            <DataGrid Name="MatrixGrid2" ItemsSource="{Binding Path=Matrix}" AutoGenerateColumns="False"
+                      CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" Margin="10,10,10,10" ColumnWidth="SizeToHeader"
+                      CanUserReorderColumns="False" CanUserSortColumns="False" Visibility="{Binding Path=GausVisibility}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
+                    <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
+                    <DataGridTextColumn Header="A3" Binding="{Binding A3}" Width="1*"/>
                     <DataGridTextColumn Header="B" Binding="{Binding B}" Width="1*"/>
                 </DataGrid.Columns>
 
@@ -86,7 +98,6 @@
                     <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
                     <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
                     <DataGridTextColumn Header="A3" Binding="{Binding A3}" Width="1*"/>
-                    <DataGridTextColumn Header="A4" Binding="{Binding A4}" Width="1*"/>
                     <DataGridTextColumn Header="B" Binding="{Binding B}" Width="1*"/>
                 </DataGrid.Columns>
 
@@ -110,7 +121,6 @@
                     <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
                     <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
                     <DataGridTextColumn Header="A3" Binding="{Binding A3}" Width="1*"/>
-                    <DataGridTextColumn Header="A4" Binding="{Binding A4}" Width="1*"/>
                 </DataGrid.Columns>
             </DataGrid>
 

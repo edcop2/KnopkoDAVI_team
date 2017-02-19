@@ -49,8 +49,8 @@ namespace lab1.Algorithms
                     A1 = Math.Round(A[i][0], 3),
                     A2 = Math.Round(A[i][1], 3),
                     A3 = Math.Round(A[i][2], 3),
-                    A4 = Math.Round(A[i][3], 3),
-                    B = Math.Round(A[i][4], 3)
+               //     A4 = Math.Round(A[i][3], 3),
+                    B = Math.Round(A[i][3], 3)
                 });
             }
             return temp;
@@ -66,7 +66,7 @@ namespace lab1.Algorithms
                     A1 = P[i][0],
                     A2 = P[i][1],
                     A3 = P[i][2],
-                    A4 = P[i][3]
+               //     A4 = P[i][3]
                 });
             }
 

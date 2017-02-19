@@ -23,7 +23,12 @@ namespace lab1.ViewModel
             get
             {
                 if (_matrix == null)
-                    _matrix = new ObservableCollection<Model.Matrix>() { new Model.Matrix(), new Model.Matrix(), new Model.Matrix(), new Model.Matrix() };
+                {
+                    if (IsIt)
+                        _matrix = new ObservableCollection<Model.Matrix>() { new Model.Matrix(), new Model.Matrix(), new Model.Matrix(), new Model.Matrix() };
+                    else
+                        _matrix = new ObservableCollection<Model.Matrix>() { new Model.Matrix(), new Model.Matrix(), new Model.Matrix() };
+                }
                 return _matrix;
             }
             set
@@ -57,11 +62,13 @@ namespace lab1.ViewModel
 
             int n = Matrix.Count;
 
+
             for (int i = 0; i < n; i++)
             {
                 if (a[i][i] == 0)
                 {
                     Text = "Эл-ты на главной диагонали не должны быть нулевыми";
+                    MessageBox.Show(n + "");
                     return;
                 }
             }
@@ -105,7 +112,7 @@ namespace lab1.ViewModel
                 for (int i = 0; i < n; i++)
                     ResX += "x" + (i + 1) + " = " + Math.Round(res[i], (eps % 1).ToString().Length - 2) + '\n';
 
-                CurStep = 3;
+                CurStep = 2;
 
 
             }
@@ -197,6 +204,7 @@ namespace lab1.ViewModel
                     ItVisibility = Visibility.Visible;
                 else
                     ItVisibility = Visibility.Hidden;
+                Toggle();
                 RaisePropertyChanged("IsIt");
             }
         }
@@ -227,6 +235,7 @@ namespace lab1.ViewModel
             PMatrix = null;
             GausMatrix = null;
             Text = "";
+            Matrix = null;
         }
 
 
@@ -246,7 +255,7 @@ namespace lab1.ViewModel
         }
 
 
-        private Visibility _gausVisibility=Visibility.Hidden;
+        private Visibility _gausVisibility = Visibility.Hidden;
 
         public Visibility GausVisibility
         {
@@ -326,7 +335,7 @@ namespace lab1.ViewModel
             set
             {
                 _pStep = value;
-              //  MessageBox.Show("hekk");
+                //  MessageBox.Show("hekk");
                 RaisePropertyChanged("PMatrix");
             }
         }
