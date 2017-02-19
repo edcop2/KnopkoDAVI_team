@@ -105,6 +105,7 @@ namespace lab1.ViewModel
                 for (int i = 0; i < n; i++)
                     ResX += "x" + (i + 1) + " = " + Math.Round(res[i], (eps % 1).ToString().Length - 2) + '\n';
 
+                CurStep = 3;
 
 
             }
@@ -215,8 +216,17 @@ namespace lab1.ViewModel
                     GausVisibility = Visibility.Visible;
                 else
                     GausVisibility = Visibility.Hidden;
+                Toggle();
                 RaisePropertyChanged("IsGaus");
             }
+        }
+
+        private void Toggle()
+        {
+            ResX = "";
+            PMatrix = null;
+            GausMatrix = null;
+            Text = "";
         }
 
 
@@ -236,7 +246,7 @@ namespace lab1.ViewModel
         }
 
 
-        private Visibility _gausVisibility;
+        private Visibility _gausVisibility=Visibility.Hidden;
 
         public Visibility GausVisibility
         {
@@ -264,7 +274,7 @@ namespace lab1.ViewModel
             set
             {
                 _gausStep = value;
-             //   MessageBox.Show("hekk");
+                //   MessageBox.Show("hekk");
                 RaisePropertyChanged("GausMatrix");
             }
         }
@@ -281,10 +291,46 @@ namespace lab1.ViewModel
             {
                 _curStep = value;
                 GausMatrix = ga.Steps[CurStep].ToMatrix();
+                PMatrix = ga.Steps[CurStep].ToPMatrix();
+                StepText = "Итерация №" + (value + 1);
                 //MessageBox.Show
                 RaisePropertyChanged("CurStep");
             }
         }
+
+        private string _stepText;
+
+        public string StepText
+        {
+            get
+            {
+                return _stepText;
+            }
+            set
+            {
+                _stepText = value;
+                RaisePropertyChanged("StepText");
+            }
+        }
+
+        private ObservableCollection<Matrix> _pStep;
+
+        public ObservableCollection<Matrix> PMatrix
+        {
+            get
+            {
+                if (_pStep == null)
+                    _pStep = new ObservableCollection<Model.Matrix>();
+                return _pStep;
+            }
+            set
+            {
+                _pStep = value;
+              //  MessageBox.Show("hekk");
+                RaisePropertyChanged("PMatrix");
+            }
+        }
+
 
 
     }

@@ -21,17 +21,21 @@ namespace lab1.Algorithms
         {
             int n = a.Length, m = a.Length + 1;
             A = new double[n][];
+            P = new double[n][];
             for (int i = 0; i < n; i++)
+            {
                 A[i] = new double[m];
+                P[i] = new double[n];
+            }
             for (int j, i = 0; i < n; i++)
             {
                 for (j = 0; j < n; j++)
                 {
                     A[i][j] = a[i][j];
+                    P[i][j] = p[i][j];
                 }
                 A[i][j] = b[i];
             }
-            P = p;
         }
 
 
@@ -49,20 +53,32 @@ namespace lab1.Algorithms
                     B = Math.Round(A[i][4], 3)
                 });
             }
+            return temp;
+        }
+
+        public ObservableCollection<Matrix> ToPMatrix()
+        {
+            ObservableCollection<Matrix> temp = new ObservableCollection<Matrix>();
+            for (int i = 0; i < P.Length; i++)
+            {
+                temp.Add(new Matrix()
+                {
+                    A1 = P[i][0],
+                    A2 = P[i][1],
+                    A3 = P[i][2],
+                    A4 = P[i][3]
+                });
+            }
+
             //string s = "";
-            //for (int i = 0; i < A.Length; i++)
+            //for (int i = 0; i < P.Length; i++)
             //{
-            //    s += temp[i].A1 + " ";
-            //    s += temp[i].A2 + " ";
-            //    s += temp[i].A3 + " ";
-            //    s += temp[i].A4 + " ";
-            //    s += temp[i].B + " \n";
-            //    //for (int j = 0; j < A.Length; j++)
-            //    //    s += Math.Round(A[i][j], 3) + " ";
-            //    //s += ";  " + A[i][A.Length];
-            //    //s += "\n";
+            //    for (int j = 0; j < P.Length; j++)
+            //        s += P[i][j] + " ";
+            //    s += "\n";
             //}
             //MessageBox.Show(s);
+
             return temp;
         }
     }
@@ -165,6 +181,10 @@ namespace lab1.Algorithms
             t = P[i];
             P[i] = P[j];
             P[j] = t;
+            double tt = B[i];
+            B[i] = B[j];
+            B[j] = tt;
+
         }
 
 

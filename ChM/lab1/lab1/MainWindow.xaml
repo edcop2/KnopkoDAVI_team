@@ -56,8 +56,8 @@
             </GroupBox>
 
         </Grid>
-      
-        <!--<Grid Visibility="{Binding Path=ItVisibility}" Grid.Row="2">
+
+        <Grid Name="grid21" Visibility="{Binding Path=ItVisibility}" Grid.Row="2">
             <Label Content="Итерации" Margin="20,15,20,20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="Ответ" Margin="30,15,130,20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             <RichTextBox x:Name="richTextBoxL" HorizontalAlignment="Left" Margin="20,50,0,39" Width="452" Height="100"
@@ -76,12 +76,12 @@
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
-        </Grid>-->
+        </Grid>
 
-        <Grid Grid.Row="2" Visibility="{Binding Path=GausVisibility}">
+        <Grid Name="grid22"  Grid.Row="2" Visibility="{Binding Path=GausVisibility}">
             <DataGrid Name="GausStep" ItemsSource="{Binding Path=GausMatrix}" AutoGenerateColumns="False"
                       CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" Margin="10,38,408,25" ColumnWidth="SizeToHeader"
-                      CanUserReorderColumns="False" CanUserSortColumns="False">
+                      CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
                     <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
@@ -93,9 +93,9 @@
             </DataGrid>
             <Label x:Name="label" Content="{Binding Path=StepText}" HorizontalAlignment="Left" Margin="54,10,0,0" VerticalAlignment="Top"/>
             <Slider x:Name="slider" HorizontalAlignment="Left" Margin="245,10,0,0" VerticalAlignment="Top" Width="129"
-                   Value="{Binding Path=CurStep}" Maximum="5" />
+                   Value="{Binding Path=CurStep}" Maximum="3" />
 
-            <RichTextBox x:Name="richTextBoxX" HorizontalAlignment="Right" Margin="20,50,40,39" Width="150" Height="100"
+            <RichTextBox x:Name="richTextBoxX2" HorizontalAlignment="Right" Margin="20,50,40,39" Width="150" Height="100"
                          IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <FlowDocument>
                     <Paragraph>
@@ -103,7 +103,18 @@
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="408,38,0,0" VerticalAlignment="Top" Height="126" Width="114"
+                      CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False"  CanUserReorderColumns="False" 
+                      CanUserSortColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=PMatrix}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
+                    <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
+                    <DataGridTextColumn Header="A3" Binding="{Binding A3}" Width="1*"/>
+                    <DataGridTextColumn Header="A4" Binding="{Binding A4}" Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
+            <Label Content="Ответ" Margin="30,15,130,20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
 
 
