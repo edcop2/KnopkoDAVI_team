@@ -30,8 +30,8 @@ function calc(ebs) {
 
 function init() {
     var k = 0;
-    for(var i=0; i<2; i++){
-        for(j=0; j<8; j++) {
+    for(var i=0; i<4; i++){
+        for(j=0; j<4; j++) {
             var t = parseFloat(document.getElementById('input'+k).value);
             a[i][j] = t;
             k++;
@@ -71,8 +71,21 @@ function form1() {
 }
 
 function showresult() {
+
+
+
     var p=calc(0.001);
 
+    var s="", st="";
+    for (var j=0;j<4;j++){
+        for (var k=0; k<4; k++) {
+            s += a[j][k] + " ";
+        }
+        s+="; ";
+        st+=r[j]+"  ";
+    }
+    console.log(s);
+    console.log(st);
     for(var i=0; i<4 ; i++){
         $("#answer"+i).text(p[i]);
     }
