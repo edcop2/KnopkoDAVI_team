@@ -53,6 +53,6 @@ function form1() {
     return sum;
 }
 
-var p=calc(0.001);
-console.log(p[0] + "  "+  p[1] + "  "+  p[2] + "  " + p[3]);
 //console.log(p);
+
+
