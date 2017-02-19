@@ -12,6 +12,8 @@ namespace lab1.ViewModel
     public class MainViewModel : ViewModelBase
     {
 
+        Gauss ga;
+
 
 
         private ObservableCollection<Matrix> _matrix;
@@ -92,6 +94,18 @@ namespace lab1.ViewModel
             }
             else
             {
+                ga = new Gauss(n);
+                ga.A = a;
+                ga.B = b;
+
+                double eps = TextEps.HasValue ? TextEps.Value : 0.001;
+
+                double[] res = ga.Calculate();
+
+                for (int i = 0; i < n; i++)
+                    ResX += "x" + (i + 1) + " = " + Math.Round(res[i], (eps % 1).ToString().Length - 2) + '\n';
+
+
 
             }
 
@@ -167,7 +181,7 @@ namespace lab1.ViewModel
             }
         }
 
-        private bool _isIt=true;
+        private bool _isIt = true;
 
         public bool IsIt
         {
@@ -178,11 +192,15 @@ namespace lab1.ViewModel
             set
             {
                 _isIt = value;
+                if (IsIt)
+                    ItVisibility = Visibility.Visible;
+                else
+                    ItVisibility = Visibility.Hidden;
                 RaisePropertyChanged("IsIt");
             }
         }
 
-        private bool _isGaus;
+        private bool _isGaus = false;
 
         public bool IsGaus
         {
@@ -193,8 +211,81 @@ namespace lab1.ViewModel
             set
             {
                 _isGaus = value;
+                if (IsGaus)
+                    GausVisibility = Visibility.Visible;
+                else
+                    GausVisibility = Visibility.Hidden;
                 RaisePropertyChanged("IsGaus");
             }
         }
+
+
+        private Visibility _itVisibility;
+
+        public Visibility ItVisibility
+        {
+            get
+            {
+                return _itVisibility;
+            }
+            set
+            {
+                _itVisibility = value;
+                RaisePropertyChanged("ItVisibility");
+            }
+        }
+
+
+        private Visibility _gausVisibility;
+
+        public Visibility GausVisibility
+        {
+            get
+            {
+                return _gausVisibility;
+            }
+            set
+            {
+                _gausVisibility = value;
+                RaisePropertyChanged("GausVisibility");
+            }
+        }
+
+        private ObservableCollection<Matrix> _gausStep;
+
+        public ObservableCollection<Matrix> GausMatrix
+        {
+            get
+            {
+                if (_gausStep == null)
+                    _gausStep = new ObservableCollection<Model.Matrix>();
+                return _gausStep;
+            }
+            set
+            {
+                _gausStep = value;
+             //   MessageBox.Show("hekk");
+                RaisePropertyChanged("GausMatrix");
+            }
+        }
+
+        private int _curStep;
+
+        public int CurStep
+        {
+            get
+            {
+                return _curStep;
+            }
+            set
+            {
+                _curStep = value;
+                GausMatrix = ga.Steps[CurStep].ToMatrix();
+                //MessageBox.Show
+                RaisePropertyChanged("CurStep");
+            }
+        }
+
+
     }
 }

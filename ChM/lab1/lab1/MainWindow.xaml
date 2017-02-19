@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <DataGrid Name="MatrixGrid" ItemsSource="{Binding Path=Matrix}" SelectedIndex="{Binding Path=CurIndex}" AutoGenerateColumns="False"
+            <DataGrid Name="MatrixGrid" ItemsSource="{Binding Path=Matrix}" AutoGenerateColumns="False"
                       CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" Margin="10,10,10,10" ColumnWidth="SizeToHeader"
                       CanUserReorderColumns="False" CanUserSortColumns="False">
                 <DataGrid.Columns>
@@ -56,7 +56,8 @@
             </GroupBox>
 
         </Grid>
-        <Grid Grid.Row="2">
+      
+        <!--<Grid Visibility="{Binding Path=ItVisibility}" Grid.Row="2">
             <Label Content="Итерации" Margin="20,15,20,20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="Ответ" Margin="30,15,130,20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             <RichTextBox x:Name="richTextBoxL" HorizontalAlignment="Left" Margin="20,50,0,39" Width="452" Height="100"
@@ -67,6 +68,32 @@
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
+            <RichTextBox x:Name="richTextBoxX" HorizontalAlignment="Right" Margin="20,50,40,39" Width="150" Height="100"
+                         IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding Path=ResX}"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>-->
+
+        <Grid Grid.Row="2" Visibility="{Binding Path=GausVisibility}">
+            <DataGrid Name="GausStep" ItemsSource="{Binding Path=GausMatrix}" AutoGenerateColumns="False"
+                      CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" Margin="10,38,408,25" ColumnWidth="SizeToHeader"
+                      CanUserReorderColumns="False" CanUserSortColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="A1" Binding="{Binding A1}" Width="1*"/>
+                    <DataGridTextColumn Header="A2" Binding="{Binding A2}" Width="1*"/>
+                    <DataGridTextColumn Header="A3" Binding="{Binding A3}" Width="1*"/>
+                    <DataGridTextColumn Header="A4" Binding="{Binding A4}" Width="1*"/>
+                    <DataGridTextColumn Header="B" Binding="{Binding B}" Width="1*"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+            <Label x:Name="label" Content="{Binding Path=StepText}" HorizontalAlignment="Left" Margin="54,10,0,0" VerticalAlignment="Top"/>
+            <Slider x:Name="slider" HorizontalAlignment="Left" Margin="245,10,0,0" VerticalAlignment="Top" Width="129"
+                   Value="{Binding Path=CurStep}" Maximum="5" />
 
             <RichTextBox x:Name="richTextBoxX" HorizontalAlignment="Right" Margin="20,50,40,39" Width="150" Height="100"
                          IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -76,6 +103,7 @@
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
+
         </Grid>
 
 
