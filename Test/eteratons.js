@@ -33,7 +33,7 @@ function init() {
     for(var i=0; i<2; i++){
         for(j=0; j<8; j++) {
             var t = parseFloat(document.getElementById('input'+k).value);
-            a[k] = t;
+            a[i][j] = t;
             k++;
         }
     }

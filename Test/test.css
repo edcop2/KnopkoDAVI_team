@@ -1,5 +1,6 @@
 body{
-    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/40/62/69/406269bf1d61e4177fb48b8be565f4f0.jpg");
+    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/d3/0b/2a/d30b2a97c33f68e85cc9aa4cadb07b9f.gif");
+    background-size: 100%;
 }
 
 h1{
@@ -177,9 +178,8 @@ h6{
 
     position: absolute;
 
-    margin-left: 80%;
+    margin-left: 70%;
     margin-top: -14%;
-    margin-right: 10%;
 
 
     box-shadow: 50px 50px 20px grey;
