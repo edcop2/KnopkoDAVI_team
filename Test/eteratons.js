@@ -29,13 +29,15 @@ function calc(ebs) {
 }
 
 function init() {
-    for(var i=0; i<8; i+=7){
-        for(j=0; j<8; j++) {
-            a[i+j] = parseFloat($("#input" + (i+j)).text());
+    var k = 0;
+    for(var i=0; i<2; i++){
+        for(j=0; j<=8; j++) {
+            a[i+j] = document.getElementById('input'+k).value;
+            k++;
         }
     }
-    for(var i=1; i<=4; i++){
-        r[i-1] = parseFloat($("#inputb"+i).text());
+    for(var i=0; i<=4; i++){
+        r[i-1] = document.getElementById('input'+i).value;
     }
 }
 
@@ -69,7 +71,8 @@ function form1() {
 var p=calc(0.001);
 
 function showresult() {
+
     for(var i=0; i<4 ; i++){
-        $("#answer"+i).text(p[i]);
+        $("#answer"+i).text(p[i] + "");
     }
 }
