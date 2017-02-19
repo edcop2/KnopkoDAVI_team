@@ -31,13 +31,13 @@ function calc(ebs) {
 function init() {
     var k = 0;
     for(var i=0; i<2; i++){
-        for(j=0; j<=8; j++) {
-            a[i+j] = document.getElementById('input'+k).value;
+        for(j=0; j<8; j++) {
+            a[k] = +$('#input'+k).text();
             k++;
         }
     }
     for(var i=0; i<=4; i++){
-        r[i-1] = document.getElementById('input'+i).value;
+        r[i-1] = +$('#input'+i).text();
     }
 }
 
