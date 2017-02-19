@@ -32,12 +32,17 @@ function init() {
     var k = 0;
     for(var i=0; i<2; i++){
         for(j=0; j<8; j++) {
-            a[k] = +$('#input'+k).text();
+            var t = +$('#input'+k).text();
+            a[k] = t;
             k++;
+            alert(typeof a[k]);
+            if(a[0] === 1.0)
+                alert("");
         }
     }
-    for(var i=0; i<=4; i++){
-        r[i-1] = +$('#input'+i).text();
+    for(var i=0; i<4; i++){
+        var t = +$('#input'+i).text();
+        r[i] = t;
     }
 }
 
@@ -68,9 +73,8 @@ function form1() {
     return sum;
 }
 
-var p=calc(0.001);
-
 function showresult() {
+    var p=calc(0.001);
 
     for(var i=0; i<4 ; i++){
         $("#answer"+i).text(p[i] + "");
