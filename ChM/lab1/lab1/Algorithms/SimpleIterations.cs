@@ -101,7 +101,7 @@ namespace lab1.Algorithms
             int k = 1;
             string s = "Итерация №0\n";
             s += string.Format("x1 = {0}; x2 = {1}; x3 = {2}; x4 = {3}\n********\n",
-                Math.Round(res[0], (eps % 1).ToString().Length - 2), Math.Round(res[1], (eps % 1).ToString().Length - 2), 
+                Math.Round(res[0], (eps % 1).ToString().Length - 2), Math.Round(res[1], (eps % 1).ToString().Length - 2),
                 Math.Round(res[2], (eps % 1).ToString().Length-2), Math.Round(res[3], (eps % 1).ToString().Length - 2));
             Log.Add(s);
             do
