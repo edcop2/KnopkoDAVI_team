@@ -70,15 +70,6 @@ namespace lab1.Algorithms
                 });
             }
 
-            //string s = "";
-            //for (int i = 0; i < P.Length; i++)
-            //{
-            //    for (int j = 0; j < P.Length; j++)
-            //        s += P[i][j] + " ";
-            //    s += "\n";
-            //}
-            //MessageBox.Show(s);
-
             return temp;
         }
     }
@@ -150,16 +141,7 @@ namespace lab1.Algorithms
                 }
                 Steps.Add(new Step(A, B, P));
             }
-
-            //s = "";
-            //for (int i = 0; i < n; i++)
-            //{
-            //    for (int j = 0; j < n; j++)
-            //        s += Math.Round(A[i][j], 3) + " ";
-            //    s += ";  " + B[i];
-            //    s += "\n";
-            //}
-            //MessageBox.Show(s);
+            
 
             for (int i = n - 1; i >= 0; i--)
             {
