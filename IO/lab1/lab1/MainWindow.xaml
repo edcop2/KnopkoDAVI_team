@@ -5,8 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Name="gridMenu">
+            <Menu x:Name="menu">
+                <MenuItem Header="Файл">
+                    <MenuItem Name="menuItemOpen" Header="Открыть" Click="menuItemOpen_Click" />
+                    <MenuItem Name="menuItemSave" Header="Сохранить" Click="menuItemSave_Click" />
+                    <MenuItem Name="menuItemSaveAs" Header="Сохранить как" Click="menuItemSaveAs_Click" />
+                    <MenuItem Name="menuItemExit" Header="Выход" Click="menuItemExit_Click" />
+                </MenuItem>
+                <MenuItem Header="Работа">
+                    <MenuItem Name="menuItemClear" Header="Очистить" Click="menuItemClear_Click"/>
+                    <MenuItem Name="menuItemCalc" Header="Вычислить" Click="menuItemCalc_Click"/>
+                    <MenuItem Name="menuItemDraw" Header="Построить" Click="menuItemDraw_Click"/>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1" Name="mainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="137*"/>
+                <ColumnDefinition Width="280*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <TextBox x:Name="textBoxFunc" HorizontalAlignment="Left" Height="23" Margin="50,23,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="146" Foreground="Blue" TextChanged="textBoxFunc_TextChanged"/>
+                <Label x:Name="label" Content="f(x) =" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Foreground="Blue"/>
+                <Button x:Name="buttonCalc" Content="Вычислить" HorizontalAlignment="Left" Margin="64,278,0,0" VerticalAlignment="Top" Width="120" Click="buttonCalc_Click" Height="39"/>
+                <TextBox x:Name="textBoxSols"  HorizontalAlignment="Left" Margin="20,210,0,0" VerticalAlignment="Top" Height="49" Width="188" IsReadOnly="True" />
+                <Label x:Name="label1" Content="Точность:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="textBoxEps" HorizontalAlignment="Left" Height="23" Margin="76,72,0,0" TextWrapping="Wrap" Text="0,01" VerticalAlignment="Top" Width="120"/>
+                <Label x:Name="label3" Content="Корни:" HorizontalAlignment="Left" Margin="31,179,0,0" VerticalAlignment="Top" Foreground="Green"/>
+                <RadioButton x:Name="radioButtonGold" Content="Золотое сечение" HorizontalAlignment="Left" Margin="50,127,0,0" VerticalAlignment="Top"/>
+                <RadioButton x:Name="radioButtonCubic" Content="Кубическая апроксимация" HorizontalAlignment="Left" Margin="50,147,0,0" VerticalAlignment="Top"/>
+            </Grid>
+            <Grid Grid.Column="1" SizeChanged="Grid_SizeChanged">
+                <Canvas Name="canvas"  Background="GhostWhite" Margin="10,10,10,40" MouseWheel="canvas_MouseWheel" MouseMove="canvas_MouseMove" MouseLeftButtonDown="canvas_MouseLeftButtonDown" ClipToBounds="True"/>
+
+                <Label Content="xMin:" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" ClipToBounds="True"/>
+                <TextBox Name="textBoxXMin" Text="-10" HorizontalAlignment="Left" Height="20" Margin="54,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="50" ClipToBounds="True"/>
+
+                <Label Content="xMax:" HorizontalAlignment="Left" Margin="109,0,0,10" VerticalAlignment="Bottom" ClipToBounds="True"/>
+                <TextBox Name="textBoxXMax" Text="10" HorizontalAlignment="Left" Height="20" Margin="149,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="50" ClipToBounds="True"/>
+
+                <Label Content="yMin:" HorizontalAlignment="Right" Margin="0,0,174,10" VerticalAlignment="Bottom" ClipToBounds="True"/>
+                <TextBox Name="textBoxYMin" Text="-10" HorizontalAlignment="Right" Height="21" Margin="0,0,119,9" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="50" ClipToBounds="True"/>
+
+                <Label Content="yMax:" HorizontalAlignment="Right" Margin="0,0,65,10" VerticalAlignment="Bottom" ClipToBounds="True"/>
+                <TextBox Name="textBoxYMax" Text="10" HorizontalAlignment="Right" Height="20" Margin="0,0,10,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="50" ClipToBounds="True"/>
+                <Button x:Name="buttonDraw" Content="Построить" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="74" Click="buttonDraw_Click" ClipToBounds="True"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
