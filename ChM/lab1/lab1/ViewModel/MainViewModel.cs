@@ -101,6 +101,7 @@ namespace lab1.ViewModel
             }
             else
             {
+                n = 3;
                 ga = new Gauss(n);
                 ga.A = a;
                 ga.B = b;
