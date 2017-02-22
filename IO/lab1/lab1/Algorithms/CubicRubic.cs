@@ -3,19 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace lab1.Algorithms
 {
     public class CubicRubic
     {
 
-        PolyFunc pf = new PolyFunc();
+        public PolyFunc pf { get; set; }
+        public List<double> Solutions { get; set; }
+
+        private int k = 0;
+
+        public CubicRubic()
+        {
+            pf = new PolyFunc();
+            Solutions = new List<double>();
+        }
+
+        public void Clear()
+        {
+            pf = new PolyFunc();
+            Solutions.Clear();
+        }
+
+
+
+        public void ManyCalculate(double a, double b, double eps)
+        {
+            double sol;
+            double _a = a, _b = b;
+
+            //MessageBox.Show(++k+"");
+            sol = Math.Round(Calculate(_a, eps, eps, eps), eps.ToString().Length - 2);
+            if (!Solutions.Contains(sol))
+            {
+                Solutions.Add(sol);
+                ManyCalculate(sol, b, eps);
+                ManyCalculate(a, sol, eps);
+            }
+
+
+        }
+
+
 
 
         public double Calculate(double x0, double step, double eps1, double eps2)
         {
-            if (x0 > 0)
-                return double.NaN;
+            //if (x0 > 0)
+            //    return double.NaN;
 
             if (step <= 0)
                 return double.NaN;

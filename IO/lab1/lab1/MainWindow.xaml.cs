@@ -34,6 +34,7 @@ namespace lab1
         public MainWindow()
         {
             InitializeComponent();
+            radioButtonGold.IsChecked = true;
         }
 
         #region Private Functions
@@ -51,7 +52,7 @@ namespace lab1
             }
         }
 
-     
+
 
         #endregion
 
@@ -97,7 +98,9 @@ namespace lab1
             if (pf.CheckFunc())
                 CanvasBuilder.DrawFunction(canvas, Brushes.Blue, pf.F);
             foreach (double i in solutions)
+            {
                 CanvasBuilder.DrawPoint(canvas, Brushes.Green, 13, i, pf.F(i));
+            }
         }
 
         private void buttonCalc_Click(object sender, RoutedEventArgs e)
@@ -105,12 +108,39 @@ namespace lab1
             try
             {
                 pf.StringFunction = textBoxFunc.Text;
-            //    nm.FindAllSolutions(SafeParse(textBoxXMin.Text), SafeParse(textBoxXMax.Text), SafeParse(textBoxEps.Text));
+                pf.Eps = SafeParse(textBoxEps.Text);
+
+                solutions.Clear();
+                if (radioButtonGold.IsChecked.Value)
+                {
+                    gold.Clear();
+                    gold.pf = pf;
+                    double a = SafeParse(textBoxFrom.Text);
+                    double b = SafeParse(textBoxTo.Text);
+                    double eps = SafeParse(textBoxEps.Text);
+                    gold.ManyCalculate(a, b, eps);
+                    solutions = gold.Solutions;
+
+                    solutions.Sort();
+
+                }
+                else
+                {
+                    cubic.Clear();
+                    cubic.pf = pf;
+                    double x0 = SafeParse(textBoxAprox0.Text);
+                    double e1 = SafeParse(textBoxAprox1.Text);
+                    double e2 = SafeParse(textBoxAprox2.Text);
+                    double eps = SafeParse(textBoxEps.Text);
+                    //  cubic.ManyCalculate(a, b, eps);
+                    //   solutions = cubic.Solutions;
+                    solutions.Add(cubic.Calculate(x0, eps, e1, e2));
+                    solutions.Sort();
+                }
+
                 string s = "";
-         //       solutions = nm.solutions;
-              //  solutions.Sort();
                 foreach (var i in solutions)
-                    s += "(" + i + "; " + Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
+                    s += "(" + Math.Round(i, textBoxEps.Text.Length - 2) + "; " + Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
                 textBoxSols.Text = s;
                 buttonDraw_Click(sender, new RoutedEventArgs());
 
@@ -201,12 +231,7 @@ namespace lab1
 
         private void textBoxFunc_TextChanged(object sender, TextChangedEventArgs e)
         {
-           /// nm.Clear();
-            buttonDraw_Click(sender, new RoutedEventArgs());
-        }
-
-        private void dataGridGx_CurrentCellChanged(object sender, EventArgs e)
-        {
+            /// nm.Clear();
             buttonDraw_Click(sender, new RoutedEventArgs());
         }
 
@@ -321,7 +346,7 @@ namespace lab1
             buttonDraw_Click(sender, new RoutedEventArgs());
         }
 
-        
+
 
         private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
@@ -337,9 +362,22 @@ namespace lab1
             textBoxSols.Text = "";
         }
 
-       
+
 
         #endregion
 
+        private void radioButtonGold_Checked(object sender, RoutedEventArgs e)
+        {
+            groupBoxInt.Visibility = Visibility.Visible;
+            groupBoxAprox.Visibility = Visibility.Hidden;
+            label1.Content = "Точность";
+        }
+
+        private void radioButtonCubic_Checked(object sender, RoutedEventArgs e)
+        {
+            groupBoxInt.Visibility = Visibility.Hidden;
+            groupBoxAprox.Visibility = Visibility.Visible;
+            label1.Content = "Шаг";
+        }
     }
 }
