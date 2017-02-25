@@ -390,7 +390,7 @@ namespace rgz.Model
 
         public void ShowHistory(int i)
         {
-            if (i < 0 || i > Logs.Count)
+            if (i < 0 || i >= Logs.Count)
                 return;
             ReadMeme(Logs[i]);
             UpdateTable();
