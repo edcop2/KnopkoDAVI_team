@@ -16,21 +16,6 @@ using System.Windows.Shapes;
 namespace rgz.Model
 {
 
-    public class Memento
-    {
-        public int[][]C { get; set; }
-        
-        public string[][]X { get; set; }
-
-        public bool[][]Path { get; set; }
-
-        public bool[] ComitRow { get; set; }
-
-        public bool[] ComitColumn { get; set; }
-
-        public bool Final { get; set; }
-    }
-
 
     public class TableModel
     {
@@ -111,6 +96,9 @@ namespace rgz.Model
             Array.Resize(ref x, n);
             bool[][] p = Path;
             Array.Resize(ref p, n);
+            bool[] com = ComitRow;
+            Array.Resize(ref com, n);
+            ComitRow = com;
             Path = p;
             X = x;
             if (N < n)
@@ -145,6 +133,9 @@ namespace rgz.Model
             int[][] c = C;
             string[][] x = X;
             bool[][] p = Path;
+            bool[] com = ComitColumn;
+            Array.Resize(ref com, m);
+            ComitColumn = com;
             for (int i = 0; i < N; i++)
             {
                 Array.Resize(ref c[i], m);
@@ -254,7 +245,7 @@ namespace rgz.Model
                         tx2.BorderThickness = new Thickness(0);
                         tx2.VerticalAlignment = VerticalAlignment.Center;
                         tx2.HorizontalAlignment = HorizontalAlignment.Center;
-                        if ((ComitRow[i=1] || ComitColumn[j-1] )&& !Final)
+                        if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final )
                         {
                             gr.Background = Brushes.Gray;
                             tx1.Background = Brushes.Gray;
@@ -366,6 +357,8 @@ namespace rgz.Model
             Memento meme;
             for (;;)
             {
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+                Logs.Add(meme);
                 gr = new Grid();
                 Path[i][j] = true;
                 if (a[i] > b[j])
@@ -384,13 +377,14 @@ namespace rgz.Model
                     X[i][j] = temp.ToString();
                     i++;
                 }
-               meme = new Memento() { C = C, X = X, Path = Path, ComitRow = ComitRow, ComitColumn = ComitColumn, Final=Final };
-                Logs.Add(meme);
                 if (i == N || j == M)
                     break;
-               // MessageBox.Show(uie.Length+"   "+ gr.Children.Count + "   " + Table.Children.Count+"     "+k);
-       //         Logs.Add(gr);
+                // MessageBox.Show(uie.Length+"   "+ gr.Children.Count + "   " + Table.Children.Count+"     "+k);
+                //         Logs.Add(gr);
             }
+            Final = true;
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+            Logs.Add(meme);
             UpdateTable();
         }
 
@@ -400,18 +394,65 @@ namespace rgz.Model
                 return;
             ReadMeme(Logs[i]);
             UpdateTable();
-               
+
         }
 
         private void ReadMeme(Memento meme)
         {
             X = meme.X;
-            Path = meme.Path;
+            Path = meme.Path; ;
             C = meme.C;
             ComitRow = meme.ComitRow;
             ComitColumn = meme.ComitColumn;
-            Final = Final;
+            Final = meme.Final;
         }
 
     }
+
+
+    public class Memento
+    {
+        public int[][] C { get; set; }
+
+        public string[][] X { get; set; }
+
+        public bool[][] Path { get; set; }
+
+        public bool[] ComitRow { get; set; }
+
+        public bool[] ComitColumn { get; set; }
+
+        public bool Final { get; set; }
+
+
+        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, bool final)
+        {
+            int n = cr.Length;
+            int m = cc.Length;
+            ComitRow = new bool[n];
+            ComitColumn = new bool[m];
+            Array.Copy(cc, ComitColumn, m);
+            Array.Copy(cr, ComitRow, n);
+            X = new string[n][];
+            C = new int[n][];
+            Path = new bool[n][];
+            for (int i = 0; i < n; i++)
+            {
+                X[i] = new string[m];
+                C[i] = new int[m];
+                Path[i] = new bool[m];
+                for (int j = 0; j < m; j++)
+                {
+                    X[i][j] = x[i][j];
+                    C[i][j] = c[i][j];
+                    Path[i][j] = path[i][j];
+                }
+            }
+            Final = final;
+        }
+
+
+    }
+
+
 }
