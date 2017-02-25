@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+
+
 namespace lab1.Algorithms
 {
     public class CubicRubic
@@ -51,14 +53,11 @@ namespace lab1.Algorithms
 
         public double Calculate(double x0, double step, double eps1, double eps2)
         {
-            //if (x0 > 0)
-            //    return double.NaN;
-
             if (step <= 0)
                 return double.NaN;
-
-            //Шаг 1 + 2.1
-            List<double> x = new List<double>();
+            
+            
+            List <double> x = new List<double>();
             x.Add(x0);
             int k = 0;
             do
@@ -69,71 +68,69 @@ namespace lab1.Algorithms
                 if (pf.dF(x[x.Count - 1]) > 0)
                     x.Add(x[x.Count - 1] - Math.Pow(2, k) * step);
 
-                k++;
+                k++; 
             }
-            while (pf.dF(x[x.Count - 2]) * pf.dF(x[x.Count - 1]) >= 0);
+            while (pf.dF(x[x.Count - 2]) * pf.dF(x[x.Count - 1]) >= 0 );
 
-            //Шаг 2.2
+            
             double x1 = x[x.Count - 2];
             double x2 = x[x.Count - 1];
-
-            //Шаг 2.3
+            
             double f1 = pf.F(x1);
             double f2 = pf.F(x2);
-            double f1_d = pf.dF(x1);
-            double f2_d = pf.dF(x2);
+            double df1 = pf.dF(x1);
+            double df2 = pf.dF(x2);
 
-            double z = (3 * (f1 - f2)) / (x2 - x1) + f1_d + f2_d;
+            double z = (3 * (f1 - f2)) / (x2 - x1) + df1 + df2;
 
             double w = double.NaN;
             if (x1 < x2)
-                w = Math.Pow(Math.Pow(z, 2) - f1_d * f2_d, 0.5);
+                w = Math.Pow(Math.Pow(z, 2) - df1 * df2, 0.5);
             if (x1 > x2)
-                w = -Math.Pow(Math.Pow(z, 2) - f1_d * f2_d, 0.5);
+                w = -Math.Pow(Math.Pow(z, 2) - df1 * df2, 0.5);
 
-            double m = (f2_d + w - z) / (f2_d - f1_d + 2 * w);
-
-            //Шаг 3
-            double x_stationary = double.NaN;
+            double m = (df2 + w - z) / (df2 - df1 + 2 * w);
+            
+            double xStat = double.NaN;
             if (m < 0)
-                x_stationary = x2;
+                xStat = x2;
             if (0 <= m && m <= 1)
-                x_stationary = x2 - m * (x2 - x1);
+                xStat = x2 - m * (x2 - x1);
             if (m > 1)
-                x_stationary = x2;
+                xStat = x2;
 
-            //Шаг 4
-            while (pf.F(x_stationary) > pf.F(x1))
-                x_stationary = x_stationary + 0.5 * (x_stationary - x1);
-
-            //Шаг 5
+            
+            while (pf.F(xStat) > pf.F(x1))
+            {
+                xStat = xStat + 0.5 * (xStat - x1);
+            }            
+            
             for (int c = 0; c < 500; c++)
             {
-                if (pf.dF(x_stationary) <= eps1 && Math.Abs((x_stationary - x1) / x_stationary) <= eps2)
-                    return x_stationary;
+                if (pf.dF(xStat) <= eps1 && Math.Abs((xStat - x1) / xStat) <= eps2)
+                    return xStat;
 
-                if (pf.dF(x_stationary) * pf.dF(x1) < 0)
+                if (pf.dF(xStat) * pf.dF(x1) < 0)
                 {
                     x2 = x1;
-                    x1 = x_stationary;
+                    x1 = xStat;
                 }
 
-                if (pf.dF(x_stationary) * pf.dF(x2) < 0)
+                if (pf.dF(xStat) * pf.dF(x2) < 0)
                 {
-                    x1 = x_stationary;
+                    x1 = xStat;
                 }
 
-                //Переход на шаг 3
-                x_stationary = double.NaN;
+                xStat = double.NaN;
                 if (m < 0)
-                    x_stationary = x2;
+                    xStat = x2;
                 if (0 <= m && m <= 1)
-                    x_stationary = x2 - m * (x2 - x1);
+                    xStat = x2 - m * (x2 - x1);
                 if (m > 1)
-                    x_stationary = x2;
+                    xStat = x2;   
             }
 
-            return x_stationary;
+            return xStat;
         }
     }
 
