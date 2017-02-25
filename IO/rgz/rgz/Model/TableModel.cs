@@ -247,9 +247,9 @@ namespace rgz.Model
                         tx2.HorizontalAlignment = HorizontalAlignment.Center;
                         if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final )
                         {
-                            gr.Background = Brushes.Gray;
-                            tx1.Background = Brushes.Gray;
-                            tx2.Background = Brushes.Gray;
+                            gr.Background = Brushes.LightGray;
+                            tx1.Background = Brushes.LightGray;
+                            tx2.Background = Brushes.LightGray;
                         }
                         if (Path[i - 1][j - 1])
                         {
