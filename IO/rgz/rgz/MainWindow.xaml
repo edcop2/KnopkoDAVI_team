@@ -15,5 +15,6 @@
         <Grid Name="ControlGrid" Grid.Row="1">
             <Button Name="TestButton" Width="200" Height="100" Content="TEST" Click="TestButton_Click"/>
         </Grid>
+       
     </Grid>
 </Window>

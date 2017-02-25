@@ -35,8 +35,10 @@ namespace rgz
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (int i in tModel.A)
-                MessageBox.Show(i + "");
+            string s = "";
+            // MessageBox.Show(((TableGrid.Children[8] as Border).Child as Grid).Children[0].ToString());
+            MessageBox.Show(tModel.GetBElemAt(3).ToString());
+
         }
     }
 }

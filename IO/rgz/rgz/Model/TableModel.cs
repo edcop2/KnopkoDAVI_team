@@ -17,7 +17,6 @@ namespace rgz.Model
 {
     public class TableModel
     {
-
         public int[] A { get; set; }
         public int[] B { get; set; }
 
@@ -34,6 +33,7 @@ namespace rgz.Model
         public OuterCell[] South { get; set; }
 
         public Grid Table { get; set; }
+             
 
         public TableModel(int n, int m, Grid table)
         {
@@ -76,142 +76,122 @@ namespace rgz.Model
             Border bor;
 
 
-            /// углы
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i <= N + 1; i++)
             {
-                bor = new Border();
-                bor.BorderThickness = new Thickness(1);
-                bor.BorderBrush = Brushes.Black;
-                gr = new Grid();
-                tb = new TextBlock();
-                tb.VerticalAlignment = VerticalAlignment.Center;
-                tb.HorizontalAlignment = HorizontalAlignment.Center;
-                gr.Children.Add(tb);
-                bor.Child = gr;
-                if (i == 0)
+                for (int j = 0; j <= M + 1; j++)
                 {
-                    bor.SetValue(Grid.RowProperty, 0);
-                    bor.SetValue(Grid.ColumnProperty, 0);
-                }
-                else if (i==1)
-                {
-                    bor.SetValue(Grid.RowProperty, N+1);
-                    bor.SetValue(Grid.ColumnProperty, 0);
-                }
-                else if (i == 2)
-                {
-                    bor.SetValue(Grid.RowProperty, 0);
-                    bor.SetValue(Grid.ColumnProperty, M+1);
-                }
-                else if (i == 3)
-                {
-                    bor.SetValue(Grid.RowProperty, N+1);
-                    bor.SetValue(Grid.ColumnProperty, M+1);
-                }
-                Table.Children.Add(bor);
-            }
-
-            ///границы
-            for (int i = 1; i <= M; i++)
-            {
-                bor = new Border();
-                bor.BorderThickness = new Thickness(1);
-                bor.BorderBrush = Brushes.Black;
-                gr = new Grid();
-                tb = new TextBlock();
-                tb.Text = i.ToString();
-                tb.VerticalAlignment = VerticalAlignment.Center;
-                tb.HorizontalAlignment = HorizontalAlignment.Center;
-                gr.Children.Add(tb);
-                bor.Child = gr;
-                bor.SetValue(Grid.RowProperty, 0);
-                bor.SetValue(Grid.ColumnProperty, i);
-                Table.Children.Add(bor);
-            }
-            for (int i = 1; i <= N; i++)
-            {
-                bor = new Border();
-                bor.BorderThickness = new Thickness(1);
-                bor.BorderBrush = Brushes.Black;
-                gr = new Grid();
-                tx1 = new TextBox();
-                tx1.Text = A[i - 1].ToString();
-                tx1.BorderThickness = new Thickness(0);
-                tx1.VerticalAlignment = VerticalAlignment.Center;
-                tx1.HorizontalAlignment = HorizontalAlignment.Center;
-                gr.Children.Add(tx1);
-                bor.Child = gr;
-                bor.SetValue(Grid.RowProperty, i);
-                bor.SetValue(Grid.ColumnProperty, M + 1);
-                Table.Children.Add(bor);
-            }
-            for (int i = 1; i <= N; i++)
-            {
-                bor = new Border();
-                bor.BorderThickness = new Thickness(1);
-                bor.BorderBrush = Brushes.Black;
-                gr = new Grid();
-                tb = new TextBlock();
-                tb.Text = i.ToString();
-                tb.VerticalAlignment = VerticalAlignment.Center;
-                tb.HorizontalAlignment = HorizontalAlignment.Center;
-                gr.Children.Add(tb);
-                bor.Child = gr;
-                bor.SetValue(Grid.RowProperty, i);
-                bor.SetValue(Grid.ColumnProperty, 0);
-                Table.Children.Add(bor);
-            }
-            for (int i = 1; i <= M; i++)
-            {
-                bor = new Border();
-                bor.BorderThickness = new Thickness(1);
-                bor.BorderBrush = Brushes.Black;
-                gr = new Grid();
-                tx1 = new TextBox();
-                tx1.Text = B[i - 1].ToString();
-                tx1.BorderThickness = new Thickness(0);
-                tx1.VerticalAlignment = VerticalAlignment.Center;
-                tx1.HorizontalAlignment = HorizontalAlignment.Center;
-                gr.Children.Add(tx1);
-                bor.Child = gr;
-                bor.SetValue(Grid.RowProperty, M + 1);
-                bor.SetValue(Grid.ColumnProperty, i);
-                Table.Children.Add(bor);
-            }
-            for (int i = 0; i < N; i++)
-            {
-                for (int j = 0; j < M; j++)
-                {
-                    gr = new Grid();
-                    gr.RowDefinitions.Add(new RowDefinition());
-                    gr.RowDefinitions.Add(new RowDefinition());
-                    gr.ColumnDefinitions.Add(new ColumnDefinition());
-                    gr.ColumnDefinitions.Add(new ColumnDefinition());
-                    tx1 = new TextBox();
-                    tx1.Text = C[i][j].ToString();  
-                    tx1.SetValue(Grid.RowProperty, 0);
-                    tx1.SetValue(Grid.ColumnProperty, 1);
-                    tx1.BorderThickness = new Thickness(0);
-                    tx1.VerticalAlignment = VerticalAlignment.Center;
-                    tx1.HorizontalAlignment = HorizontalAlignment.Center;
-                    tx2 = new TextBox();
-                    tx2.Text = X[i][j].ToString();
-                    tx2.SetValue(Grid.RowProperty, 1);
-                    tx2.SetValue(Grid.ColumnProperty, 0);
-                    tx2.BorderThickness = new Thickness(0);
-                    tx2.VerticalAlignment = VerticalAlignment.Center;
-                    tx2.HorizontalAlignment = HorizontalAlignment.Center;
-                    gr.Children.Add(tx1);
-                    gr.Children.Add(tx2);
                     bor = new Border();
                     bor.BorderThickness = new Thickness(1);
                     bor.BorderBrush = Brushes.Black;
-                    bor.Child = gr;
-                    bor.SetValue(Grid.RowProperty, i+1);
-                    bor.SetValue(Grid.ColumnProperty, j+1);
+                    gr = new Grid();
+                    if (i == 0)
+                    {
+                        if (j != 0 && j != M + 1)
+                        {
+                            tb = new TextBlock();
+                            tb.VerticalAlignment = VerticalAlignment.Center;
+                            tb.HorizontalAlignment = HorizontalAlignment.Center;
+                            tb.Text = j.ToString();
+                            gr.Children.Add(tb);
+                            bor.Child = gr;
+                        }
+                    }
+                    else if (j == 0)
+                    {
+                        if (i != 0 && i!=N+1)
+                        {
+                            tb = new TextBlock();
+                            tb.VerticalAlignment = VerticalAlignment.Center;
+                            tb.HorizontalAlignment = HorizontalAlignment.Center;
+                            tb.Text = i.ToString();
+                            gr.Children.Add(tb);
+                            bor.Child = gr;
+                        }
+
+                    }
+                    else if (i == N + 1)
+                    {
+                        if (j != M + 1)
+                        {
+                            tx1 = new TextBox();
+                            tx1.VerticalAlignment = VerticalAlignment.Center;
+                            tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx1.BorderThickness = new Thickness(0);
+                            tx1.Text = B[j - 1].ToString();
+                            gr.Children.Add(tx1);
+                            bor.Child = gr;
+                        }
+
+                    }
+                    else if (j == M + 1)
+                    {
+
+                        tx1 = new TextBox();
+                        tx1.VerticalAlignment = VerticalAlignment.Center;
+                        tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx1.BorderThickness = new Thickness(0);
+                        tx1.Text = A[i - 1].ToString();
+                        gr.Children.Add(tx1);
+                        bor.Child = gr;
+                    }
+                    else
+                    {
+                        gr.RowDefinitions.Add(new RowDefinition());
+                        gr.RowDefinitions.Add(new RowDefinition());
+                        gr.ColumnDefinitions.Add(new ColumnDefinition());
+                        gr.ColumnDefinitions.Add(new ColumnDefinition());
+                        tx1 = new TextBox();
+                        tx1.Text = C[i-1][j-1].ToString();
+                        tx1.SetValue(Grid.RowProperty, 0);
+                        tx1.SetValue(Grid.ColumnProperty, 1);
+                        tx1.BorderThickness = new Thickness(0);
+                        tx1.VerticalAlignment = VerticalAlignment.Center;
+                        tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx2 = new TextBox();
+                        tx2.Text = X[i-1][j-1].ToString();
+                        tx2.SetValue(Grid.RowProperty, 1);
+                        tx2.SetValue(Grid.ColumnProperty, 0);
+                        tx2.BorderThickness = new Thickness(0);
+                        tx2.VerticalAlignment = VerticalAlignment.Center;
+                        tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                        gr.Children.Add(tx1);
+                        gr.Children.Add(tx2);
+                        bor.Child = gr;
+                    }
+                    bor.SetValue(Grid.RowProperty, i);
+                    bor.SetValue(Grid.ColumnProperty, j);
                     Table.Children.Add(bor);
                 }
-            }
+            }            
+        }
+
+        public int GetCElemAt(int i, int j)
+        {
+            int num;
+            if (int.TryParse((((Table.Children[j + (M + 2) * i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString(), out num))
+                return num;
+            else
+                return -1;
+        }
+
+        public int GetXElemAt(int i, int j)
+        {
+            int num;
+            if (int.TryParse((((Table.Children[j + (M + 2) * i] as Border).Child as Grid).Children[1] as TextBox).Text.ToString(), out num))
+                return num;
+            else
+                return -1;
+        }
+
+        public int GetAElemAt(int i)
+        {
+            return int.Parse((((Table.Children[6+7*i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+
+        }
+        public int GetBElemAt(int i)
+        {
+            return int.Parse((((Table.Children[35+i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+
         }
 
 
