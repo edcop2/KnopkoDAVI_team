@@ -46,7 +46,14 @@ namespace rgz
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
             tModel.Balance();
+            tModel.SevenEastAngle();
+          //  IterationSlider.Maximum = tModel.Logs.Count-1;
             //MessageBox.Show(tModel.IsClosed().ToString());
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+       //     tModel.ShowHistory((int)IterationSlider.Value);
         }
     }
 }

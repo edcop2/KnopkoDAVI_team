@@ -15,6 +15,23 @@ using System.Windows.Shapes;
 
 namespace rgz.Model
 {
+
+    public class Memento
+    {
+        public int[][]C { get; set; }
+        
+        public string[][]X { get; set; }
+
+        public bool[][]Path { get; set; }
+
+        public bool[] ComitRow { get; set; }
+
+        public bool[] ComitColumn { get; set; }
+
+        public bool Final { get; set; }
+    }
+
+
     public class TableModel
     {
         public int[] A { get; set; }
@@ -26,8 +43,15 @@ namespace rgz.Model
         public int N { get; private set; }
         public int M { get; private set; }
 
+        public bool[][] Path { get; private set; }
+        public bool[] ComitRow { get; private set; }
+        public bool[] ComitColumn { get; private set; }
 
         public Grid Table { get; set; }
+
+        public List<Memento> Logs { get; private set; }
+
+        private bool Final { get; set; }
 
 
         public TableModel(int n, int m, Grid table)
@@ -41,10 +65,15 @@ namespace rgz.Model
             B = new int[M];
             C = new int[N][];
             X = new string[N][];
+            ComitColumn = new bool[M];
+            ComitRow = new bool[N];
+            Path = new bool[N][];
+            Logs = new List<Memento>();
             for (int i = 0; i < N; i++)
             {
                 C[i] = new int[M];
                 X[i] = new string[M];
+                Path[i] = new bool[M];
                 Table.RowDefinitions.Add(new RowDefinition());
             }
             for (int i = 0; i < N; i++)
@@ -68,7 +97,7 @@ namespace rgz.Model
             if (N == n)
                 return;
             Table.RowDefinitions.Clear();
-            for (int i = 0; i < n+2; i++)
+            for (int i = 0; i < n + 2; i++)
             {
                 Table.RowDefinitions.Add(new RowDefinition());
             }
@@ -80,6 +109,9 @@ namespace rgz.Model
             C = c;
             string[][] x = X;
             Array.Resize(ref x, n);
+            bool[][] p = Path;
+            Array.Resize(ref p, n);
+            Path = p;
             X = x;
             if (N < n)
             {
@@ -87,6 +119,7 @@ namespace rgz.Model
                 {
                     X[i] = new string[M];
                     C[i] = new int[M];
+                    Path[i] = new bool[M];
                     for (int j = 0; j < M; j++)
                         X[i][j] = "";
                 }
@@ -102,7 +135,7 @@ namespace rgz.Model
             if (M == m)
                 return;
             Table.ColumnDefinitions.Clear();
-            for (int i = 0; i < m+2; i++)
+            for (int i = 0; i < m + 2; i++)
             {
                 Table.ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -111,13 +144,16 @@ namespace rgz.Model
             B = b;
             int[][] c = C;
             string[][] x = X;
-            for (int i=0; i<N; i++)
+            bool[][] p = Path;
+            for (int i = 0; i < N; i++)
             {
                 Array.Resize(ref c[i], m);
                 Array.Resize(ref x[i], m);
+                Array.Resize(ref p[i], m);
             }
             C = c;
             X = x;
+            Path = p;
             if (M < m)
             {
                 for (int i = 0; i < N; i++)
@@ -218,6 +254,18 @@ namespace rgz.Model
                         tx2.BorderThickness = new Thickness(0);
                         tx2.VerticalAlignment = VerticalAlignment.Center;
                         tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                        if ((ComitRow[i=1] || ComitColumn[j-1] )&& !Final)
+                        {
+                            gr.Background = Brushes.Gray;
+                            tx1.Background = Brushes.Gray;
+                            tx2.Background = Brushes.Gray;
+                        }
+                        if (Path[i - 1][j - 1])
+                        {
+                            gr.Background = Brushes.Azure;
+                            tx1.Background = Brushes.Azure;
+                            tx2.Background = Brushes.Azure;
+                        }
                         gr.Children.Add(tx1);
                         gr.Children.Add(tx2);
                         bor.Child = gr;
@@ -283,16 +331,16 @@ namespace rgz.Model
         public void Balance()
         {
             int isClosed = IsClosed();
-            if (isClosed == 1)
+            if (isClosed == 2)
             {
                 ChangeRowCount(N + 1);
-                A[N - 1] = A.Sum() - B.Sum();
+                A[N - 1] = B.Sum() - A.Sum();
                 UpdateTable();
             }
-            else if (isClosed==2)
+            else if (isClosed == 2)
             {
                 ChangeColumnCount(M + 1);
-                B[M - 1] = B.Sum() - A.Sum();
+                B[M - 1] = A.Sum() - B.Sum();
                 UpdateTable();
             }
 
@@ -302,7 +350,67 @@ namespace rgz.Model
         {
             int sum1 = A.Sum();
             int sum2 = B.Sum();
-            return sum1 > sum2 ? 0 : sum1 < sum2 ? 2:0 ;
+            return sum1 > sum2 ? 0 : sum1 < sum2 ? 2 : 0;
+        }
+
+        public void SevenEastAngle()
+        {
+            Logs.Clear();
+            int i = 0, j = 0;
+            int[] a = new int[N];
+            int[] b = new int[M];
+            Array.Copy(A, a, N);
+            Array.Copy(B, b, M);
+            int temp;
+            Grid gr;
+            Memento meme;
+            for (;;)
+            {
+                gr = new Grid();
+                Path[i][j] = true;
+                if (a[i] > b[j])
+                {
+                    ComitColumn[j] = true;
+                    temp = b[j];
+                    a[i] -= b[j];
+                    X[i][j] = temp.ToString();
+                    j++;
+                }
+                else
+                {
+                    ComitRow[i] = true;
+                    temp = a[i];
+                    b[j] -= a[i];
+                    X[i][j] = temp.ToString();
+                    i++;
+                }
+               meme = new Memento() { C = C, X = X, Path = Path, ComitRow = ComitRow, ComitColumn = ComitColumn, Final=Final };
+                Logs.Add(meme);
+                if (i == N || j == M)
+                    break;
+               // MessageBox.Show(uie.Length+"   "+ gr.Children.Count + "   " + Table.Children.Count+"     "+k);
+       //         Logs.Add(gr);
+            }
+            UpdateTable();
+        }
+
+        public void ShowHistory(int i)
+        {
+            if (i < 0 || i > Logs.Count)
+                return;
+            ReadMeme(Logs[i]);
+            UpdateTable();
+               
+        }
+
+        private void ReadMeme(Memento meme)
+        {
+            X = meme.X;
+            Path = meme.Path;
+            C = meme.C;
+            ComitRow = meme.ComitRow;
+            ComitColumn = meme.ComitColumn;
+            Final = Final;
         }
 
     }
