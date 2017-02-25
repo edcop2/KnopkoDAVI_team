@@ -30,15 +30,23 @@ namespace rgz
         {
             InitializeComponent();
             tModel = new TableModel(4, 5, TableGrid);
-            tModel.UpdateTable();            
+            int[] a = { 500, 500, 320, 880 };
+            tModel.A = a;
+            a = new int[] { 570, 838, 194, 534, 180 };
+            tModel.B = a;
+            int[,] r = { { 15, 4, 5, 18, 19 }, { 8, 10, 24, 7, 6 }, { 9, 23, 9, 8, 16 }, { 25, 14, 11, 25, 14 } };
+            for (int i=0; i<4; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                    tModel.C[i][j] = r[i, j];
+            }
+            tModel.UpdateTable();
         }
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            string s = "";
-            // MessageBox.Show(((TableGrid.Children[8] as Border).Child as Grid).Children[0].ToString());
-            MessageBox.Show(tModel.GetBElemAt(3).ToString());
-
+            tModel.Balance();
+            //MessageBox.Show(tModel.IsClosed().ToString());
         }
     }
 }

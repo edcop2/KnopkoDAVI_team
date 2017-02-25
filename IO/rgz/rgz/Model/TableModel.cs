@@ -21,19 +21,14 @@ namespace rgz.Model
         public int[] B { get; set; }
 
         public int[][] C { get; set; }
-        public int[][] X { get; set; }
+        public string[][] X { get; set; }
 
         public int N { get; private set; }
         public int M { get; private set; }
 
-        public InnerCell[][] Cells { get; set; }
-        public OuterCell[] East { get; set; }
-        public OuterCell[] North { get; set; }
-        public OuterCell[] West { get; set; }
-        public OuterCell[] South { get; set; }
 
         public Grid Table { get; set; }
-             
+
 
         public TableModel(int n, int m, Grid table)
         {
@@ -45,14 +40,17 @@ namespace rgz.Model
             A = new int[N];
             B = new int[M];
             C = new int[N][];
-            X = new int[N][];
-            Cells = new InnerCell[N][];
+            X = new string[N][];
             for (int i = 0; i < N; i++)
             {
-                Cells[i] = new InnerCell[M];
                 C[i] = new int[M];
-                X[i] = new int[M];
+                X[i] = new string[M];
                 Table.RowDefinitions.Add(new RowDefinition());
+            }
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                    X[i][j] = "";
             }
             Table.RowDefinitions.Add(new RowDefinition());
             Table.RowDefinitions.Add(new RowDefinition());
@@ -60,10 +58,76 @@ namespace rgz.Model
             {
                 Table.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            East = new OuterCell[N];
-            North = new OuterCell[M];
-            West = new OuterCell[N];
-            South = new OuterCell[M];
+        }
+
+
+        public void ChangeRowCount(int n)
+        {
+            if (n <= 0)
+                return;
+            if (N == n)
+                return;
+            Table.RowDefinitions.Clear();
+            for (int i = 0; i < n+2; i++)
+            {
+                Table.RowDefinitions.Add(new RowDefinition());
+            }
+            int[] a = A;
+            Array.Resize(ref a, n);
+            A = a;
+            int[][] c = C;
+            Array.Resize(ref c, n);
+            C = c;
+            string[][] x = X;
+            Array.Resize(ref x, n);
+            X = x;
+            if (N < n)
+            {
+                for (int i = N; i < n; i++)
+                {
+                    X[i] = new string[M];
+                    C[i] = new int[M];
+                    for (int j = 0; j < M; j++)
+                        X[i][j] = "";
+                }
+            }
+            N = n;
+            UpdateTable();
+        }
+
+        public void ChangeColumnCount(int m)
+        {
+            if (m <= 0)
+                return;
+            if (M == m)
+                return;
+            Table.ColumnDefinitions.Clear();
+            for (int i = 0; i < m+2; i++)
+            {
+                Table.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            int[] b = B;
+            Array.Resize(ref b, m);
+            B = b;
+            int[][] c = C;
+            string[][] x = X;
+            for (int i=0; i<N; i++)
+            {
+                Array.Resize(ref c[i], m);
+                Array.Resize(ref x[i], m);
+            }
+            C = c;
+            X = x;
+            if (M < m)
+            {
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = M; j < m; j++)
+                        X[i][j] = "";
+                }
+            }
+            M = m;
+            UpdateTable();
         }
 
 
@@ -98,7 +162,7 @@ namespace rgz.Model
                     }
                     else if (j == 0)
                     {
-                        if (i != 0 && i!=N+1)
+                        if (i != 0 && i != N + 1)
                         {
                             tb = new TextBlock();
                             tb.VerticalAlignment = VerticalAlignment.Center;
@@ -141,14 +205,14 @@ namespace rgz.Model
                         gr.ColumnDefinitions.Add(new ColumnDefinition());
                         gr.ColumnDefinitions.Add(new ColumnDefinition());
                         tx1 = new TextBox();
-                        tx1.Text = C[i-1][j-1].ToString();
+                        tx1.Text = C[i - 1][j - 1].ToString();
                         tx1.SetValue(Grid.RowProperty, 0);
                         tx1.SetValue(Grid.ColumnProperty, 1);
                         tx1.BorderThickness = new Thickness(0);
                         tx1.VerticalAlignment = VerticalAlignment.Center;
                         tx1.HorizontalAlignment = HorizontalAlignment.Center;
                         tx2 = new TextBox();
-                        tx2.Text = X[i-1][j-1].ToString();
+                        tx2.Text = X[i - 1][j - 1].ToString();
                         tx2.SetValue(Grid.RowProperty, 1);
                         tx2.SetValue(Grid.ColumnProperty, 0);
                         tx2.BorderThickness = new Thickness(0);
@@ -162,40 +226,84 @@ namespace rgz.Model
                     bor.SetValue(Grid.ColumnProperty, j);
                     Table.Children.Add(bor);
                 }
-            }            
+            }
         }
 
         public int GetCElemAt(int i, int j)
         {
-            int num;
-            if (int.TryParse((((Table.Children[j + (M + 2) * i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString(), out num))
-                return num;
-            else
-                return -1;
+            return int.Parse((((Table.Children[j + (M + 2) * i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
         }
 
-        public int GetXElemAt(int i, int j)
+        public string GetXElemAt(int i, int j)
         {
-            int num;
-            if (int.TryParse((((Table.Children[j + (M + 2) * i] as Border).Child as Grid).Children[1] as TextBox).Text.ToString(), out num))
-                return num;
-            else
-                return -1;
+            return (((Table.Children[j + (M + 2) * i] as Border).Child as Grid).Children[1] as TextBox).Text.ToString();
         }
 
         public int GetAElemAt(int i)
         {
-            return int.Parse((((Table.Children[6+7*i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+            return int.Parse((((Table.Children[6 + 7 * i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
 
         }
         public int GetBElemAt(int i)
         {
-            return int.Parse((((Table.Children[35+i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+            return int.Parse((((Table.Children[35 + i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+        }
+
+        public Grid GetGridElemAt(int i, int j)
+        {
+            return (Table.Children[j + (M + 2) * i] as Border).Child as Grid;
+        }
+
+        public bool ReadTable()
+        {
+            try
+            {
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < M; j++)
+                    {
+                        C[i][j] = GetCElemAt(i + 1, j + 1);
+                        X[i][j] = GetXElemAt(i + 1, j + 1);
+                    }
+                    A[i] = GetAElemAt(i + 1);
+                }
+                for (int i = 0; i < M; i++)
+                {
+                    B[i] = GetBElemAt(i + 1);
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public void Balance()
+        {
+            int isClosed = IsClosed();
+            if (isClosed == 1)
+            {
+                ChangeRowCount(N + 1);
+                A[N - 1] = A.Sum() - B.Sum();
+                UpdateTable();
+            }
+            else if (isClosed==2)
+            {
+                ChangeColumnCount(M + 1);
+                B[M - 1] = B.Sum() - A.Sum();
+                UpdateTable();
+            }
 
         }
 
-
-
+        public int IsClosed()
+        {
+            int sum1 = A.Sum();
+            int sum2 = B.Sum();
+            return sum1 > sum2 ? 0 : sum1 < sum2 ? 2:0 ;
+        }
 
     }
 }
