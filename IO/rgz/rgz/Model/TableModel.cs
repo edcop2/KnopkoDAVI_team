@@ -315,6 +315,7 @@ namespace rgz.Model
                         tx3.SetValue(Grid.RowProperty, 0);
                         tx3.SetValue(Grid.ColumnProperty, 0);
                         tx3.BorderThickness = new Thickness(0);
+                        tx3.Foreground = Brushes.Blue;
                         tx3.VerticalAlignment = VerticalAlignment.Center;
                         tx3.HorizontalAlignment = HorizontalAlignment.Center;
                         if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final)
@@ -322,7 +323,7 @@ namespace rgz.Model
                             gr.Background = Brushes.LightGray;
                             tx1.Background = Brushes.LightGray;
                             tx2.Background = Brushes.LightGray;
-                            tx3.Background = Brushes.LightGray; 
+                            tx3.Background = Brushes.LightGray;
                         }
                         if (Path[i - 1][j - 1])
                         {
@@ -728,8 +729,13 @@ namespace rgz.Model
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
-
             CalcPot();
+            for (int i=0; i<N;i++)
+            {
+                for (int j = 0; j < M; j++)
+                    if (!Path[i][j])
+                        Delt[i][j] = (int.Parse(West[i]) + int.Parse(North[j]) - C[i][j]).ToString();
+            }
             UpdateTable();
 
         }
@@ -742,13 +748,13 @@ namespace rgz.Model
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
             int exit = int.MaxValue;
-            for (int i=0; i<N; i++)
+            for (int i = 0; i < N; i++)
             {
                 u[i] = exit;
             }
             for (int j = 0; j < M; j++)
             {
-                  v[j] = exit;
+                v[j] = exit;
             }
             u[0] = 0;
             for (int j = 0; j < M; j++)
@@ -791,18 +797,16 @@ namespace rgz.Model
             }
 
 
-            for (int i=0; i<N; i++)
+            for (int i = 0; i < N; i++)
             {
-                if (u[i] != 666)
-                    West[i] = u[i].ToString();
+                West[i] = u[i].ToString();
             }
-            for (int j=0; j<M; j++)
+            for (int j = 0; j < M; j++)
             {
-                if (v[j] != 666)
-                    North[j] = v[j].ToString();
+                North[j] = v[j].ToString();
             }
         }
-        
+
 
 
         public void ShowHistory(int i)
