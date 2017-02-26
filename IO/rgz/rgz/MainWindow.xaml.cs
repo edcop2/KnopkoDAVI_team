@@ -48,6 +48,7 @@ namespace rgz
             tModel.Balance();
             tModel.FogelMeth();
             IterationSlider.Maximum = tModel.Logs.Count-1;
+            tModel.PotMeth();
             //MessageBox.Show(tModel.IsClosed().ToString());
         }
 
