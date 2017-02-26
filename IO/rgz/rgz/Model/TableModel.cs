@@ -741,12 +741,15 @@ namespace rgz.Model
             int[] v = new int[M];
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
+            int exit = int.MaxValue;
             for (int i=0; i<N; i++)
             {
-                u[i] = 666;
+                u[i] = exit;
             }
             for (int j = 0; j < M; j++)
-                v[j] = 666;
+            {
+                  v[j] = exit;
+            }
             u[0] = 0;
             for (int j = 0; j < M; j++)
             {
@@ -756,7 +759,7 @@ namespace rgz.Model
                     columns.Add(j);
                 }
             }
-            for (int k = 0; k < 6; k++)
+            for (;;)
             {
                 for (int i = 0; i < N; i++)
                 {
@@ -769,6 +772,7 @@ namespace rgz.Model
                         }
                     }
                 }
+                columns.Clear();
                 for (int j = 0; j < M; j++)
                 {
                     foreach (int i in rows)
@@ -776,10 +780,13 @@ namespace rgz.Model
                         if (Path[i][j])
                         {
                             v[j] = C[i][j] - u[i];
-                            columns.Add(i);
+                            columns.Add(j);
                         }
                     }
                 }
+                rows.Clear();
+                if (u.Max() != exit && v.Max() != exit)
+                    break;
 
             }
 
