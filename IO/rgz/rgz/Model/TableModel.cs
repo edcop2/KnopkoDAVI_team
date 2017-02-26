@@ -28,6 +28,9 @@ namespace rgz.Model
         public int N { get; private set; }
         public int M { get; private set; }
 
+        public string[] North { get; set; }
+        public string[] West { get; set; }
+
         public bool[][] Path { get; private set; }
         public bool[] ComitRow { get; private set; }
         public bool[] ComitColumn { get; private set; }
@@ -50,6 +53,8 @@ namespace rgz.Model
             B = new int[M];
             C = new int[N][];
             X = new string[N][];
+            North = new string[M];
+            West = new string[N];
             ComitColumn = new bool[M];
             ComitRow = new bool[N];
             Path = new bool[N][];
@@ -101,6 +106,9 @@ namespace rgz.Model
             ComitRow = com;
             Path = p;
             X = x;
+            string[] nw = West;
+            Array.Resize(ref nw, n);
+            West = nw;
             if (N < n)
             {
                 for (int i = N; i < n; i++)
@@ -110,6 +118,7 @@ namespace rgz.Model
                     Path[i] = new bool[M];
                     for (int j = 0; j < M; j++)
                         X[i][j] = "";
+                    North[i] = "";
                 }
             }
             N = n;
@@ -136,6 +145,9 @@ namespace rgz.Model
             bool[] com = ComitColumn;
             Array.Resize(ref com, m);
             ComitColumn = com;
+            string[] nw = North;
+            Array.Resize(ref nw, m);
+            North = nw;
             for (int i = 0; i < N; i++)
             {
                 Array.Resize(ref c[i], m);
@@ -151,6 +163,10 @@ namespace rgz.Model
                 {
                     for (int j = M; j < m; j++)
                         X[i][j] = "";
+                }
+                for (int i = M; i < m; i++)
+                {
+                    North[i] = "";
                 }
             }
             M = m;
@@ -179,11 +195,27 @@ namespace rgz.Model
                     {
                         if (j != 0 && j != M + 1)
                         {
-                            tb = new TextBlock();
-                            tb.VerticalAlignment = VerticalAlignment.Center;
-                            tb.HorizontalAlignment = HorizontalAlignment.Center;
-                            tb.Text = j.ToString();
-                            gr.Children.Add(tb);
+                            gr.RowDefinitions.Add(new RowDefinition());
+                            gr.RowDefinitions.Add(new RowDefinition());
+                            gr.ColumnDefinitions.Add(new ColumnDefinition());
+                            gr.ColumnDefinitions.Add(new ColumnDefinition());
+                            tx1 = new TextBox();
+                            tx1.VerticalAlignment = VerticalAlignment.Center;
+                            tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx1.SetValue(Grid.RowProperty, 0);
+                            tx1.SetValue(Grid.ColumnProperty, 1);
+                            tx1.BorderThickness = new Thickness(0);
+                            tx1.Text = j.ToString();
+                            tx2 = new TextBox();
+                            tx2.Text = North[j - 1];
+                            tx2.SetValue(Grid.RowProperty, 1);
+                            tx2.SetValue(Grid.ColumnProperty, 0);
+                            tx2.Foreground = Brushes.Blue;
+                            tx2.BorderThickness = new Thickness(0);
+                            tx2.VerticalAlignment = VerticalAlignment.Center;
+                            tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                            gr.Children.Add(tx1);
+                            gr.Children.Add(tx2);
                             bor.Child = gr;
                         }
                     }
@@ -191,11 +223,27 @@ namespace rgz.Model
                     {
                         if (i != 0 && i != N + 1)
                         {
-                            tb = new TextBlock();
-                            tb.VerticalAlignment = VerticalAlignment.Center;
-                            tb.HorizontalAlignment = HorizontalAlignment.Center;
-                            tb.Text = i.ToString();
-                            gr.Children.Add(tb);
+                            gr.RowDefinitions.Add(new RowDefinition());
+                            gr.RowDefinitions.Add(new RowDefinition());
+                            gr.ColumnDefinitions.Add(new ColumnDefinition());
+                            gr.ColumnDefinitions.Add(new ColumnDefinition());
+                            tx1 = new TextBox();
+                            tx1.VerticalAlignment = VerticalAlignment.Center;
+                            tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx1.SetValue(Grid.RowProperty, 1);
+                            tx1.SetValue(Grid.ColumnProperty, 0);
+                            tx1.BorderThickness = new Thickness(0);
+                            tx1.Text = i.ToString();
+                            tx2 = new TextBox();
+                            tx2.Text = West[i - 1];
+                            tx2.Foreground = Brushes.Blue;
+                            tx2.SetValue(Grid.RowProperty, 0);
+                            tx2.SetValue(Grid.ColumnProperty, 1);
+                            tx2.BorderThickness = new Thickness(0);
+                            tx2.VerticalAlignment = VerticalAlignment.Center;
+                            tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                            gr.Children.Add(tx1);
+                            gr.Children.Add(tx2);
                             bor.Child = gr;
                         }
 
@@ -245,7 +293,7 @@ namespace rgz.Model
                         tx2.BorderThickness = new Thickness(0);
                         tx2.VerticalAlignment = VerticalAlignment.Center;
                         tx2.HorizontalAlignment = HorizontalAlignment.Center;
-                        if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final )
+                        if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final)
                         {
                             gr.Background = Brushes.LightGray;
                             tx1.Background = Brushes.LightGray;
@@ -356,7 +404,7 @@ namespace rgz.Model
             Memento meme;
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Final);
                 Logs.Add(meme);
                 Path[i][j] = true;
                 if (a[i] > b[j])
@@ -379,7 +427,7 @@ namespace rgz.Model
                     break;
             }
             Final = true;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Final);
             Logs.Add(meme);
             UpdateTable();
         }
@@ -398,7 +446,7 @@ namespace rgz.Model
             List<int> columns = new List<int>();
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Final);
                 Logs.Add(meme);
                 FindMinElem(rows, columns, ref i, ref j);
                 Path[i][j] = true;
@@ -422,7 +470,7 @@ namespace rgz.Model
                     break;
             }
             Final = true;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Final);
             Logs.Add(meme);
             UpdateTable();
 
@@ -431,13 +479,13 @@ namespace rgz.Model
         private void FindMinElem(List<int> rows, List<int> columns, ref int i, ref int j)
         {
             int min = int.MaxValue;
-            for (int a=0; a<N; a++)
+            for (int a = 0; a < N; a++)
             {
-                for (int b=0; b<M; b++)
+                for (int b = 0; b < M; b++)
                 {
                     if (!rows.Contains(a) && !columns.Contains(b))
                     {
-                        if (min>C[a][b])
+                        if (min > C[a][b])
                         {
                             min = C[a][b];
                             i = a;
@@ -450,6 +498,195 @@ namespace rgz.Model
 
 
 
+        public void FogelMeth()
+        {
+            Logs.Clear();
+            int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
+            int[] a = new int[N];
+            int[] b = new int[M];
+            Array.Copy(A, a, N);
+            Array.Copy(B, b, M);
+            int temp;
+            Memento meme;
+            List<int> rows = new List<int>();
+            List<int> columns = new List<int>();
+            for (;;)
+            {
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Final);
+                Logs.Add(meme);
+                ClearNW();
+                Find2Min(rows, columns);
+                j1 = int.Parse(North.Min());
+                i1 = int.Parse(West.Min());
+                if (j1 < i1)
+                {
+                    j2 = MinNorth(columns);
+                    i2 = MinInColumn(j2, rows);
+                }
+                else
+                {
+                    i2 = MinWest(rows);
+                    j2 = MinInRow(i2, columns);
+                }
+                Path[i2][j2] = true;
+                if (a[i2] > b[j2])
+                {
+                    ComitColumn[j2] = true;
+                    temp = b[j2];
+                    a[i2] -= b[j2];
+                    X[i2][j2] = temp.ToString();
+                    columns.Add(j2);
+                }
+                else
+                {
+                    ComitRow[i2] = true;
+                    temp = a[i2];
+                    b[j2] -= a[i2];
+                    X[i2][j2] = temp.ToString();
+                    rows.Add(i2);
+                }
+                if (rows.Count == N || columns.Count == M)
+                    break;
+            }
+            Final = true;
+            ClearNW();
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Final);
+            Logs.Add(meme);
+            UpdateTable();
+        }
+
+        public void ClearNW()
+        {
+            Array.Clear(North, 0, North.Length);
+            Array.Clear(West, 0, West.Length);
+        }
+
+        public int MinInColumn(int j, List<int> rows)
+        {
+            int min = int.MaxValue;
+            int k = -1;
+            for (int i=0; i<N;i++)
+            {
+                if (!rows.Contains(i))
+                {
+                    if (min>C[i][j])
+                    {
+                        min = C[i][j];
+                        k = i;
+                    }
+                }
+            }
+            return k;
+        }
+
+        public int MinNorth(List<int> columns)
+        {
+            int min = int.MaxValue;
+            int k = -1;
+            for (int i = 0; i < M; i++)
+            {
+                if (!columns.Contains(i))
+                {
+                    if (min > int.Parse(North[i]))
+                    {
+                        k = i;
+                        min = int.Parse(North[i]);
+                    }
+                }
+            }
+            return k;
+        }
+
+        public int MinInRow(int i, List<int> columns)
+        {
+            int min = int.MaxValue;
+            int k = -1;
+            for (int j = 0; j < M; j++)
+            {
+                if (!columns.Contains(j))
+                {
+                    if (min > C[i][j])
+                    {
+                        min = C[i][j];
+                        k = j;
+                    }
+                }
+            }
+            return k;
+
+        }
+
+        public int MinWest(List<int> rows)
+        {
+            int min = int.MaxValue;
+            int k = -1;
+            for (int i = 0; i < N; i++)
+            {
+                if (!rows.Contains(i))
+                {
+                    if (min > int.Parse(West[i]))
+                    {
+                        k = i;
+                        min = int.Parse(West[i]);
+                    }
+                }
+            }
+            return k;
+        }
+
+
+        public void Find2Min(List<int> rows, List<int> columns)
+        {
+            int min1 = int.MaxValue, min2 = int.MaxValue;
+            for (int i = 0; i < N; i++)
+            {
+                if (!rows.Contains(i))
+                {
+                    min1 = int.MaxValue;
+                    min2 = int.MaxValue;
+                    for (int j = 0; j < M; j++)
+                    {
+                        if (!columns.Contains(j))
+                        {
+                            if (min2 > C[i][j])
+                            {
+                                min2 = C[i][j];
+                                if (min1 > C[i][j])
+                                {
+                                    min2 = min1;
+                                    min1 = C[i][j];
+                                }
+                            }
+                        }
+                    }
+                    West[i] = (min2 - min1).ToString();
+                }
+            }
+            for (int j = 0; j < M; j++)
+            {
+                if (!columns.Contains(j))
+                {
+                    min1 = int.MaxValue;
+                    min2 = int.MaxValue;
+                    for (int i = 0; i < N; i++)
+                    {
+                        if (!rows.Contains(i))
+                        {
+                            if (min2 > C[i][j])
+                            {
+                                min2 = C[i][j];
+                                if (min1 > C[i][j])
+                                {
+                                    min2 = min1;
+                                    min1 = C[i][j];
+                                }
+                            }
+                        }
+                    }
+                    North[j] = (min2 - min1).ToString();
+                }
+            }
+        }
 
 
         public void ShowHistory(int i)
@@ -468,6 +705,8 @@ namespace rgz.Model
             C = meme.C;
             ComitRow = meme.ComitRow;
             ComitColumn = meme.ComitColumn;
+            North = meme.North;
+            West = meme.West;
             Final = meme.Final;
         }
 
@@ -486,17 +725,24 @@ namespace rgz.Model
 
         public bool[] ComitColumn { get; set; }
 
+        public string[] North { get; set; }
+        public string[] West { get; set; }
+
         public bool Final { get; set; }
 
 
-        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, bool final)
+        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west, bool final)
         {
             int n = cr.Length;
             int m = cc.Length;
             ComitRow = new bool[n];
             ComitColumn = new bool[m];
+            North = new string[m];
+            West = new string[n];
             Array.Copy(cc, ComitColumn, m);
             Array.Copy(cr, ComitRow, n);
+            Array.Copy(north, North, m);
+            Array.Copy(west, West, n);
             X = new string[n][];
             C = new int[n][];
             Path = new bool[n][];
