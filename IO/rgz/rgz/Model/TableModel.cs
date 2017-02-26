@@ -353,13 +353,11 @@ namespace rgz.Model
             Array.Copy(A, a, N);
             Array.Copy(B, b, M);
             int temp;
-            Grid gr;
             Memento meme;
             for (;;)
             {
                 meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
                 Logs.Add(meme);
-                gr = new Grid();
                 Path[i][j] = true;
                 if (a[i] > b[j])
                 {
@@ -379,14 +377,80 @@ namespace rgz.Model
                 }
                 if (i == N || j == M)
                     break;
-                // MessageBox.Show(uie.Length+"   "+ gr.Children.Count + "   " + Table.Children.Count+"     "+k);
-                //         Logs.Add(gr);
             }
             Final = true;
             meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
             Logs.Add(meme);
             UpdateTable();
         }
+
+        public void MinElemMeth()
+        {
+            Logs.Clear();
+            int i = 0, j = 0;
+            int[] a = new int[N];
+            int[] b = new int[M];
+            Array.Copy(A, a, N);
+            Array.Copy(B, b, M);
+            int temp;
+            Memento meme;
+            List<int> rows = new List<int>();
+            List<int> columns = new List<int>();
+            for (;;)
+            {
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+                Logs.Add(meme);
+                FindMinElem(rows, columns, ref i, ref j);
+                Path[i][j] = true;
+                if (a[i] > b[j])
+                {
+                    ComitColumn[j] = true;
+                    temp = b[j];
+                    a[i] -= b[j];
+                    X[i][j] = temp.ToString();
+                    columns.Add(j);
+                }
+                else
+                {
+                    ComitRow[i] = true;
+                    temp = a[i];
+                    b[j] -= a[i];
+                    X[i][j] = temp.ToString();
+                    rows.Add(i);
+                }
+                if (rows.Count == N || columns.Count == M)
+                    break;
+            }
+            Final = true;
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, Final);
+            Logs.Add(meme);
+            UpdateTable();
+
+        }
+
+        private void FindMinElem(List<int> rows, List<int> columns, ref int i, ref int j)
+        {
+            int min = int.MaxValue;
+            for (int a=0; a<N; a++)
+            {
+                for (int b=0; b<M; b++)
+                {
+                    if (!rows.Contains(a) && !columns.Contains(b))
+                    {
+                        if (min>C[a][b])
+                        {
+                            min = C[a][b];
+                            i = a;
+                            j = b;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
 
         public void ShowHistory(int i)
         {
