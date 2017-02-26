@@ -179,7 +179,6 @@ namespace rgz.Model
             Table.Children.Clear();
             Grid gr;
             TextBox tx1, tx2;
-            TextBlock tb;
             Border bor;
 
 
