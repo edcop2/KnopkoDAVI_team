@@ -192,6 +192,28 @@ namespace rgz.Model
         }
 
 
+        public void ShowHistory(int i)
+        {
+            if (i < 0 || i >= Logs.Count)
+                return;
+            ReadMeme(Logs[i]);
+            UpdateTable();
+
+        }
+
+        private void ReadMeme(Memento meme)
+        {
+            X = meme.X;
+            Path = meme.Path; ;
+            C = meme.C;
+            ComitRow = meme.ComitRow;
+            ComitColumn = meme.ComitColumn;
+            North = meme.North;
+            West = meme.West;
+            Final = meme.Final;
+        }
+
+
         public void UpdateTable()
         {
             Table.Children.Clear();
@@ -716,31 +738,6 @@ namespace rgz.Model
             }
         }
 
-
-        public void PotMeth()
-        {
-            Logs.Clear();
-            int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
-            int[] a = new int[N];
-            int[] b = new int[M];
-            Array.Copy(A, a, N);
-            Array.Copy(B, b, M);
-            int temp;
-            Memento meme;
-            List<int> rows = new List<int>();
-            List<int> columns = new List<int>();
-            CalcPot();
-            for (int i=0; i<N;i++)
-            {
-                for (int j = 0; j < M; j++)
-                    if (!Path[i][j])
-                        Delt[i][j] = (int.Parse(West[i]) + int.Parse(North[j]) - C[i][j]).ToString();
-            }
-            UpdateTable();
-
-        }
-
-
         private void CalcPot()
         {
             int[] u = new int[N];
@@ -797,6 +794,7 @@ namespace rgz.Model
             }
 
 
+
             for (int i = 0; i < N; i++)
             {
                 West[i] = u[i].ToString();
@@ -809,27 +807,164 @@ namespace rgz.Model
 
 
 
-        public void ShowHistory(int i)
+        public void PotMeth()
         {
-            if (i < 0 || i >= Logs.Count)
-                return;
-            ReadMeme(Logs[i]);
+            Logs.Clear();
+            int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
+            int[] a = new int[N];
+            int[] b = new int[M];
+            Array.Copy(A, a, N);
+            Array.Copy(B, b, M);
+            int temp;
+            int maxDelt, im = 0, jm = 0;
+            Memento meme;
+            List<int> rows = new List<int>();
+            List<int> columns = new List<int>();
+            CalcPot();
+            maxDelt = int.MinValue;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                    if (!Path[i][j])
+                    {
+                        Delt[i][j] = (int.Parse(West[i]) + int.Parse(North[j]) - C[i][j]).ToString();
+                        if (maxDelt < int.Parse(Delt[i][j]))
+                        {
+                            maxDelt = int.Parse(Delt[i][j]);
+                            im = i;
+                            jm = j;
+                        }
+                    }
+            }
+            if (maxDelt <= 0)
+                MessageBox.Show("Success");
+            // MessageBox.Show(maxDelt+" "+im+" "+jm);
+
+
+            //int kt = 0;
+            //int ei = -1, ej = -1;
+            //for (int k=0; k<7 ;k++)
+            //{
+
+            //    for (int i = 0; i < N; i++)
+            //    {
+            //        if (Path[i][jm] && Delt[i][jm].Length == 0)
+            //        {
+            //            Delt[i][jm] = "-";
+            //            kt++;
+            //            im = i;
+            //            ei = im;
+            //            break;
+            //        }
+            //    }
+            //    for (int j = 0; j < M; j++)
+            //    {
+            //        if (Path[im][j] && Delt[im][j].Length == 0)
+            //        {
+            //            Delt[im][j] = "+";
+            //            kt++;
+            //            jm = j;
+            //            break;
+            //        }
+            //    }
+            //    MessageBox.Show((im + 1) + "  " + (jm + 1)+"    "+kt);
+            //    if (kt == 7)
+            //        break;
+
+            //}
+
+
+
+            Graph g = new Graph();
+            g.BuildGraph(Path);
             UpdateTable();
 
         }
 
-        private void ReadMeme(Memento meme)
+    }
+
+
+    public class Graph
+    {
+        public Node Root { get; set; }
+
+        public List<Node> Nodes { get; set; }
+
+        public Graph()
         {
-            X = meme.X;
-            Path = meme.Path; ;
-            C = meme.C;
-            ComitRow = meme.ComitRow;
-            ComitColumn = meme.ComitColumn;
-            North = meme.North;
-            West = meme.West;
-            Final = meme.Final;
+            Root = new Node();
+            Nodes = new List<Node>();
         }
 
+        public void BuildGraph(bool[][] path)
+        {
+            int n = path.Length;
+            int m = path[0].Length;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    if (path[i][j])
+                    {
+                        Nodes.Add(new Node(i, j));
+                    }
+                }
+            }
+            BuildLinks();
+        }
+
+        private void BuildLinks()
+        {
+            int n = Nodes.Count;
+            Nodes.Sort((c1, c2) => c1.I.CompareTo(c2.I));
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (Nodes[i].I == Nodes[j].I || Nodes[i].J == Nodes[j].J)
+                    {
+                        Nodes[i].Leafs.Add(Nodes[j]);
+                        Nodes[j].Leafs.Add(Nodes[i]);
+                    }
+                }
+            }
+            Nodes.Sort((c1, c2) => c1.Leafs.Count.CompareTo(c2.Leafs.Count));
+            //for (int i=0; i<n;i++)
+            //{
+            //    MessageBox.Show(Nodes[i]+"   "+Nodes[i].Leafs.Count);
+            //}
+        }
+
+
+    }
+
+
+
+    public class Node
+    {
+        public int I { get; set; }
+
+        public int J { get; set; }
+
+        public List<Node> Leafs { get; set; }
+
+
+        public Node()
+        {
+            Leafs = new List<Node>();
+        }
+
+        public Node(int i, int j)
+        {
+            I = i;
+            J = j;
+            Leafs = new List<Node>();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("({0},{1})",I,J);
+        }
     }
 
 
