@@ -873,10 +873,24 @@ namespace rgz.Model
 
             //}
 
-
-
+            MessageBox.Show(maxDelt+"  "+im+" "+jm);
+            Path[im][jm] = true;
             Graph g = new Graph();
             g.BuildGraph(Path);
+            g.SetRoot(im, jm);
+            g.VeryDeepSearch();
+            //  MessageBox.Show(g.SortedNodes.Count + "");
+            bool plus = false;
+            foreach (Node n in g.SortedNodes)
+            {
+                MessageBox.Show(n.ToString());
+                if (plus)
+                    Delt[n.I][n.J] = "+";
+                else
+                    Delt[n.I][n.J] = "-";
+                plus = !plus;
+
+            }
             UpdateTable();
 
         }
@@ -890,10 +904,13 @@ namespace rgz.Model
 
         public List<Node> Nodes { get; set; }
 
+        public HashSet<Node> SortedNodes { get; set; }
+
         public Graph()
         {
             Root = new Node();
             Nodes = new List<Node>();
+            SortedNodes = new HashSet<Node>();
         }
 
         public void BuildGraph(bool[][] path)
@@ -911,7 +928,29 @@ namespace rgz.Model
                 }
             }
             BuildLinks();
+        }
 
+        public void SetRoot(int i, int j)
+        {
+            Root = Nodes.Find((c) => c.I == i && c.J==j);
+        }
+
+        public void VeryDeepSearch()
+        {
+            //   int n = Nodes.Count;
+            DFS(Root);
+        }
+
+        public void DFS(Node v)
+        {
+            v.IsWhite = false;
+            for (int i=v.Leafs.Count-1; i>=0; i--)
+            {
+                if (v.Leafs[i].IsWhite)
+                    DFS(v.Leafs[i]);
+            }
+            v.IsBlack = true;
+            SortedNodes.Add(v);
         }
 
 
@@ -948,12 +987,19 @@ namespace rgz.Model
 
         public int J { get; set; }
 
+        public bool IsBlack { get; set; }
+
+        public bool IsWhite { get; set; }
+
+
         public List<Node> Leafs { get; set; }
 
 
         public Node()
         {
             Leafs = new List<Node>();
+            IsBlack = false;
+            IsWhite = true;
         }
 
         public Node(int i, int j)
@@ -961,11 +1007,13 @@ namespace rgz.Model
             I = i;
             J = j;
             Leafs = new List<Node>();
+            IsBlack = false;
+            IsWhite = true;
         }
 
         public override string ToString()
         {
-            return string.Format("({0},{1})",I,J);
+            return string.Format("({0},{1})", I+1, J+1);
         }
     }
 
