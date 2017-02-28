@@ -911,7 +911,9 @@ namespace rgz.Model
                 }
             }
             BuildLinks();
+
         }
+
 
         private void BuildLinks()
         {
