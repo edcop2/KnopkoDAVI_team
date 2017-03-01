@@ -44,10 +44,13 @@ namespace lab1.Algorithms
     {
         public string StringFunction { get; set; }
 
+        public bool IsReverse { get; set; }
+
         public double Eps { get; set; }
 
         public PolyFunc() : base()
         {
+            IsReverse = false;
         }
 
         public bool CheckFunc()
@@ -79,7 +82,11 @@ namespace lab1.Algorithms
             {
                 return double.NaN;
             }
-            return solution;
+            if (IsReverse)
+                return -solution;
+            else
+
+                return solution;
         }
 
         public double dF(double x)
@@ -94,7 +101,7 @@ namespace lab1.Algorithms
     {
 
         public PolyFunc pf;
-        
+
 
         [XmlAttributeAttribute()]
         public string eps;

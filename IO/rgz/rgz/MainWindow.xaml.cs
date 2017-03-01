@@ -46,7 +46,7 @@ namespace rgz
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
             tModel.Balance();
-            tModel.FogelMeth();
+            tModel.SevenEastAngle();
             IterationSlider.Maximum = tModel.Logs.Count-1;
             tModel.PotMeth();
             //MessageBox.Show(tModel.IsClosed().ToString());

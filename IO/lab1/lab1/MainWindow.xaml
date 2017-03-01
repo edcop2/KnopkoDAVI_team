@@ -34,9 +34,9 @@
             <Grid Grid.Column="0">
                 <TextBox x:Name="textBoxFunc" HorizontalAlignment="Left" Height="23" Margin="50,23,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="146" Foreground="Blue" TextChanged="textBoxFunc_TextChanged"/>
                 <Label x:Name="label" Content="f(x) =" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Foreground="Blue"/>
-                <Button x:Name="buttonCalc" Content="Вычислить" HorizontalAlignment="Left" Margin="76,462,0,0" VerticalAlignment="Top" Width="120" Click="buttonCalc_Click" Height="38"/>
+                <Button x:Name="buttonCalc" Content="Вычислить" HorizontalAlignment="Left" Margin="76,491,0,0" VerticalAlignment="Top" Width="120" Click="buttonCalc_Click" Height="38"/>
                 <!--<TextBox x:Name="textBoxSols"  HorizontalAlignment="Left" Margin="26,326,0,0" VerticalAlignment="Top" Height="104" Width="188" IsReadOnly="True" />-->
-                <RichTextBox Name="richSols" HorizontalAlignment="Left" Margin="26,326,0,0" VerticalAlignment="Top" Height="104" Width="188" IsReadOnly="True"
+                <RichTextBox Name="richSols" HorizontalAlignment="Left" Margin="26,379,0,0" VerticalAlignment="Top" Height="104" Width="188" IsReadOnly="True"
                              ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <FlowDocument>
                         <Paragraph>
@@ -46,9 +46,9 @@
                 </RichTextBox>
                 <Label x:Name="label1" Content="Точность:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="textBoxEps" HorizontalAlignment="Left" Height="23" Margin="76,72,0,0" TextWrapping="Wrap" Text="0,01" VerticalAlignment="Top" Width="120"/>
-                <Label x:Name="label3" Content="Екстремумы:" HorizontalAlignment="Left" Margin="37,295,0,0" VerticalAlignment="Top" Foreground="Green"/>
+                <Label x:Name="label3" Content="Екстремумы:" HorizontalAlignment="Left" Margin="37,348,0,0" VerticalAlignment="Top" Foreground="Green"/>
 
-                <GroupBox x:Name="groupBoxInt" Header="Интервал" HorizontalAlignment="Left" Margin="25,110,0,0" VerticalAlignment="Top" Height="86" Width="189">
+                <GroupBox x:Name="groupBoxInt" Header="Интервал" HorizontalAlignment="Left" Margin="25,110,0,0" VerticalAlignment="Top" Height="148" Width="189">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="27*"/>
@@ -58,11 +58,12 @@
                         <TextBox x:Name="textBoxTo" HorizontalAlignment="Left"  Text="10" Height="23" Margin="80.5,31,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="60" Grid.Column="1"/>
                         <Label x:Name="label2" Content="От" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" />
                         <Label x:Name="labe4l3" Content="До" HorizontalAlignment="Left" Margin="80.5,0,0,0" VerticalAlignment="Top" Grid.Column="1" />
+                        <CheckBox Name="toMin" Content="Стремится к максимуму?" Grid.ColumnSpan="2" Margin="0,90,9,10" Checked="toMin_Checked" Unchecked="toMin_Unchecked"/>
                     </Grid>
                 </GroupBox>
 
-                <GroupBox x:Name="groupBoxAprox" Header="Интервал" HorizontalAlignment="Left" Margin="25,110,0,0" VerticalAlignment="Top" Height="86" Width="189" Visibility="Hidden">
-                    <Grid>
+                <GroupBox x:Name="groupBoxAprox" Header="Интервал" HorizontalAlignment="Left" Margin="25,110,0,0" VerticalAlignment="Top" Height="148" Width="189" Visibility="Hidden">
+                    <Grid Margin="0,68,0,-68">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="27*"/>
                             <ColumnDefinition Width="151*"/>
@@ -77,7 +78,7 @@
                 </GroupBox>
 
 
-                <GroupBox x:Name="groupBoxAlg" Header="Алгоритмы" HorizontalAlignment="Left" Margin="25,210,0,0" VerticalAlignment="Top" Height="80" Width="189">
+                <GroupBox x:Name="groupBoxAlg" Header="Алгоритмы" HorizontalAlignment="Left" Margin="25,263,0,0" VerticalAlignment="Top" Height="80" Width="189">
                     <Grid>
                         <RadioButton x:Name="radioButtonGold" Content="Золотое сечение" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonGold_Checked"/>
                         <RadioButton x:Name="radioButtonCubic" Content="Кубическая апроксимация" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="radioButtonCubic_Checked"/>

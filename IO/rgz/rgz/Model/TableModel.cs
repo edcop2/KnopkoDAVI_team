@@ -813,6 +813,7 @@ namespace rgz.Model
             int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
             int[] a = new int[N];
             int[] b = new int[M];
+            Graph g;
             Array.Copy(A, a, N);
             Array.Copy(B, b, M);
             int temp;
@@ -820,79 +821,103 @@ namespace rgz.Model
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
-            CalcPot();
-            maxDelt = int.MinValue;
-            for (int i = 0; i < N; i++)
+            for (int q=0;q<1;q++)
             {
-                for (int j = 0; j < M; j++)
-                    if (!Path[i][j])
-                    {
-                        Delt[i][j] = (int.Parse(West[i]) + int.Parse(North[j]) - C[i][j]).ToString();
-                        if (maxDelt < int.Parse(Delt[i][j]))
+                CalcPot();
+           //     MessageBox.Show("gf1");
+                maxDelt = int.MinValue;
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < M; j++)
+                        if (!Path[i][j])
                         {
-                            maxDelt = int.Parse(Delt[i][j]);
-                            im = i;
-                            jm = j;
+                            Delt[i][j] = (int.Parse(West[i]) + int.Parse(North[j]) - C[i][j]).ToString();
+                            if (maxDelt < int.Parse(Delt[i][j]))
+                            {
+                                maxDelt = int.Parse(Delt[i][j]);
+                                im = i;
+                                jm = j;
+                            }
+                        }
+                }
+                //MessageBox.Show("gfd");
+                if (maxDelt<=0)
+                {
+                    MessageBox.Show("Success");
+                    break;
+                }
+
+                break;
+                g = new Graph();
+                g.BuildGraph(Path);
+                g.SetRoot(im, jm);
+                //  MessageBox.Show(g.Root.ToString());
+                g.VeryDeepSearch();
+                //  MessageBox.Show(g.SortedNodes.Count + "");
+                //  
+                bool plus = false;
+                foreach (Node n in g.SortedNodes)
+                {
+                    //  MessageBox.Show(n.ToString());
+                    if (plus)
+                        Delt[n.I][n.J] = "+";
+                    else
+                        Delt[n.I][n.J] = "-";
+                    plus = !plus;
+
+                }
+
+                int dmin = int.MaxValue;
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < M; j++)
+                        if (Delt[i][j] == "-")
+                        {
+                            if (dmin > int.Parse(X[i][j]))
+                            {
+                                dmin = int.Parse(X[i][j]);
+                                i1 = i;
+                                j1 = j;
+                            }
+                        }
+                }
+                X[i1][j1] = "";
+                Path[i1][j1] = false;
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < M; j++)
+                    {
+                        if (Path[i][j])
+                        {
+                            if (Delt[i][j] == "+")
+                                X[i][j] = (int.Parse(X[i][j]) + dmin).ToString();
+                            else
+                                X[i][j] = (int.Parse(X[i][j]) - dmin).ToString();
                         }
                     }
-            }
-            if (maxDelt <= 0)
-                MessageBox.Show("Success");
-            // MessageBox.Show(maxDelt+" "+im+" "+jm);
-
-
-            //int kt = 0;
-            //int ei = -1, ej = -1;
-            //for (int k=0; k<7 ;k++)
-            //{
-
-            //    for (int i = 0; i < N; i++)
-            //    {
-            //        if (Path[i][jm] && Delt[i][jm].Length == 0)
-            //        {
-            //            Delt[i][jm] = "-";
-            //            kt++;
-            //            im = i;
-            //            ei = im;
-            //            break;
-            //        }
-            //    }
-            //    for (int j = 0; j < M; j++)
-            //    {
-            //        if (Path[im][j] && Delt[im][j].Length == 0)
-            //        {
-            //            Delt[im][j] = "+";
-            //            kt++;
-            //            jm = j;
-            //            break;
-            //        }
-            //    }
-            //    MessageBox.Show((im + 1) + "  " + (jm + 1)+"    "+kt);
-            //    if (kt == 7)
-            //        break;
-
-            //}
-
-            MessageBox.Show(maxDelt+"  "+im+" "+jm);
-            Path[im][jm] = true;
-            Graph g = new Graph();
-            g.BuildGraph(Path);
-            g.SetRoot(im, jm);
-            g.VeryDeepSearch();
-            //  MessageBox.Show(g.SortedNodes.Count + "");
-            bool plus = false;
-            foreach (Node n in g.SortedNodes)
-            {
-                MessageBox.Show(n.ToString());
-                if (plus)
-                    Delt[n.I][n.J] = "+";
-                else
-                    Delt[n.I][n.J] = "-";
-                plus = !plus;
-
+                }
+                Path[im][jm] = true;
+                X[im][jm] = dmin.ToString();
+                // MessageBox.Show(dmin.ToString());
+           //     ClearDelt();
+                UpdateTable();
             }
             UpdateTable();
 
+        }
+
+        private void ClearDelt()
+        {
+            for (int i=0; i<N; i++)
+            {
+                for (int j=0; j<M;j++)
+                {
+                    Delt[i][j] = "";
+                }
+                West[i] = "";
+            }
+            for (int j = 0; j < M; j++)
+                North[j] = "";
         }
 
     }
@@ -932,7 +957,7 @@ namespace rgz.Model
 
         public void SetRoot(int i, int j)
         {
-            Root = Nodes.Find((c) => c.I == i && c.J==j);
+            Root = Nodes.Find((c) => c.I == i);
         }
 
         public void VeryDeepSearch()
@@ -944,8 +969,9 @@ namespace rgz.Model
         public void DFS(Node v)
         {
             v.IsWhite = false;
-            for (int i=v.Leafs.Count-1; i>=0; i--)
-            {
+                for (int i=v.Leafs.Count-1; i>=0; i--)
+          //  for (int i = 0; i<v.Leafs.Count; i++)
+            { 
                 if (v.Leafs[i].IsWhite)
                     DFS(v.Leafs[i]);
             }

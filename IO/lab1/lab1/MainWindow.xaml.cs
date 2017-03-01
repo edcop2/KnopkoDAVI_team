@@ -132,9 +132,11 @@ namespace lab1
                     double e1 = SafeParse(textBoxAprox1.Text);
                     double e2 = SafeParse(textBoxAprox2.Text);
                     double eps = SafeParse(textBoxEps.Text);
+                    double a = SafeParse(textBoxFrom.Text);
+                    double b = SafeParse(textBoxTo.Text);
                     //  cubic.ManyCalculate(a, b, eps);
                     //   solutions = cubic.Solutions;
-                    solutions.Add(cubic.Calculate(x0, eps, e1, e2));
+                    solutions.Add(cubic.Calculate(x0, eps, e1, e2, a, b));
                     solutions.Sort();
                 }
 
@@ -368,16 +370,29 @@ namespace lab1
 
         private void radioButtonGold_Checked(object sender, RoutedEventArgs e)
         {
-            groupBoxInt.Visibility = Visibility.Visible;
+            toMin.Visibility = Visibility.Visible;
             groupBoxAprox.Visibility = Visibility.Hidden;
             label1.Content = "Точность";
         }
 
         private void radioButtonCubic_Checked(object sender, RoutedEventArgs e)
         {
-            groupBoxInt.Visibility = Visibility.Hidden;
+            toMin.Visibility = Visibility.Hidden;
             groupBoxAprox.Visibility = Visibility.Visible;
+            toMin.IsChecked = false;
             label1.Content = "Шаг";
+        }
+
+        private void toMin_Checked(object sender, RoutedEventArgs e)
+        {
+            pf.IsReverse = toMin.IsChecked.Value;
+            buttonDraw_Click(sender, new RoutedEventArgs());
+        }
+
+        private void toMin_Unchecked(object sender, RoutedEventArgs e)
+        {
+            pf.IsReverse = toMin.IsChecked.Value;
+            buttonDraw_Click(sender, new RoutedEventArgs());
         }
     }
 }
