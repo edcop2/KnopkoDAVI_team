@@ -141,8 +141,9 @@ namespace lab1
                 }
 
                 string s = "";
+                int k = pf.IsReverse ? -1 : 1;
                 foreach (var i in solutions)
-                    s += "(" + Math.Round(i, textBoxEps.Text.Length - 2) + "; " + Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
+                    s += "(" + Math.Round(i, textBoxEps.Text.Length - 2) + "; " + k*Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
                 textBoxSols.Text = s;
                 buttonDraw_Click(sender, new RoutedEventArgs());
 
@@ -154,6 +155,36 @@ namespace lab1
             }
 
         }
+
+
+
+        private void radioButtonGold_Checked(object sender, RoutedEventArgs e)
+        {
+            //    toMin.Visibility = Visibility.Visible;
+            groupBoxAprox.Visibility = Visibility.Hidden;
+            label1.Content = "Точность";
+        }
+
+        private void radioButtonCubic_Checked(object sender, RoutedEventArgs e)
+        {
+            //  toMin.Visibility = Visibility.Hidden;
+            groupBoxAprox.Visibility = Visibility.Visible;
+            //    toMin.IsChecked = false;
+            label1.Content = "Шаг";
+        }
+
+        private void toMin_Checked(object sender, RoutedEventArgs e)
+        {
+            pf.IsReverse = toMin.IsChecked.Value;
+            buttonDraw_Click(sender, new RoutedEventArgs());
+        }
+
+        private void toMin_Unchecked(object sender, RoutedEventArgs e)
+        {
+            pf.IsReverse = toMin.IsChecked.Value;
+            buttonDraw_Click(sender, new RoutedEventArgs());
+        }
+
 
         #endregion
 
@@ -234,6 +265,8 @@ namespace lab1
         private void textBoxFunc_TextChanged(object sender, TextChangedEventArgs e)
         {
             /// nm.Clear();
+            solutions.Clear();
+            textBoxSols.Text = "";
             buttonDraw_Click(sender, new RoutedEventArgs());
         }
 
@@ -368,31 +401,5 @@ namespace lab1
 
         #endregion
 
-        private void radioButtonGold_Checked(object sender, RoutedEventArgs e)
-        {
-            toMin.Visibility = Visibility.Visible;
-            groupBoxAprox.Visibility = Visibility.Hidden;
-            label1.Content = "Точность";
-        }
-
-        private void radioButtonCubic_Checked(object sender, RoutedEventArgs e)
-        {
-            toMin.Visibility = Visibility.Hidden;
-            groupBoxAprox.Visibility = Visibility.Visible;
-            toMin.IsChecked = false;
-            label1.Content = "Шаг";
-        }
-
-        private void toMin_Checked(object sender, RoutedEventArgs e)
-        {
-            pf.IsReverse = toMin.IsChecked.Value;
-            buttonDraw_Click(sender, new RoutedEventArgs());
-        }
-
-        private void toMin_Unchecked(object sender, RoutedEventArgs e)
-        {
-            pf.IsReverse = toMin.IsChecked.Value;
-            buttonDraw_Click(sender, new RoutedEventArgs());
-        }
     }
 }
