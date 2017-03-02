@@ -16,6 +16,18 @@ using System.Windows.Shapes;
 namespace rgz.Model
 {
 
+    public class Selectr
+    {
+        public int I { get; set; }
+        public int J { get; set; }
+        public bool Is { get; set; }
+
+        public Selectr()
+        {
+            Is = false;
+        }
+    }
+
 
     public class TableModel
     {
@@ -25,6 +37,7 @@ namespace rgz.Model
         public int[][] C { get; set; }
         public string[][] X { get; set; }
         public string[][] Delt { get; set; }
+        public string[][] O { get; set; }
 
         public int N { get; private set; }
         public int M { get; private set; }
@@ -40,6 +53,9 @@ namespace rgz.Model
 
         public List<Memento> Logs { get; private set; }
 
+        private Selectr AddCell { get; set; }
+        private Selectr DelCell { get; set; }
+
         private bool Final { get; set; }
 
 
@@ -54,6 +70,7 @@ namespace rgz.Model
             B = new int[M];
             C = new int[N][];
             X = new string[N][];
+            O = new string[N][];
             Delt = new string[N][];
             North = new string[M];
             West = new string[N];
@@ -61,10 +78,13 @@ namespace rgz.Model
             ComitRow = new bool[N];
             Path = new bool[N][];
             Logs = new List<Memento>();
+            AddCell = new Selectr();
+            DelCell = new Selectr();
             for (int i = 0; i < N; i++)
             {
                 C[i] = new int[M];
                 X[i] = new string[M];
+                O[i] = new string[M];
                 Delt[i] = new string[M];
                 Path[i] = new bool[M];
                 Table.RowDefinitions.Add(new RowDefinition());
@@ -74,6 +94,7 @@ namespace rgz.Model
                 for (int j = 0; j < M; j++)
                 {
                     X[i][j] = "";
+                    O[i][j] = "";
                     Delt[i][j] = "";
                 }
             }
@@ -115,6 +136,9 @@ namespace rgz.Model
             x = Delt;
             Array.Resize(ref x, n);
             Delt = x;
+            x = O;
+            Array.Resize(ref x, n);
+            O = x;
             string[] nw = West;
             Array.Resize(ref nw, n);
             West = nw;
@@ -123,12 +147,14 @@ namespace rgz.Model
                 for (int i = N; i < n; i++)
                 {
                     X[i] = new string[M];
+                    O[i] = new string[M];
                     Delt[i] = new string[M];
                     C[i] = new int[M];
                     Path[i] = new bool[M];
                     for (int j = 0; j < M; j++)
                     {
                         X[i][j] = "";
+                        O[i][j] = "";
                         Delt[i][j] = "";
                     }
                     North[i] = "";
@@ -155,6 +181,7 @@ namespace rgz.Model
             int[][] c = C;
             string[][] x = X;
             string[][] delt = Delt;
+            string[][] o = O;
             bool[][] p = Path;
             bool[] com = ComitColumn;
             Array.Resize(ref com, m);
@@ -166,11 +193,13 @@ namespace rgz.Model
             {
                 Array.Resize(ref c[i], m);
                 Array.Resize(ref x[i], m);
+                Array.Resize(ref o[i], m);
                 Array.Resize(ref p[i], m);
                 Array.Resize(ref Delt[i], m);
             }
             C = c;
             X = x;
+            O = o;
             Path = p;
             if (M < m)
             {
@@ -179,6 +208,7 @@ namespace rgz.Model
                     for (int j = M; j < m; j++)
                     {
                         X[i][j] = "";
+                        O[i][j] = "";
                         Delt[i][j] = "";
                     }
                 }
@@ -204,6 +234,7 @@ namespace rgz.Model
         private void ReadMeme(Memento meme)
         {
             X = meme.X;
+            O = meme.O;
             Path = meme.Path; ;
             C = meme.C;
             ComitRow = meme.ComitRow;
@@ -211,6 +242,9 @@ namespace rgz.Model
             North = meme.North;
             West = meme.West;
             Final = meme.Final;
+            Delt = meme.Delt;
+            AddCell = meme.AddedCell;
+            DelCell = meme.DeletedCell;
         }
 
 
@@ -218,7 +252,7 @@ namespace rgz.Model
         {
             Table.Children.Clear();
             Grid gr;
-            TextBox tx1, tx2, tx3;
+            TextBox tx1, tx2, tx3, tx4;
             Border bor;
 
 
@@ -340,23 +374,51 @@ namespace rgz.Model
                         tx3.Foreground = Brushes.Blue;
                         tx3.VerticalAlignment = VerticalAlignment.Center;
                         tx3.HorizontalAlignment = HorizontalAlignment.Center;
-                        if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final)
+                        tx4 = new TextBox();
+                        tx4.Text = O[i - 1][j - 1];
+                        tx4.SetValue(Grid.RowProperty, 1);
+                        tx4.SetValue(Grid.ColumnProperty, 1);
+                        tx4.BorderThickness = new Thickness(0);
+                        tx4.Foreground = Brushes.Red;
+                        tx4.VerticalAlignment = VerticalAlignment.Center;
+                        tx4.HorizontalAlignment = HorizontalAlignment.Center;
+                        if (DelCell.Is && DelCell.I == (i - 1) && DelCell.J == (j - 1))
                         {
-                            gr.Background = Brushes.LightGray;
-                            tx1.Background = Brushes.LightGray;
-                            tx2.Background = Brushes.LightGray;
-                            tx3.Background = Brushes.LightGray;
+                            gr.Background = Brushes.LightBlue;
+                            tx1.Background = Brushes.LightBlue;
+                            tx2.Background = Brushes.LightBlue;
+                            tx3.Background = Brushes.LightBlue;
+                            tx4.Background = Brushes.LightBlue;
                         }
-                        if (Path[i - 1][j - 1])
+                        else if (AddCell.Is && AddCell.I == (i - 1) && AddCell.J == (j - 1))
+                        {
+                            gr.Background = Brushes.LightPink;
+                            tx1.Background = Brushes.LightPink;
+                            tx2.Background = Brushes.LightPink;
+                            tx3.Background = Brushes.LightPink;
+                            tx4.Background = Brushes.LightPink;
+                        }
+                        else if (Path[i - 1][j - 1])
                         {
                             gr.Background = Brushes.Azure;
                             tx1.Background = Brushes.Azure;
                             tx2.Background = Brushes.Azure;
                             tx3.Background = Brushes.Azure;
+                            tx4.Background = Brushes.Azure;
+                        }
+                        else if ((ComitRow[i - 1] || ComitColumn[j - 1]) && !Final)
+                        {
+                            gr.Background = Brushes.LightGray;
+                            tx1.Background = Brushes.LightGray;
+                            tx2.Background = Brushes.LightGray;
+                            tx3.Background = Brushes.LightGray;
+                            tx4.Background = Brushes.LightGray;
+
                         }
                         gr.Children.Add(tx1);
                         gr.Children.Add(tx2);
                         gr.Children.Add(tx3);
+                        gr.Children.Add(tx4);
                         bor.Child = gr;
                     }
                     bor.SetValue(Grid.RowProperty, i);
@@ -454,9 +516,12 @@ namespace rgz.Model
             Memento meme;
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, Final);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
                 Logs.Add(meme);
+                AddCell.Is = true;
                 Path[i][j] = true;
+                AddCell.I = i;
+                AddCell.J = j;
                 if (a[i] > b[j])
                 {
                     ComitColumn[j] = true;
@@ -477,7 +542,8 @@ namespace rgz.Model
                     break;
             }
             Final = true;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, Final);
+            AddCell.Is = false;
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
             Logs.Add(meme);
             UpdateTable();
         }
@@ -496,8 +562,9 @@ namespace rgz.Model
             List<int> columns = new List<int>();
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, Final);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
                 Logs.Add(meme);
+                AddCell.Is = true;
                 FindMinElem(rows, columns, ref i, ref j);
                 Path[i][j] = true;
                 if (a[i] > b[j])
@@ -516,11 +583,14 @@ namespace rgz.Model
                     X[i][j] = temp.ToString();
                     rows.Add(i);
                 }
+                AddCell.I = i;
+                AddCell.J = j;
                 if (rows.Count == N || columns.Count == M)
                     break;
             }
             Final = true;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, Final);
+            AddCell.Is = false;
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
             Logs.Add(meme);
             UpdateTable();
 
@@ -562,8 +632,9 @@ namespace rgz.Model
             List<int> columns = new List<int>();
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, Final);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
                 Logs.Add(meme);
+                AddCell.Is = true;
                 ClearNW();
                 Find2Min(rows, columns);
                 j1 = int.Parse(North.Min());
@@ -595,12 +666,15 @@ namespace rgz.Model
                     X[i2][j2] = temp.ToString();
                     rows.Add(i2);
                 }
+                AddCell.I = i2;
+                AddCell.J = j2;
                 if (rows.Count == N || columns.Count == M)
                     break;
             }
             Final = true;
+            AddCell.Is = false;
             ClearNW();
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, Final);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
             Logs.Add(meme);
             UpdateTable();
         }
@@ -810,21 +884,22 @@ namespace rgz.Model
         public void PotMeth()
         {
             Logs.Clear();
-            int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
+            int i1 = 0, j1 = 0;
             int[] a = new int[N];
             int[] b = new int[M];
             Graph g;
             Array.Copy(A, a, N);
             Array.Copy(B, b, M);
-            int temp;
             int maxDelt, im = 0, jm = 0;
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
-            for (int q=0;q<1;q++)
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            Logs.Add(meme);
+            AddCell.Is = true;
+            for (int q = 0; ; q++)
             {
                 CalcPot();
-           //     MessageBox.Show("gf1");
                 maxDelt = int.MinValue;
                 for (int i = 0; i < N; i++)
                 {
@@ -840,79 +915,81 @@ namespace rgz.Model
                             }
                         }
                 }
-                //MessageBox.Show("gfd");
-                if (maxDelt<=0)
-                {
-                    MessageBox.Show("Success");
+                if (maxDelt <= 0)
                     break;
-                }
 
-                break;
+                // break;
                 g = new Graph();
+                Path[im][jm] = true;
                 g.BuildGraph(Path);
+                g.Purge();
                 g.SetRoot(im, jm);
-                //  MessageBox.Show(g.Root.ToString());
-                g.VeryDeepSearch();
-                //  MessageBox.Show(g.SortedNodes.Count + "");
-                //  
-                bool plus = false;
-                foreach (Node n in g.SortedNodes)
+                g.Sort();
+                bool tb = true;
+                int min = int.MaxValue;
+                foreach (Node v in g.SortedNodes)
                 {
-                    //  MessageBox.Show(n.ToString());
-                    if (plus)
-                        Delt[n.I][n.J] = "+";
+                    if (tb)
+                        O[v.I][v.J] = "+";
                     else
-                        Delt[n.I][n.J] = "-";
-                    plus = !plus;
-
-                }
-
-                int dmin = int.MaxValue;
-                for (int i = 0; i < N; i++)
-                {
-                    for (int j = 0; j < M; j++)
-                        if (Delt[i][j] == "-")
-                        {
-                            if (dmin > int.Parse(X[i][j]))
-                            {
-                                dmin = int.Parse(X[i][j]);
-                                i1 = i;
-                                j1 = j;
-                            }
-                        }
-                }
-                X[i1][j1] = "";
-                Path[i1][j1] = false;
-                for (int i = 0; i < N; i++)
-                {
-                    for (int j = 0; j < M; j++)
                     {
-                        if (Path[i][j])
+                        O[v.I][v.J] = "-";
+                        if (int.Parse(X[v.I][v.J]) < min)
                         {
-                            if (Delt[i][j] == "+")
-                                X[i][j] = (int.Parse(X[i][j]) + dmin).ToString();
-                            else
-                                X[i][j] = (int.Parse(X[i][j]) - dmin).ToString();
+                            min = int.Parse(X[v.I][v.J]);
+                            i1 = v.I;
+                            j1 = v.J;
                         }
                     }
+                    tb = !tb;
                 }
-                Path[im][jm] = true;
-                X[im][jm] = dmin.ToString();
-                // MessageBox.Show(dmin.ToString());
-           //     ClearDelt();
-                UpdateTable();
+                foreach (Node v in g.SortedNodes)
+                {
+                    if (v.I == im && v.J == jm)
+                    {
+                        X[v.I][v.J] = min.ToString();
+                        O[v.I][v.J] += " " + min;
+                    }
+                    else if (O[v.I][v.J] == "+")
+                    {
+                        X[v.I][v.J] = (int.Parse(X[v.I][v.J]) + min).ToString();
+                        O[v.I][v.J] += " " + min;
+                    }
+                    else if (O[v.I][v.J] == "-")
+                    {
+                        X[v.I][v.J] = (int.Parse(X[v.I][v.J]) - min).ToString();
+                        O[v.I][v.J] += " " + min;
+                    }
+                }
+                X[i1][j1] = "";
+                DelCell.Is=true;
+                Path[i1][j1] = false;
+                DelCell.I = i1;
+                DelCell.J = j1;
+                AddCell.I = im;
+                AddCell.J = jm;
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+                Logs.Add(meme);
+
+                ClearDelt();
             }
+            ClearDelt();
+            AddCell.Is = false;
+            DelCell.Is = false;
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            Logs.Add(meme);
             UpdateTable();
 
         }
 
         private void ClearDelt()
         {
-            for (int i=0; i<N; i++)
+            for (int i = 0; i < N; i++)
             {
-                for (int j=0; j<M;j++)
+                for (int j = 0; j < M; j++)
                 {
                     Delt[i][j] = "";
+                    O[i][j] = "";
                 }
                 West[i] = "";
             }
@@ -931,6 +1008,8 @@ namespace rgz.Model
 
         public HashSet<Node> SortedNodes { get; set; }
 
+        public bool[][] Path { get; set; }
+
         public Graph()
         {
             Root = new Node();
@@ -940,12 +1019,16 @@ namespace rgz.Model
 
         public void BuildGraph(bool[][] path)
         {
+            Nodes.Clear();
             int n = path.Length;
             int m = path[0].Length;
+            Path = new bool[n][];
             for (int i = 0; i < n; i++)
             {
+                Path[i] = new bool[m];
                 for (int j = 0; j < m; j++)
                 {
+                    Path[i][j] = path[i][j];
                     if (path[i][j])
                     {
                         Nodes.Add(new Node(i, j));
@@ -955,29 +1038,77 @@ namespace rgz.Model
             BuildLinks();
         }
 
+        public void Sort()
+        {
+            Root.IsBlack = true;
+            SortedNodes.Add(Root);
+            bool k = false;
+            int i0 = Root.I, j0 = Root.J;
+            Node v;
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                if (k)
+                {
+                    v = Nodes.Find((c) => c.I == i0 && c.J != j0);
+                    v.IsBlack = true;
+                    SortedNodes.Add(v);
+                    k = false;
+                    i0 = v.I;
+                    j0 = v.J;
+                }
+                else
+                {
+                    v = Nodes.Find((c) => c.I != i0 && c.J == j0);
+                    v.IsBlack = false;
+                    SortedNodes.Add(v);
+                    k = true;
+                    i0 = v.I;
+                    j0 = v.J;
+                }
+            }
+        }
+
+        public void Purge()
+        {
+            int k1, k2;
+            List<Node> removedNodes = new List<Node>();
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                k1 = 0;
+                k2 = 0;
+                for (int j = 0; j < Nodes[i].Leafs.Count; j++)
+                {
+                    if (Nodes[i].I == Nodes[i].Leafs[j].I)
+                        k1++;
+                    if (Nodes[i].J == Nodes[i].Leafs[j].J)
+                        k2++;
+                }
+                if (k1 < 1 || k2 < 1)
+                {
+                    //  MessageBox.Show(Nodes[i] + "   ");
+                    Path[Nodes[i].I][Nodes[i].J] = false;
+                    BuildGraph(Path);
+                    Purge();
+                }
+
+            }
+
+        }
+
+        private void RemoveNode(Node n)
+        {
+            Path[n.I][n.J] = false;
+            BuildGraph(Path);
+            Purge();
+            foreach (Node e in Nodes)
+                MessageBox.Show(e + "   " + e.Leafs.Count);
+        }
+
         public void SetRoot(int i, int j)
         {
-            Root = Nodes.Find((c) => c.I == i);
+            Root = Nodes.Find((c) => c.I == i && c.J == j);
         }
 
-        public void VeryDeepSearch()
-        {
-            //   int n = Nodes.Count;
-            DFS(Root);
-        }
-
-        public void DFS(Node v)
-        {
-            v.IsWhite = false;
-                for (int i=v.Leafs.Count-1; i>=0; i--)
-          //  for (int i = 0; i<v.Leafs.Count; i++)
-            { 
-                if (v.Leafs[i].IsWhite)
-                    DFS(v.Leafs[i]);
-            }
-            v.IsBlack = true;
-            SortedNodes.Add(v);
-        }
 
 
         private void BuildLinks()
@@ -1015,9 +1146,6 @@ namespace rgz.Model
 
         public bool IsBlack { get; set; }
 
-        public bool IsWhite { get; set; }
-
-
         public List<Node> Leafs { get; set; }
 
 
@@ -1025,7 +1153,6 @@ namespace rgz.Model
         {
             Leafs = new List<Node>();
             IsBlack = false;
-            IsWhite = true;
         }
 
         public Node(int i, int j)
@@ -1034,12 +1161,11 @@ namespace rgz.Model
             J = j;
             Leafs = new List<Node>();
             IsBlack = false;
-            IsWhite = true;
         }
 
         public override string ToString()
         {
-            return string.Format("({0},{1})", I+1, J+1);
+            return string.Format("({0},{1})", I + 1, J + 1);
         }
     }
 
@@ -1051,6 +1177,7 @@ namespace rgz.Model
         public string[][] X { get; set; }
 
         public string[][] Delt { get; set; }
+        public string[][] O { get; set; }
 
         public bool[][] Path { get; set; }
 
@@ -1061,11 +1188,17 @@ namespace rgz.Model
         public string[] North { get; set; }
         public string[] West { get; set; }
 
+        public Selectr AddedCell { get; set; }
+        public Selectr DeletedCell { get; set; }
+
         public bool Final { get; set; }
 
 
-        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west, string[][] delt, bool final)
+        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west, 
+            string[][] delt, string[][] o, bool final, Selectr added, Selectr deleted)
         {
+            AddedCell = new Selectr() { I = added.I, J = added.J, Is = added.Is };
+            DeletedCell = new Selectr() { I = deleted.I, J = deleted.J, Is = deleted.Is };
             int n = cr.Length;
             int m = cc.Length;
             ComitRow = new bool[n];
@@ -1077,18 +1210,21 @@ namespace rgz.Model
             Array.Copy(north, North, m);
             Array.Copy(west, West, n);
             X = new string[n][];
+            O = new string[n][];
             C = new int[n][];
             Path = new bool[n][];
             Delt = new string[n][];
             for (int i = 0; i < n; i++)
             {
                 X[i] = new string[m];
+                O[i] = new string[m];
                 C[i] = new int[m];
                 Path[i] = new bool[m];
                 Delt[i] = new string[m];
                 for (int j = 0; j < m; j++)
                 {
                     X[i][j] = x[i][j];
+                    O[i][j] = o[i][j];
                     C[i][j] = c[i][j];
                     Path[i][j] = path[i][j];
                     Delt[i][j] = delt[i][j];
