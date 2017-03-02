@@ -13,8 +13,12 @@
         </Grid.RowDefinitions>
         <Grid Name="TableGrid" Grid.Row="0" Margin="10,10,10,10" />
         <Grid Name="ControlGrid" Grid.Row="1">
-            <Button Name="TestButton" Width="200" Height="100" Content="TEST" Click="TestButton_Click" />
+            <Button Name="TestButton" Width="200" Height="100" Content="Clear" Click="TestButton_Click" Margin="636,106,156,79" />
             <Slider Name="IterationSlider" HorizontalAlignment="Left" Margin="79,35,0,0" VerticalAlignment="Top" Width="423" ValueChanged="slider_ValueChanged"/>
+            <RadioButton x:Name="radioButton" Content="Метод северо-западного угла" HorizontalAlignment="Left" Margin="130,106,0,0" VerticalAlignment="Top" Checked="radioButton_Checked"/>
+            <RadioButton x:Name="radioButton1" Content="Метод минимального элемента" HorizontalAlignment="Left" Margin="130,149,0,0" VerticalAlignment="Top" Checked="radioButton1_Checked"/>
+            <RadioButton x:Name="radioButton2" Content="Метод Фогеля" HorizontalAlignment="Left" Margin="130,194,0,0" VerticalAlignment="Top" Checked="radioButton2_Checked"/>
+            <RadioButton x:Name="radioButton3" Content="Метод потенциалов" HorizontalAlignment="Left" Margin="417,149,0,0" VerticalAlignment="Top" Checked="radioButton3_Checked"/>
         </Grid>
        
     </Grid>

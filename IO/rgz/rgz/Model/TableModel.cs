@@ -962,7 +962,7 @@ namespace rgz.Model
                     }
                 }
                 X[i1][j1] = "";
-                DelCell.Is=true;
+                DelCell.Is = true;
                 Path[i1][j1] = false;
                 DelCell.I = i1;
                 DelCell.J = j1;
@@ -995,6 +995,23 @@ namespace rgz.Model
             }
             for (int j = 0; j < M; j++)
                 North[j] = "";
+        }
+
+        public void Clear()
+        {
+            ClearNW();
+            ClearDelt();
+            AddCell.Is = false;
+            DelCell.Is = false;
+            Logs.Clear();
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < M; j++)
+                {
+                    X[i][j] = "";
+                    Path[i][j] = false;
+                }
+            }
         }
 
     }
@@ -1127,10 +1144,6 @@ namespace rgz.Model
                 }
             }
             Nodes.Sort((c1, c2) => c1.Leafs.Count.CompareTo(c2.Leafs.Count));
-            //for (int i=0; i<n;i++)
-            //{
-            //    MessageBox.Show(Nodes[i]+"   "+Nodes[i].Leafs.Count);
-            //}
         }
 
 
@@ -1194,7 +1207,7 @@ namespace rgz.Model
         public bool Final { get; set; }
 
 
-        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west, 
+        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west,
             string[][] delt, string[][] o, bool final, Selectr added, Selectr deleted)
         {
             AddedCell = new Selectr() { I = added.I, J = added.J, Is = added.Is };

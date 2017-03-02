@@ -45,16 +45,42 @@ namespace rgz
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            tModel.Balance();
-            tModel.MinElemMeth();
-            tModel.PotMeth();
-            IterationSlider.Maximum = tModel.Logs.Count - 1;
-            //MessageBox.Show(tModel.IsClosed().ToString());
+            tModel.Clear();
+            tModel.UpdateTable();
+          //  tModel.ReadTable();
+            tModel.UpdateTable();
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             tModel.ShowHistory((int)IterationSlider.Value);
+        }
+
+        private void radioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            tModel.Balance();
+            tModel.SevenEastAngle();
+            IterationSlider.Maximum = tModel.Logs.Count - 1;
+        }
+
+        private void radioButton1_Checked(object sender, RoutedEventArgs e)
+        {
+            tModel.Balance();
+            tModel.MinElemMeth();
+            IterationSlider.Maximum = tModel.Logs.Count - 1;
+        }
+
+        private void radioButton2_Checked(object sender, RoutedEventArgs e)
+        {
+            tModel.Balance();
+            tModel.FogelMeth();
+            IterationSlider.Maximum = tModel.Logs.Count - 1;
+        }
+
+        private void radioButton3_Checked(object sender, RoutedEventArgs e)
+        {
+            tModel.PotMeth();
+            IterationSlider.Maximum = tModel.Logs.Count - 1;
         }
     }
 }
