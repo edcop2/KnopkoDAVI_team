@@ -62,6 +62,16 @@ namespace lab1.ViewModel
 
             int n = Matrix.Count;
 
+            double[][] a0 = new double[n][];
+            double[] b0 = new double[n];
+            for (int i=0; i<n;i++)
+            {
+                a0[i] = new double[n];
+                for (int j = 0; j < n; j++)
+                    a0[i][j] = a[i][j];
+                b0[i] = b[i];
+            }
+
 
             for (int i = 0; i < n; i++)
             {
@@ -78,8 +88,8 @@ namespace lab1.ViewModel
 
                 SimpleIterations si = new SimpleIterations(n);
 
-                si.A = a;
-                si.B = b;
+                si.A = a0;
+                si.B = b0;
 
                 double eps = TextEps.HasValue ? TextEps.Value : 0.001;
 
@@ -96,15 +106,48 @@ namespace lab1.ViewModel
                     Text += si.Log[i];
                 }
 
+                ResX += "Решение найдено за " + (si.Log.Count - 1) + " итераций\n\n";
                 for (int i = 0; i < n; i++)
                     ResX += "x" + (i + 1) + " = " + Math.Round(res[i], (eps % 1).ToString().Length - 2) + '\n';
+                ResX += "\n******ПРОВЕРКА******\n";
+                double[] check = new double[n];
+                double temp = 0;
+                int tr;
+                for (int i = 0; i < n; i++)
+                {
+                    temp = 0;
+                    for (int j = 0; j < n; j++)
+                        temp += a[i][j] * res[j];
+                    tr = (b[i] % 1).ToString().Length - 2;
+                    if (tr < 0 || tr > 15)
+                        tr = 2;
+                    check[i] = Math.Round(temp, tr);
+                    b[i] = Math.Round(b[i], tr);
+                }
+                bool ans = true;
+                for (int i = 0; i < n; i++)
+                {
+                    ResX += check[i];
+                    if (check[i] == b[i])
+                        ResX += " = ";
+                    else
+                    {
+                        ResX += " != ";
+                        ans = false;
+                    }
+                    ResX += b[i] + "\n";
+                }
+                if (ans)
+                    ResX += "\nПроверка пройдена.";
+                else
+                    ResX += "\nПроверка не пройдена.";
             }
             else
             {
                 n = 3;
                 ga = new Gauss(n);
-                ga.A = a;
-                ga.B = b;
+                ga.A = a0;
+                ga.B = b0;
 
                 double eps = TextEps.HasValue ? TextEps.Value : 0.001;
 
@@ -112,8 +155,39 @@ namespace lab1.ViewModel
 
                 for (int i = 0; i < n; i++)
                     ResX += "x" + (i + 1) + " = " + Math.Round(res[i], (eps % 1).ToString().Length - 2) + '\n';
-
                 CurStep = 2;
+                ResX += "\n******ПРОВЕРКА******\n";
+                double[] check = new double[n];
+                double temp = 0;
+                int tr;
+                for (int i = 0; i < n; i++)
+                {
+                    temp = 0;
+                    for (int j = 0; j < n; j++)
+                        temp += a[i][j] * res[j];
+                    tr = (b[i] % 1).ToString().Length - 2;
+                    if (tr < 0 || tr > 15)
+                        tr = 2;
+                    check[i] = Math.Round(temp, tr);
+                    b[i] = Math.Round(b[i], tr);
+                }
+                bool ans = true;
+                for (int i = 0; i < n; i++)
+                {
+                    ResX += check[i];
+                    if (check[i] == b[i])
+                        ResX += " = ";
+                    else
+                    {
+                        ResX += " != ";
+                        ans = false;
+                    }
+                    ResX += b[i] + "\n";
+                }
+                if (ans)
+                    ResX += "\nПроверка пройдена.";
+                else
+                    ResX += "\nПроверка не пройдена.";
 
 
             }

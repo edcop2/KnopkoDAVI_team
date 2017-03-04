@@ -80,7 +80,7 @@
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
-            <RichTextBox x:Name="richTextBoxX" HorizontalAlignment="Right" Margin="20,50,40,39" Width="150" Height="100"
+            <RichTextBox x:Name="richTextBoxX" HorizontalAlignment="Right" Margin="0,50,40,39" Width="222" Height="100"
                          IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <FlowDocument>
                     <Paragraph>

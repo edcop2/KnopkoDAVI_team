@@ -995,7 +995,7 @@ namespace rgz.Model
             {
                 if (Path[0][j])
                 {
-                    v[j] = C[0][j];
+                    v[j] = C[0][j]; 
                     columns.Add(j);
                 }
             }

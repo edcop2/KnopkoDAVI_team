@@ -117,6 +117,7 @@ namespace lab1.Algorithms
                 k++;
             } while (Math.Abs(res.Sum() - rest.Sum()) > Math.Abs(1 - b1) / b1 * eps);
 
+            
             return res;
         }
     }
