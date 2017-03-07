@@ -34,7 +34,7 @@ namespace lab2.Algorithms
 
             if (a >= b)
                 return;
-
+            
 
             while (Math.Abs(pf.F((a+b)/2)) >= eps )
             {
@@ -43,9 +43,8 @@ namespace lab2.Algorithms
                     b = x;
                 else
                     a = x;
-              
             }
-             Solutions.Add((a + b) / 2);
+             Solutions.Add((a +  b) / 2);
         }
     }
 }
