@@ -36,13 +36,13 @@ namespace lab2.Algorithms
                 return;
 
 
-            while (pf.F((a+b)/2) > eps)
+            while (Math.Abs(pf.F((a+b)/2)) >= eps )
             {
-                double x = pf.F((a + b) / 2);
-                if (pf.F(b) * pf.F(x) < 0)
-                    a = x;
-                else
+                double x = (a + b) / 2;
+                if (pf.F(a) * pf.F(x) < 0)
                     b = x;
+                else
+                    a = x;
               
             }
              Solutions.Add((a + b) / 2);
