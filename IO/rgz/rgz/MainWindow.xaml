@@ -8,18 +8,74 @@
         Title="MainWindow" Height="600" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Name="TableGrid" Grid.Row="0" Margin="10,10,10,10" />
-        <Grid Name="ControlGrid" Grid.Row="1">
-            <Button Name="TestButton" Width="200" Height="100" Content="Clear" Click="TestButton_Click" Margin="636,106,156,79" />
-            <Slider Name="IterationSlider" HorizontalAlignment="Left" Margin="79,35,0,0" VerticalAlignment="Top" Width="423" ValueChanged="slider_ValueChanged"/>
-            <RadioButton x:Name="radioButton" Content="Метод северо-западного угла" HorizontalAlignment="Left" Margin="130,106,0,0" VerticalAlignment="Top" Checked="radioButton_Checked"/>
-            <RadioButton x:Name="radioButton1" Content="Метод минимального элемента" HorizontalAlignment="Left" Margin="130,149,0,0" VerticalAlignment="Top" Checked="radioButton1_Checked"/>
-            <RadioButton x:Name="radioButton2" Content="Метод Фогеля" HorizontalAlignment="Left" Margin="130,194,0,0" VerticalAlignment="Top" Checked="radioButton2_Checked"/>
-            <RadioButton x:Name="radioButton3" Content="Метод потенциалов" HorizontalAlignment="Left" Margin="417,149,0,0" VerticalAlignment="Top" Checked="radioButton3_Checked"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Name="gridMenu">
+            <Menu x:Name="menu">
+                <MenuItem Header="Файл">
+                    <MenuItem Name="menuItemOpen" Header="Открыть"  />
+                    <MenuItem Name="menuItemSave" Header="Сохранить" />
+                    <MenuItem Name="menuItemExit" Header="Выход" Click="menuItemExit_Click" />
+                </MenuItem>
+                <MenuItem Header="Работа">
+                    <CheckBox Name="checkBoxBalance" Content="Автобалансировка" />
+                    <MenuItem Name="menuItemClear" Header="Очистить" Click="menuItemClear_Click"/>
+                    <MenuItem Name="menuItemVars" Header="Варианты" >
+                        <MenuItem Name="menuItemVar1" Header="Вариант #1" Click="menuItemVar1_Click" />
+                        <MenuItem Name="menuItemVar2" Header="Вариант #2" Click="menuItemVar2_Click" />
+                        <MenuItem Name="menuItemVar3" Header="Вариант #3" Click="menuItemVar3_Click" />
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Помощь">
+                    <MenuItem Name="menuItemHelp" Header="Помощь"  />
+                    <MenuItem Name="menuItemAbout" Header="О программе" />
+                </MenuItem>
+            </Menu>
         </Grid>
-       
+        <Grid Name="TableGrid" Grid.Row="1" Margin="10,10,10,10" >
+        </Grid>
+        <Grid Name="ControlGrid" Grid.Row="2">
+            <GroupBox Name="groupBoxAlg" Header="Методы" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="23,29,0,0" Height="174" Width="254">
+                <Grid>
+                    <RadioButton x:Name="radioButton" Content="Метод северо-западного угла" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Checked="radioButton_Checked"/>
+                    <RadioButton x:Name="radioButton1" Content="Метод минимального элемента" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Checked="radioButton1_Checked"/>
+                    <RadioButton x:Name="radioButton2" Content="Метод Фогеля" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Checked="radioButton2_Checked"/>
+                </Grid>
+            </GroupBox>
+            <Slider Name="IterationSlider" HorizontalAlignment="Right" Margin="0,10,10,0"  VerticalAlignment="Top" Width="360" ValueChanged="slider_ValueChanged" />
+            <Label x:Name="labelIteration"  HorizontalAlignment="Right" Margin="0,33,15,0" VerticalAlignment="Top"/>
+            <GroupBox x:Name="groupBoxButtns"  HorizontalAlignment="Left" Margin="336,59,0,0" VerticalAlignment="Top" Height="176" Width="388">
+                <Grid>
+                    <Button x:Name="BalanceButton" Width="110" Height="44" Content="Привести к ЗТЗ"  Margin="238,0,0,71"  
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="BalanceButton_Click"/>
+                    <Button x:Name="PotButton" Width="140" Height="50"  Margin="37,0,0,26"  
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="PotButton_Click" >
+                        <TextBlock Text="Решить методом потенциалов"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="TestButton" Width="110" Height="46" Content="Решить" Click="TestButton_Click" Margin="51,0,0,97"  
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Label Content="Итерации:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30,10,10,10"/>
+            <RichTextBox  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,50,20,20" IsReadOnly="True" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Name="mainText"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>
     </Grid>
 </Window>

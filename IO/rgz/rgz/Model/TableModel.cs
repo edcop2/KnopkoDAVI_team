@@ -79,6 +79,8 @@ namespace rgz.Model
 
         private bool Final { get; set; }
 
+        public Writer Writter { get; set; }
+
         #endregion
 
 
@@ -129,6 +131,7 @@ namespace rgz.Model
             {
                 Table.ColumnDefinitions.Add(new ColumnDefinition());
             }
+            Writter = new Writer();
         }
 
 
@@ -635,6 +638,8 @@ namespace rgz.Model
                     Path[i][j] = false;
                 }
             }
+            Final = true;
+            Writter.Clear();
         }
 
 
@@ -645,6 +650,7 @@ namespace rgz.Model
         public void SevenEastAngle()
         {
             Logs.Clear();
+            Writter.Clear();
             int i = 0, j = 0;
             A = A;
             B = B;
@@ -652,10 +658,12 @@ namespace rgz.Model
             int[] b = Bt;
             int temp;
             Memento meme;
-            for (;;)
+            Writter.Write("Метод Северо-Западного Угла\n\n");
+            for (int qr = 1; ; qr++)
             {
                 meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
+                Final = false;
                 AddCell.Is = true;
                 if (i == N || j == M)
                 {
@@ -664,6 +672,9 @@ namespace rgz.Model
                 Path[i][j] = true;
                 AddCell.I = i;
                 AddCell.J = j;
+                Writter.WriteIterationNumber(qr);
+                Writter.WriteAboutSelectedPath(i + 1, j + 1);
+                Writter.WriteAboutAB(a[i], b[j]);
                 if (a[i] > b[j])
                 {
                     ComitColumn[j] = true;
@@ -683,6 +694,8 @@ namespace rgz.Model
                     i++;
                 }
             }
+            Writter.Write("\nПроцесс завершен. Найден базис:\n");
+            Writter.WriteAboutPath(Path);
             Final = true;
             AddCell.Is = false;
             meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
@@ -697,6 +710,7 @@ namespace rgz.Model
         public void MinElemMeth()
         {
             Logs.Clear();
+            Writter.Clear();
             int i = 0, j = 0;
             A = A;
             B = B;
@@ -706,15 +720,21 @@ namespace rgz.Model
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
-            for (;;)
+            Writter.Write("Метод Минимального эл-та\n\n");
+            for (int qr = 1; ; qr++)
             {
                 meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
+                Final = false;
                 if (rows.Count == N || columns.Count == M)
                     break;
                 AddCell.Is = true;
                 FindMinElem(rows, columns, ref i, ref j);
                 Path[i][j] = true;
+                Writter.WriteIterationNumber(qr);
+                Writter.Write("Минимальные издержки: " + C[i][j] + "\n");
+                Writter.WriteAboutSelectedPath(i + 1, j + 1);
+                Writter.WriteAboutAB(a[i], b[j]);
                 if (a[i] > b[j])
                 {
                     ComitColumn[j] = true;
@@ -736,6 +756,8 @@ namespace rgz.Model
                 AddCell.I = i;
                 AddCell.J = j;
             }
+            Writter.Write("\nПроцесс завершен. Найден базис:\n");
+            Writter.WriteAboutPath(Path);
             Final = true;
             AddCell.Is = false;
             meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
@@ -771,6 +793,7 @@ namespace rgz.Model
         public void FogelMeth()
         {
             Logs.Clear();
+            Writter.Clear();
             int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
             A = A;
             B = B;
@@ -780,12 +803,15 @@ namespace rgz.Model
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
-            for (;;)
+            Writter.Write("Метод Фогеля\n\n");
+            for (int qr = 1; ; qr++)
             {
                 meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
                 if (rows.Count == N || columns.Count == M)
                     break;
+                Writter.WriteIterationNumber(qr);
+                Final = false;
                 AddCell.Is = true;
                 ClearNW();
                 Find2Min(rows, columns);
@@ -795,11 +821,18 @@ namespace rgz.Model
                 {
                     j2 = MinNorth(columns);
                     i2 = MinInColumn(j2, rows);
+                    if (j1 <= int.MaxValue - 10 * C[i2][j2])
+                        Writter.Append("Минимальный штраф: " + j1);
+                    Writter.Append(string.Format("Минимальная издержка  в стобце#{0}: {1}\n", j2 + 1, C[i2][j2]));
+
                 }
                 else
                 {
                     i2 = MinWest(rows);
                     j2 = MinInRow(i2, columns);
+                    if (i1 <= int.MaxValue - 10 * C[i2][j2])
+                        Writter.Append("Минимальный штраф: " + i1 + "\n");
+                    Writter.Append(string.Format("Минимальная издержка в строке#{0}: {1}\n", i2 + 1, C[i2][j2]));
                 }
                 Path[i2][j2] = true;
                 if (columns.Count >= (M - 1))
@@ -816,6 +849,9 @@ namespace rgz.Model
                         North[j] = "";
                     }
                 }
+                Writter.WriteLine();
+                Writter.WriteAboutSelectedPath(i2 + 1, j2 + 1);
+                Writter.WriteAboutAB(a[i2], b[j2]);
                 if (a[i2] > b[j2])
                 {
                     ComitColumn[j2] = true;
@@ -838,6 +874,8 @@ namespace rgz.Model
                 AddCell.J = j2;
 
             }
+            Writter.Write("\nПроцесс завершен. Найден базис:\n");
+            Writter.WriteAboutPath(Path);
             Final = true;
             AddCell.Is = false;
             ClearNW();
@@ -945,6 +983,8 @@ namespace rgz.Model
                             }
                         }
                     }
+                    if (min2 != int.MaxValue)
+                        Writter.WriteAbout2Min(min2, min1, i, true);
                     West[i] = (min2 - min1).ToString();
                 }
             }
@@ -969,6 +1009,8 @@ namespace rgz.Model
                             }
                         }
                     }
+                    if (min2 != int.MaxValue)
+                        Writter.WriteAbout2Min(min2, min1, j, false);
                     North[j] = (min2 - min1).ToString();
                 }
             }
@@ -980,6 +1022,10 @@ namespace rgz.Model
 
         public void PotMeth()
         {
+            if (Logs.Count < 1)
+                return;
+            Writter.Clear();
+            ShowHistory(Logs.Count - 1);
             Logs.Clear();
             int i1 = 0, j1 = 0;
             int[] a = new int[N];
@@ -994,8 +1040,11 @@ namespace rgz.Model
             meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
             Logs.Add(meme);
             AddCell.Is = true;
-            for (int q = 0; ; q++)
+            Writter.Write("Метод Потециалов\n\nНачальный базис:\n");
+            Writter.WriteAboutPath(Path);
+            for (int qr = 1; ; qr++)
             {
+                Writter.WriteIterationNumber(qr);
                 CalcPot();
                 maxDelt = int.MinValue;
                 for (int i = 0; i < N; i++)
@@ -1004,6 +1053,7 @@ namespace rgz.Model
                         if (!Path[i][j])
                         {
                             Delt[i][j] = (int.Parse(West[i]) + int.Parse(North[j]) - C[i][j]).ToString();
+                            Writter.Append(string.Format("Δ({0},{1}) = {2}\n", i, j, Delt[i][j]));
                             if (maxDelt < int.Parse(Delt[i][j]))
                             {
                                 maxDelt = int.Parse(Delt[i][j]);
@@ -1012,9 +1062,11 @@ namespace rgz.Model
                             }
                         }
                 }
+                Writter.WriteLine();
                 if (maxDelt <= 0)
                     break;
-
+                Writter.Append(string.Format("Максимальная дельта: {0}\n Вводим в базис ({1},{2})\n", maxDelt, im + 1, jm + 1));
+                Writter.Append("Строим замкнутый цикл\n");
                 g = new Graph();
                 Path[im][jm] = true;
                 g.BuildGraph(Path);
@@ -1026,9 +1078,13 @@ namespace rgz.Model
                 foreach (Node v in g.SortedNodes)
                 {
                     if (tb)
+                    {
+                        Writter.Append(string.Format("({0},{1}) + θ", v.I + 1, v.J + 1));
                         O[v.I][v.J] = "+";
+                    }
                     else
                     {
+                        Writter.Append(string.Format("({0},{1}) - θ", v.I + 1, v.J + 1));
                         O[v.I][v.J] = "-";
                         if (int.Parse(X[v.I][v.J]) < min)
                         {
@@ -1037,8 +1093,13 @@ namespace rgz.Model
                             j1 = v.J;
                         }
                     }
+                    if (v != g.SortedNodes.Last())
+                        Writter.Append(" => ");
                     tb = !tb;
                 }
+                Writter.WriteLine();
+                Writter.Append("θ = " + min + "\n");
+                Writter.Append("Новые значения X:\n");
                 foreach (Node v in g.SortedNodes)
                 {
                     if (v.I == im && v.J == jm)
@@ -1056,7 +1117,12 @@ namespace rgz.Model
                         X[v.I][v.J] = (int.Parse(X[v.I][v.J]) - min).ToString();
                         O[v.I][v.J] += " " + min;
                     }
+                    Writter.Append(string.Format("X({0},{1}) = {2}\n", v.I + 1, v.J + 1, X[v.I][v.J]));
                 }
+                Writter.WriteLine();
+                Writter.Append(string.Format("Удаляем с базиса ({0},{1})\n\n", i1, j1));
+                Writter.Append("Новый базис:\n");
+                Writter.WriteAboutPath(Path);
                 X[i1][j1] = "";
                 DelCell.Is = true;
                 Path[i1][j1] = false;
@@ -1069,6 +1135,8 @@ namespace rgz.Model
 
                 ClearDelt();
             }
+            Writter.Write("\nПроцесс завершен. Оптимальный базис:\n");
+            Writter.WriteAboutPath(Path);
             ClearDelt();
             AddCell.Is = false;
             DelCell.Is = false;
@@ -1133,6 +1201,7 @@ namespace rgz.Model
 
             }
 
+            Writter.WriteAboutPot(Path, C, u, v);
 
 
             for (int i = 0; i < N; i++)
@@ -1148,6 +1217,10 @@ namespace rgz.Model
         #endregion
 
     }
+
+
+
+
 
     #region Other classes
 
@@ -1223,9 +1296,6 @@ namespace rgz.Model
             Final = final;
         }
     }
-
-
-
 
 
     public class Graph
@@ -1388,6 +1458,157 @@ namespace rgz.Model
             return string.Format("({0},{1})", I + 1, J + 1);
         }
     }
+
+
+
+    public class Writer
+    {
+        public List<string> Novels { get; set; }
+
+        private int CurChapter { get; set; }
+
+
+
+        public Writer()
+        {
+            Novels = new List<string>();
+        }
+
+        public string this[int i]
+        {
+            get
+            {
+                if (Novels.Count > i)
+                    return Novels[i];
+                else
+                    return "";
+            }
+        }
+
+        public void Clear()
+        {
+            Novels.Clear();
+            CurChapter = -1;
+        }
+
+
+        public void WriteAboutPot(bool[][] path, int[][] c, int[] u, int[] v)
+        {
+            string s = "";
+            s += "Найдем u и v:\n";
+            for (int i = 0; i < path.Length; i++)
+            {
+                for (int j = 0; j < path[i].Length; j++)
+                {
+                    if (path[i][j])
+                        s += string.Format("u{0} + v{1} = {2}\n", i + 1, j + 1, c[i][j]);
+                }
+            }
+            s += "\n";
+            for (int i = 0; i < path.Length; i++)
+                s += string.Format("u{0} = {1}\n", i + 1, u[i]);
+            for (int j = 0; j < path[0].Length; j++)
+                s += string.Format("v{0} = {1}\n", j + 1, v[j]);
+            s += "\n";
+            Novels[CurChapter] += s;
+        }
+
+
+        public void WriteLine()
+        {
+            Novels[CurChapter] += "\n";
+        }
+
+        public void Write(string novel)
+        {
+            Novels.Add(novel);
+            CurChapter++;
+        }
+
+        public void Append(string text)
+        {
+            Novels[CurChapter] += text;
+        }
+
+        public void WriteAboutSelectedPath(int i, int j)
+        {
+            Novels[CurChapter] += string.Format("Выбираем ячейку ({0},{1})\n", i, j);
+        }
+
+
+        public void WriteAboutPath(bool[][] p)
+        {
+            List<string> nodes = new List<string>();
+            for (int i = 0; i < p.Length; i++)
+            {
+                for (int j = 0; j < p[i].Length; j++)
+                {
+                    if (p[i][j])
+                        nodes.Add(string.Format("({0},{1})", i + 1, j + 1));
+                }
+            }
+            string s = "";
+            for (int i = 0; i < nodes.Count - 1; i++)
+                s += nodes[i] + " -> ";
+            s += nodes[nodes.Count - 1];
+            Novels[CurChapter] += s;
+        }
+
+        public void WriteAbout2Min(int m1, int m2, int i, bool row)
+        {
+            i++;
+            string s = "";
+            if (row)
+                s += "Минимальные значения в строке #" + i + ": ";
+            else
+                s += "Минимальные значения в стобце #" + i + ": ";
+            s += string.Format("{0}; {1}\n", m1, m2);
+            s += "Штраф равен: " + (m1 - m2) + "\n\n";
+            Novels[CurChapter] += s;
+        }
+
+        public void WriteIterationNumber(int i)
+        {
+            CurChapter = i;
+            Novels.Add("");
+            Novels[CurChapter] += ("\n==" + i + "==\n");
+        }
+
+        public void WriteAboutAB(int a, int b)
+        {
+            int temp;
+            string s = "";
+            if (a > b)
+            {
+                s += "a > b\n";
+                temp = b;
+                s += "Записываем значение " + temp + "\n";
+                a -= b;
+                s += "Новое значение a: " + a + "\n";
+
+            }
+            else
+            {
+                s += "a < b\n";
+                temp = a;
+                s += "Записываем значение " + temp + "\n";
+                b -= a;
+                s += "Новое значение b: " + b + "\n";
+            }
+            Novels[CurChapter] += s;
+        }
+
+
+        public override string ToString()
+        {
+            string s = "";
+            for (int i = 0; i < Novels.Count; i++)
+                s += Novels[i];
+            return s;
+        }
+
+    }
+
 
 
 
