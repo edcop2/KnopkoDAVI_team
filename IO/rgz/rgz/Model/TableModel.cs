@@ -21,8 +21,39 @@ namespace rgz.Model
     {
         #region Properties
 
-        public int[] A { get; set; }
-        public int[] B { get; set; }
+
+        private int[] _a;
+        public int[] A
+        {
+            get
+            {
+                return _a;
+            }
+            set
+            {
+                _a = value;
+                At = new int[A.Length];
+                Array.Copy(_a, At, A.Length);
+            }
+        }
+
+        private int[] _b;
+        public int[] B
+        {
+            get
+            {
+                return _b;
+            }
+            set
+            {
+                _b = value;
+                Bt = new int[B.Length];
+                Array.Copy(_b, Bt, B.Length);
+            }
+        }
+
+        public int[] At { get; set; }
+        public int[] Bt { get; set; }
 
         public int[][] C { get; set; }
         public string[][] X { get; set; }
@@ -50,7 +81,7 @@ namespace rgz.Model
 
         #endregion
 
-        
+
         public TableModel(int n, int m, Grid table)
         {
             Table = table;
@@ -60,6 +91,8 @@ namespace rgz.Model
             M = m;
             A = new int[N];
             B = new int[M];
+            At = new int[N];
+            Bt = new int[M];
             C = new int[N][];
             X = new string[N][];
             O = new string[N][];
@@ -115,6 +148,9 @@ namespace rgz.Model
             int[] a = A;
             Array.Resize(ref a, n);
             A = a;
+            a = At;
+            Array.Resize(ref a, n);
+            At = a;
             int[][] c = C;
             Array.Resize(ref c, n);
             C = c;
@@ -172,6 +208,9 @@ namespace rgz.Model
             int[] b = B;
             Array.Resize(ref b, m);
             B = b;
+            b = Bt;
+            Array.Resize(ref b, m);
+            Bt = b;
             int[][] c = C;
             string[][] x = X;
             string[][] delt = Delt;
@@ -243,6 +282,8 @@ namespace rgz.Model
             Delt = meme.Delt;
             AddCell = meme.AddedCell;
             DelCell = meme.DeletedCell;
+            At = meme.At;
+            Bt = meme.Bt;
         }
 
         #endregion
@@ -280,6 +321,7 @@ namespace rgz.Model
                             tx1.SetValue(Grid.ColumnProperty, 1);
                             tx1.BorderThickness = new Thickness(0);
                             tx1.Text = j.ToString();
+                            tx1.IsReadOnly = true;
                             tx2 = new TextBox();
                             tx2.Text = North[j - 1];
                             tx2.SetValue(Grid.RowProperty, 1);
@@ -288,6 +330,7 @@ namespace rgz.Model
                             tx2.BorderThickness = new Thickness(0);
                             tx2.VerticalAlignment = VerticalAlignment.Center;
                             tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx2.IsReadOnly = true;
                             gr.Children.Add(tx1);
                             gr.Children.Add(tx2);
                             bor.Child = gr;
@@ -308,6 +351,7 @@ namespace rgz.Model
                             tx1.SetValue(Grid.ColumnProperty, 0);
                             tx1.BorderThickness = new Thickness(0);
                             tx1.Text = i.ToString();
+                            tx1.IsReadOnly = true;
                             tx2 = new TextBox();
                             tx2.Text = West[i - 1];
                             tx2.Foreground = Brushes.Blue;
@@ -316,6 +360,7 @@ namespace rgz.Model
                             tx2.BorderThickness = new Thickness(0);
                             tx2.VerticalAlignment = VerticalAlignment.Center;
                             tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx2.IsReadOnly = true;
                             gr.Children.Add(tx1);
                             gr.Children.Add(tx2);
                             bor.Child = gr;
@@ -326,25 +371,56 @@ namespace rgz.Model
                     {
                         if (j != M + 1)
                         {
+                            gr.RowDefinitions.Add(new RowDefinition());
+                            gr.RowDefinitions.Add(new RowDefinition());
+                            gr.ColumnDefinitions.Add(new ColumnDefinition());
+                            gr.ColumnDefinitions.Add(new ColumnDefinition());
                             tx1 = new TextBox();
                             tx1.VerticalAlignment = VerticalAlignment.Center;
                             tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx1.SetValue(Grid.RowProperty, 1);
+                            tx1.SetValue(Grid.ColumnProperty, 0);
                             tx1.BorderThickness = new Thickness(0);
                             tx1.Text = B[j - 1].ToString();
+                            tx2 = new TextBox();
+                            tx2.VerticalAlignment = VerticalAlignment.Center;
+                            tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                            tx2.SetValue(Grid.RowProperty, 0);
+                            tx2.SetValue(Grid.ColumnProperty, 1);
+                            tx2.BorderThickness = new Thickness(0);
+                            tx2.IsReadOnly = true;
+                            tx2.Text = Bt[j - 1].ToString();
+                            tx2.Foreground = Brushes.Gray;
                             gr.Children.Add(tx1);
+                            gr.Children.Add(tx2);
                             bor.Child = gr;
                         }
 
                     }
                     else if (j == M + 1)
                     {
-
+                        gr.RowDefinitions.Add(new RowDefinition());
+                        gr.RowDefinitions.Add(new RowDefinition());
+                        gr.ColumnDefinitions.Add(new ColumnDefinition());
+                        gr.ColumnDefinitions.Add(new ColumnDefinition());
                         tx1 = new TextBox();
                         tx1.VerticalAlignment = VerticalAlignment.Center;
                         tx1.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx1.SetValue(Grid.RowProperty, 0);
+                        tx1.SetValue(Grid.ColumnProperty, 1);
                         tx1.BorderThickness = new Thickness(0);
                         tx1.Text = A[i - 1].ToString();
+                        tx2 = new TextBox();
+                        tx2.VerticalAlignment = VerticalAlignment.Center;
+                        tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx2.SetValue(Grid.RowProperty, 1);
+                        tx2.SetValue(Grid.ColumnProperty, 0);
+                        tx2.BorderThickness = new Thickness(0);
+                        tx2.IsReadOnly = true;
+                        tx2.Text = At[i - 1].ToString();
+                        tx2.Foreground = Brushes.Gray;
                         gr.Children.Add(tx1);
+                        gr.Children.Add(tx2);
                         bor.Child = gr;
                     }
                     else
@@ -367,6 +443,7 @@ namespace rgz.Model
                         tx2.BorderThickness = new Thickness(0);
                         tx2.VerticalAlignment = VerticalAlignment.Center;
                         tx2.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx2.IsReadOnly = true;
                         tx3 = new TextBox();
                         tx3.Text = Delt[i - 1][j - 1];
                         tx3.SetValue(Grid.RowProperty, 0);
@@ -375,6 +452,7 @@ namespace rgz.Model
                         tx3.Foreground = Brushes.Blue;
                         tx3.VerticalAlignment = VerticalAlignment.Center;
                         tx3.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx3.IsReadOnly = true;
                         tx4 = new TextBox();
                         tx4.Text = O[i - 1][j - 1];
                         tx4.SetValue(Grid.RowProperty, 1);
@@ -383,6 +461,7 @@ namespace rgz.Model
                         tx4.Foreground = Brushes.Red;
                         tx4.VerticalAlignment = VerticalAlignment.Center;
                         tx4.HorizontalAlignment = HorizontalAlignment.Center;
+                        tx4.IsReadOnly = true;
                         if (DelCell.Is && DelCell.I == (i - 1) && DelCell.J == (j - 1))
                         {
                             gr.Background = Brushes.LightBlue;
@@ -436,10 +515,7 @@ namespace rgz.Model
                 for (int i = 0; i < N; i++)
                 {
                     for (int j = 0; j < M; j++)
-                    {
                         C[i][j] = GetCElemAt(i + 1, j + 1);
-                        X[i][j] = GetXElemAt(i + 1, j + 1);
-                    }
                     A[i] = GetAElemAt(i + 1);
                 }
                 for (int i = 0; i < M; i++)
@@ -471,13 +547,13 @@ namespace rgz.Model
 
         public int GetAElemAt(int i)
         {
-            return int.Parse((((Table.Children[6 + 7 * i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+            return int.Parse((((Table.Children[(M + 1) + (M + 2) * i] as Border).Child as Grid).Children[0] as TextBox).Text);
 
         }
 
         public int GetBElemAt(int i)
         {
-            return int.Parse((((Table.Children[35 + i] as Border).Child as Grid).Children[0] as TextBox).Text.ToString());
+            return int.Parse((((Table.Children[(N + 1) * (M + 2) + i] as Border).Child as Grid).Children[0] as TextBox).Text);
         }
 
         public Grid GetGridElemAt(int i, int j)
@@ -496,12 +572,14 @@ namespace rgz.Model
             {
                 ChangeRowCount(N + 1);
                 A[N - 1] = B.Sum() - A.Sum();
+                At[N - 1] = A[N - 1];
                 UpdateTable();
             }
-            else if (isClosed == 2)
+            else if (isClosed == 1)
             {
                 ChangeColumnCount(M + 1);
                 B[M - 1] = A.Sum() - B.Sum();
+                Bt[M - 1] = B[M - 1];
                 UpdateTable();
             }
 
@@ -511,7 +589,7 @@ namespace rgz.Model
         {
             int sum1 = A.Sum();
             int sum2 = B.Sum();
-            return sum1 > sum2 ? 0 : sum1 < sum2 ? 2 : 0;
+            return sum1 > sum2 ? 1 : sum1 < sum2 ? 2 : 0;
         }
 
         #endregion
@@ -546,6 +624,8 @@ namespace rgz.Model
             ClearDelt();
             AddCell.Is = false;
             DelCell.Is = false;
+            Array.Clear(ComitRow, 0, N);
+            Array.Clear(ComitColumn, 0, M);
             Logs.Clear();
             for (int i = 0; i < N; i++)
             {
@@ -566,17 +646,21 @@ namespace rgz.Model
         {
             Logs.Clear();
             int i = 0, j = 0;
-            int[] a = new int[N];
-            int[] b = new int[M];
-            Array.Copy(A, a, N);
-            Array.Copy(B, b, M);
+            A = A;
+            B = B;
+            int[] a = At;
+            int[] b = Bt;
             int temp;
             Memento meme;
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
                 AddCell.Is = true;
+                if (i == N || j == M)
+                {
+                    break;
+                }
                 Path[i][j] = true;
                 AddCell.I = i;
                 AddCell.J = j;
@@ -585,6 +669,7 @@ namespace rgz.Model
                     ComitColumn[j] = true;
                     temp = b[j];
                     a[i] -= b[j];
+                    b[j] = 0;
                     X[i][j] = temp.ToString();
                     j++;
                 }
@@ -593,15 +678,14 @@ namespace rgz.Model
                     ComitRow[i] = true;
                     temp = a[i];
                     b[j] -= a[i];
+                    a[i] = 0;
                     X[i][j] = temp.ToString();
                     i++;
                 }
-                if (i == N || j == M)
-                    break;
             }
             Final = true;
             AddCell.Is = false;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
             Logs.Add(meme);
             UpdateTable();
         }
@@ -614,18 +698,20 @@ namespace rgz.Model
         {
             Logs.Clear();
             int i = 0, j = 0;
-            int[] a = new int[N];
-            int[] b = new int[M];
-            Array.Copy(A, a, N);
-            Array.Copy(B, b, M);
+            A = A;
+            B = B;
+            int[] a = At;
+            int[] b = Bt;
             int temp;
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
+                if (rows.Count == N || columns.Count == M)
+                    break;
                 AddCell.Is = true;
                 FindMinElem(rows, columns, ref i, ref j);
                 Path[i][j] = true;
@@ -634,6 +720,7 @@ namespace rgz.Model
                     ComitColumn[j] = true;
                     temp = b[j];
                     a[i] -= b[j];
+                    b[j] = 0;
                     X[i][j] = temp.ToString();
                     columns.Add(j);
                 }
@@ -642,17 +729,16 @@ namespace rgz.Model
                     ComitRow[i] = true;
                     temp = a[i];
                     b[j] -= a[i];
+                    a[i] = 0;
                     X[i][j] = temp.ToString();
                     rows.Add(i);
                 }
                 AddCell.I = i;
                 AddCell.J = j;
-                if (rows.Count == N || columns.Count == M)
-                    break;
             }
             Final = true;
             AddCell.Is = false;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
             Logs.Add(meme);
             UpdateTable();
 
@@ -686,18 +772,20 @@ namespace rgz.Model
         {
             Logs.Clear();
             int i1 = 0, i2 = 0, j1 = 0, j2 = 0;
-            int[] a = new int[N];
-            int[] b = new int[M];
-            Array.Copy(A, a, N);
-            Array.Copy(B, b, M);
+            A = A;
+            B = B;
+            int[] a = At;
+            int[] b = Bt;
             int temp;
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
             for (;;)
             {
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
+                if (rows.Count == N || columns.Count == M)
+                    break;
                 AddCell.Is = true;
                 ClearNW();
                 Find2Min(rows, columns);
@@ -714,11 +802,26 @@ namespace rgz.Model
                     j2 = MinInRow(i2, columns);
                 }
                 Path[i2][j2] = true;
+                if (columns.Count >= (M - 1))
+                {
+                    for (int i = 0; i < N; i++)
+                    {
+                        West[i] = "";
+                    }
+                }
+                if (rows.Count >= (N - 1))
+                {
+                    for (int j = 0; j < M; j++)
+                    {
+                        North[j] = "";
+                    }
+                }
                 if (a[i2] > b[j2])
                 {
                     ComitColumn[j2] = true;
                     temp = b[j2];
                     a[i2] -= b[j2];
+                    b[j2] = 0;
                     X[i2][j2] = temp.ToString();
                     columns.Add(j2);
                 }
@@ -727,18 +830,18 @@ namespace rgz.Model
                     ComitRow[i2] = true;
                     temp = a[i2];
                     b[j2] -= a[i2];
+                    a[i2] = 0;
                     X[i2][j2] = temp.ToString();
                     rows.Add(i2);
                 }
                 AddCell.I = i2;
                 AddCell.J = j2;
-                if (rows.Count == N || columns.Count == M)
-                    break;
+
             }
             Final = true;
             AddCell.Is = false;
             ClearNW();
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
             Logs.Add(meme);
             UpdateTable();
         }
@@ -888,7 +991,7 @@ namespace rgz.Model
             Memento meme;
             List<int> rows = new List<int>();
             List<int> columns = new List<int>();
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
             Logs.Add(meme);
             AddCell.Is = true;
             for (int q = 0; ; q++)
@@ -911,7 +1014,7 @@ namespace rgz.Model
                 }
                 if (maxDelt <= 0)
                     break;
-                
+
                 g = new Graph();
                 Path[im][jm] = true;
                 g.BuildGraph(Path);
@@ -961,7 +1064,7 @@ namespace rgz.Model
                 DelCell.J = j1;
                 AddCell.I = im;
                 AddCell.J = jm;
-                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+                meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
                 Logs.Add(meme);
 
                 ClearDelt();
@@ -969,7 +1072,7 @@ namespace rgz.Model
             ClearDelt();
             AddCell.Is = false;
             DelCell.Is = false;
-            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell);
+            meme = new Memento(C, X, Path, ComitRow, ComitColumn, North, West, Delt, O, Final, AddCell, DelCell, At, Bt);
             Logs.Add(meme);
             UpdateTable();
 
@@ -995,7 +1098,7 @@ namespace rgz.Model
             {
                 if (Path[0][j])
                 {
-                    v[j] = C[0][j]; 
+                    v[j] = C[0][j];
                     columns.Add(j);
                 }
             }
@@ -1047,6 +1150,83 @@ namespace rgz.Model
     }
 
     #region Other classes
+
+
+    public class Memento
+    {
+
+        public int[] At { get; set; }
+        public int[] Bt { get; set; }
+
+        public int[][] C { get; set; }
+
+        public string[][] X { get; set; }
+
+        public string[][] Delt { get; set; }
+        public string[][] O { get; set; }
+
+        public bool[][] Path { get; set; }
+
+        public bool[] ComitRow { get; set; }
+
+        public bool[] ComitColumn { get; set; }
+
+        public string[] North { get; set; }
+        public string[] West { get; set; }
+
+        public Selectr AddedCell { get; set; }
+        public Selectr DeletedCell { get; set; }
+
+        public bool Final { get; set; }
+
+
+        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west,
+            string[][] delt, string[][] o, bool final, Selectr added, Selectr deleted, int[] at, int[] bt)
+        {
+            AddedCell = new Selectr() { I = added.I, J = added.J, Is = added.Is };
+            DeletedCell = new Selectr() { I = deleted.I, J = deleted.J, Is = deleted.Is };
+            int n = cr.Length;
+            int m = cc.Length;
+            At = new int[n];
+            Bt = new int[m];
+            ComitRow = new bool[n];
+            ComitColumn = new bool[m];
+            North = new string[m];
+            West = new string[n];
+            Array.Copy(cc, ComitColumn, m);
+            Array.Copy(cr, ComitRow, n);
+            Array.Copy(north, North, m);
+            Array.Copy(west, West, n);
+            Array.Copy(at, At, n);
+            Array.Copy(bt, Bt, m);
+            X = new string[n][];
+            O = new string[n][];
+            C = new int[n][];
+            Path = new bool[n][];
+            Delt = new string[n][];
+            for (int i = 0; i < n; i++)
+            {
+                X[i] = new string[m];
+                O[i] = new string[m];
+                C[i] = new int[m];
+                Path[i] = new bool[m];
+                Delt[i] = new string[m];
+                for (int j = 0; j < m; j++)
+                {
+                    X[i][j] = x[i][j];
+                    O[i][j] = o[i][j];
+                    C[i][j] = c[i][j];
+                    Path[i][j] = path[i][j];
+                    Delt[i][j] = delt[i][j];
+                }
+            }
+            Final = final;
+        }
+    }
+
+
+
+
 
     public class Graph
     {
@@ -1178,9 +1358,6 @@ namespace rgz.Model
     }
 
 
-
-
-
     public class Node
     {
         public int I { get; set; }
@@ -1209,71 +1386,6 @@ namespace rgz.Model
         public override string ToString()
         {
             return string.Format("({0},{1})", I + 1, J + 1);
-        }
-    }
-
-
-    public class Memento
-    {
-        public int[][] C { get; set; }
-
-        public string[][] X { get; set; }
-
-        public string[][] Delt { get; set; }
-        public string[][] O { get; set; }
-
-        public bool[][] Path { get; set; }
-
-        public bool[] ComitRow { get; set; }
-
-        public bool[] ComitColumn { get; set; }
-
-        public string[] North { get; set; }
-        public string[] West { get; set; }
-
-        public Selectr AddedCell { get; set; }
-        public Selectr DeletedCell { get; set; }
-
-        public bool Final { get; set; }
-
-
-        public Memento(int[][] c, string[][] x, bool[][] path, bool[] cr, bool[] cc, string[] north, string[] west,
-            string[][] delt, string[][] o, bool final, Selectr added, Selectr deleted)
-        {
-            AddedCell = new Selectr() { I = added.I, J = added.J, Is = added.Is };
-            DeletedCell = new Selectr() { I = deleted.I, J = deleted.J, Is = deleted.Is };
-            int n = cr.Length;
-            int m = cc.Length;
-            ComitRow = new bool[n];
-            ComitColumn = new bool[m];
-            North = new string[m];
-            West = new string[n];
-            Array.Copy(cc, ComitColumn, m);
-            Array.Copy(cr, ComitRow, n);
-            Array.Copy(north, North, m);
-            Array.Copy(west, West, n);
-            X = new string[n][];
-            O = new string[n][];
-            C = new int[n][];
-            Path = new bool[n][];
-            Delt = new string[n][];
-            for (int i = 0; i < n; i++)
-            {
-                X[i] = new string[m];
-                O[i] = new string[m];
-                C[i] = new int[m];
-                Path[i] = new bool[m];
-                Delt[i] = new string[m];
-                for (int j = 0; j < m; j++)
-                {
-                    X[i][j] = x[i][j];
-                    O[i][j] = o[i][j];
-                    C[i][j] = c[i][j];
-                    Path[i][j] = path[i][j];
-                    Delt[i][j] = delt[i][j];
-                }
-            }
-            Final = final;
         }
     }
 

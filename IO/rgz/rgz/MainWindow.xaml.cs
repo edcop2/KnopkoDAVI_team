@@ -35,7 +35,7 @@ namespace rgz
             a = new int[] { 570, 838, 194, 534, 180 };
             tModel.B = a;
             int[,] r = { { 15, 4, 5, 18, 19 }, { 8, 10, 24, 7, 6 }, { 9, 23, 9, 8, 16 }, { 25, 14, 11, 25, 14 } };
-            for (int i=0; i<4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 5; j++)
                     tModel.C[i][j] = r[i, j];
@@ -47,8 +47,10 @@ namespace rgz
         {
             tModel.Clear();
             tModel.UpdateTable();
-          //  tModel.ReadTable();
-            tModel.UpdateTable();
+         //   tModel.ReadTable();
+            IterationSlider.Maximum = 0;
+            IterationSlider.Value = 0;
+            //  tModel.UpdateTable();
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -58,23 +60,29 @@ namespace rgz
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)
         {
+            tModel.Clear();
             tModel.Balance();
             tModel.SevenEastAngle();
             IterationSlider.Maximum = tModel.Logs.Count - 1;
+            IterationSlider.Value = tModel.Logs.Count - 1;
         }
 
         private void radioButton1_Checked(object sender, RoutedEventArgs e)
         {
+            tModel.Clear();
             tModel.Balance();
             tModel.MinElemMeth();
             IterationSlider.Maximum = tModel.Logs.Count - 1;
+            IterationSlider.Value = tModel.Logs.Count - 1;
         }
 
         private void radioButton2_Checked(object sender, RoutedEventArgs e)
         {
+            tModel.Clear();
             tModel.Balance();
             tModel.FogelMeth();
             IterationSlider.Maximum = tModel.Logs.Count - 1;
+            IterationSlider.Value = tModel.Logs.Count - 1;
         }
 
         private void radioButton3_Checked(object sender, RoutedEventArgs e)
