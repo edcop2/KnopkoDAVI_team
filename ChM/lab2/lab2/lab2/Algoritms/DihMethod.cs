@@ -14,17 +14,21 @@ namespace lab2.Algorithms
 
         public List<double> Solutions { get; set; }
 
+        public List<string> Log { get; set; }
+
 
         public DihMethod()
         {
             pf = new PolyFunc();
             Solutions = new List<double>();
+            Log = new List<string>();
         }
 
         public void Clear()
         {
             pf = new PolyFunc();
             Solutions.Clear();
+            Log.Clear();
         }
 
         public void Calculate(double a, double b, double eps)
@@ -34,18 +38,19 @@ namespace lab2.Algorithms
 
             if (a >= b)
                 return;
-            
-            
 
-            while (Math.Abs(pf.F((a+b)/2)) >= eps )
+
+
+            while (Math.Abs(pf.F((a + b) / 2)) >= eps)
             {
                 double x = (a + b) / 2;
                 if (pf.F(a) * pf.F(x) < 0)
                     b = x;
                 else
                     a = x;
+                Log.Add(x.ToString());
             }
-             Solutions.Add((a +  b) / 2);
+            Solutions.Add((a + b) / 2);
         }
     }
 }

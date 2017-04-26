@@ -14,6 +14,7 @@ namespace lab1.Algorithms
 
         public List<double> Solutions { get; set; }
 
+        public int It { get; set; }
 
         public GoldenAxeEffect()
         {
@@ -64,8 +65,11 @@ namespace lab1.Algorithms
 
             double GProp = (1 + Math.Sqrt(5)) / 2;
 
+            It = 0;
             while (Math.Abs(b - a) > eps)
             {
+
+                It++;
                 double x1 = b - (b - a) / GProp;
                 double x2 = a + (b - a) / GProp;
 

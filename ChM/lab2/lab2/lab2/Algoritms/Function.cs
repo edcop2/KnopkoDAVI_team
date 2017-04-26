@@ -50,7 +50,7 @@ namespace lab2.Algorithms
 
         public PolyFunc() : base()
         {
-            IsReverse = false;
+            IsReverse = true;
         }
 
         public bool CheckFunc()
@@ -82,11 +82,8 @@ namespace lab2.Algorithms
             {
                 return double.NaN;
             }
-            if (IsReverse)
-                return -solution;
-            else
 
-                return solution;
+            return solution;
         }
 
         public double dF(double x)

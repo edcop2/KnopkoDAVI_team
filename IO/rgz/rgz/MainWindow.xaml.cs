@@ -98,6 +98,7 @@ namespace rgz
 
         private void BalanceButton_Click(object sender, RoutedEventArgs e)
         {
+            tModel.ReadTable();
             if (tModel.IsClosed() != 0)
             {
                 tModel.Balance();
@@ -222,6 +223,16 @@ namespace rgz
             Close();
         }
 
+        private void menuItemHelp_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Смотри в конспекте");
+        }
+
+        private void menuItemAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Примите ргз");
+        }
+
         #endregion
 
         #region Other Functions
@@ -233,5 +244,7 @@ namespace rgz
         }
 
         #endregion
+
+     
     }
 }

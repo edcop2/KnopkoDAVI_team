@@ -77,6 +77,7 @@ namespace lab1.Algorithms
             try
             {
                 solution = parser.SimplifyDouble(StringFunction);
+               // solution = Math.Pow((Math.Pow(x, 2) - 3 * x + 2), 1.0 / 3.0);
             }
             catch
             {

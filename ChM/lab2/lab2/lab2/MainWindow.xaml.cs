@@ -35,6 +35,7 @@ namespace lab2
         CombinedMethod combo = new CombinedMethod();
         List<double> solutions = new List<double>();
         Point mousePos = new Point();
+        List<string> log = new List<string>();
         string filePath = null;
 
         #region Private Functions
@@ -120,7 +121,7 @@ namespace lab2
                     double eps = SafeParse(textBoxEps.Text);
                     dih.Calculate(a, b, eps);
                     solutions = dih.Solutions;
-
+                    log = dih.Log;
                     solutions.Sort();
 
                 }
@@ -133,12 +134,18 @@ namespace lab2
                     double eps = SafeParse(textBoxEps.Text);
                     combo.Calculate(a, b, eps);
                     solutions = combo.Solutions;
-
+                    log = combo.Log;
                     solutions.Sort();
                 }
 
                 string s = "";
                 int k = pf.IsReverse ? -1 : 1;
+                s += "Решение найдено за " + log.Count + " итераций\n\n";
+                for (int i = 0; i < log.Count; i++)
+                {
+                    s += string.Format("x({0}) = {1}\n", i, log[i]);
+                }
+                s += "\nОтвет: \n";
                 foreach (var i in solutions)
                     s += "(" + Math.Round(i, textBoxEps.Text.Length - 2) + "; " + k * Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
                 textBoxSols.Text = s;
@@ -364,7 +371,7 @@ namespace lab2
             textBoxFunc.Text = "";
             textBoxSols.Text = "";
         }
-
+        
     }
     #endregion
 }

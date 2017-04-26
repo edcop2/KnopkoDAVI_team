@@ -15,6 +15,8 @@ namespace lab1.Algorithms
         public PolyFunc pf { get; set; }
         public List<double> Solutions { get; set; }
 
+        public int It { get; set; }
+
         private int k = 0;
 
         public CubicRubic()
@@ -37,7 +39,8 @@ namespace lab1.Algorithms
         {
             if (step <= 0)
                 return double.NaN;
-            
+
+            It = 0;
             
             List <double> x = new List<double>();
             x.Add(x0);
@@ -55,7 +58,8 @@ namespace lab1.Algorithms
                 if ( x[x.Count - 1] >= b)
                     return b;
 
-                k++; 
+                k++;
+                It++;
             }
             while (pf.dF(x[x.Count - 2]) * pf.dF(x[x.Count - 1]) >= 0 );
 
@@ -90,6 +94,7 @@ namespace lab1.Algorithms
             while (pf.F(xStat) > pf.F(x1))
             {
                 xStat = xStat + 0.5 * (xStat - x1);
+                It++;
             }            
             
             for (int c = 0; c < 500; c++)
@@ -118,7 +123,8 @@ namespace lab1.Algorithms
                 if (0 <= m && m <= 1)
                     xStat = x2 - m * (x2 - x1);
                 if (m > 1)
-                    xStat = x2;   
+                    xStat = x2;
+                It++;
             }
 
             return xStat;

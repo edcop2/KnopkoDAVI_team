@@ -122,7 +122,7 @@ namespace lab1
                     solutions = gold.Solutions;
 
                     solutions.Sort();
-
+                    textBoxSols.Text = "Кол-во итераций: " + gold.It + "\n";
                 }
                 else
                 {
@@ -138,13 +138,14 @@ namespace lab1
                     //   solutions = cubic.Solutions;
                     solutions.Add(cubic.Calculate(x0, eps, e1, e2, a, b));
                     solutions.Sort();
+                    textBoxSols.Text = "Кол-во итераций: " + cubic.It + "\n";
                 }
 
                 string s = "";
                 int k = pf.IsReverse ? -1 : 1;
                 foreach (var i in solutions)
                     s += "(" + Math.Round(i, textBoxEps.Text.Length - 2) + "; " + k*Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
-                textBoxSols.Text = s;
+                textBoxSols.Text += s;
                 buttonDraw_Click(sender, new RoutedEventArgs());
 
 
