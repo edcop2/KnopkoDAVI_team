@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab2
 {
-    class CyclicToBottom
+    public class Rosenrot
     {
         public double Eps { get; set; }
 
@@ -15,6 +15,12 @@ namespace lab2
         public double B { get; set; }
 
         public int It { get; set; } = 0;
+
+        public double Step { get; set; } = 1;
+
+        public double Shrink { get; set; } = 0.5;
+
+        public double Extend { get; set; } = 2;
 
         public GoldenAxeEffect AxeEffect { get; set; } = new GoldenAxeEffect();
 
@@ -26,19 +32,26 @@ namespace lab2
 
         Myfunc F;
 
-
-
         public void Calculate(double[] x, int flag = 1, double eps = 0.01)
         {
             AxeEffect.pf.Flag = flag;
             F = AxeEffect.pf.F;
             Eps = eps;
 
-            Min = Descend(x);
+            Min = RosesAreRedVioletsAreBlueEverybodyLovesIOFckU2(x);
 
         }
 
-        private double Descend(double[] x)
+
+        private void Research(double[] x)
+        {
+            int j;
+            double newValue;
+
+
+        }
+
+        private double RosesAreRedVioletsAreBlueEverybodyLovesIOFckU2(double[] x)
         {
             int xc = x.Length;
             double xmin = F(x), xt;
@@ -57,6 +70,8 @@ namespace lab2
                     return xmin;
                 }
             }
+            return xmin;
         }
+
     }
 }
