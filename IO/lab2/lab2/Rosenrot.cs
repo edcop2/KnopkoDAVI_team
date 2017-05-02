@@ -27,7 +27,7 @@ namespace lab2
 
         public delegate double Myfunc(Vector x);
 
-        public double[] VMin { get; set; }
+        public Vector VMin { get; set; }
 
         public double Min { get; set; }
 
@@ -59,50 +59,82 @@ namespace lab2
             }
             List<double> lambdas = new List<double>();
 
-            for (int k = 0; k < 1; k++)
+            for (int k = 0; ; k++)
             {
+                //   Console.WriteLine("k=" + k);
+                lambdas.Clear();
                 for (int j = 0; j < N; j++)
                     lambdas.Add(Research(ref x, dVectors[j]));
-               // Console.WriteLine("fd"+(x- new Vector(x0)));
-              //  Console.WriteLine(lambdas[0] + "  " + lambdas[1]);
-              //  Console.WriteLine();
+                // Console.WriteLine("fd"+(x- new Vector(x0)));
+                 // Console.WriteLine("fd");
+              //  Console.WriteLine(lambdas[0] + "  " + lambdas[1] + " " + lambdas[2]);
+                //Console.WriteLine("");
+                //  Console.WriteLine();
                 //    Console.WriteLine(lambdas[0]*dVectors[0] + "  " + lambdas[1] * dVectors[1]);
                 dVectors = Gramm(dVectors, lambdas);
+                //foreach (var i in dVectors)
+                //    Console.WriteLine(i);
+                //Console.WriteLine();
+              //  Console.WriteLine(x);
+                //Console.WriteLine();
+                if ((lambdas.Select(e => Math.Abs(e))).Sum() < eps || k > 100)
+                {
+                    VMin = x;
+                    Min = F(x);
+                    break;
+                }
             }
         }
+
 
         private List<Vector> Gramm(List<Vector> dVectors, List<double> lambdas)
         {
             int n = dVectors.Count;
-            //   List<Vector>
 
             Vector[] a = new Vector[n];
             Vector[] b = new Vector[n];
             for (int j = 0; j < n; j++)
             {
                 if (lambdas[j] == 0)
-                    a[j] = dVectors[j];
-                else
-                    a[j] = dVectors[j] * lambdas[j];
-                if (j == 0)
-                    b[j] = a[j];
+                    a[j] = dVectors[j].Copy();
                 else
                 {
-                    b[j] = a[j];
-                    double t = 0;
-                    for (int i = 0; i < j - 1; i++)
+                    a[j] = new Vector(n);
+                    for (int i = j; i < n; i++)
                     {
-                        t += a[j][i] * dVectors[j][i];
+                        a[j] += dVectors[i] * lambdas[i];
                     }
-                    b[j] -= dVectors[j] * t;
                 }
             }
-            foreach (var i in a)
-                Console.WriteLine(i);
-            Console.WriteLine();
-            foreach (var i in b)
-                Console.WriteLine(i);
-            return null;
+            for (int j = 0; j < n; j++)
+            {
+                if (j == 0)
+                    b[j] = a[j].Copy();
+                else
+                {
+                    b[j] = a[j].Copy();
+                    double t = 0;
+                    for (int i = 0; i < j; i++)
+                    {
+                        t = a[j] * b[i] / (b[i] * b[i]);
+                        b[j] -= t * b[i];
+                    }
+                }
+            }
+            for (int i = 0; i < n; i++)
+                dVectors[i] = b[i] / b[i].Modus();
+            //Console.WriteLine("A:");
+            //foreach (var i in a)
+            //    Console.WriteLine(i);
+            //Console.WriteLine();
+            //Console.WriteLine("B:");
+            //foreach (var i in b)
+            //    Console.WriteLine(i);
+            //Console.WriteLine();
+            //Console.WriteLine("D:");
+            //foreach (var i in dVectors)
+            //    Console.WriteLine(i);
+            return dVectors;
         }
 
 
@@ -114,11 +146,11 @@ namespace lab2
             if (F(x + d * k) > F(x - d * k))
                 q *= -1;
             double y, yt = F(x + lambda * d);
-            for (int i = 0; ; i++)
+            for (int i = 0; i < 100; i++)
             {
                 lambda += k * q;
                 y = F(x + lambda * d);
-                //   Console.WriteLine("i= " + i + "  l= " + lambda);
+                //      Console.WriteLine("i= " + i + "  l= " + lambda);
                 //   Console.WriteLine(x + lambda * d);
                 //      Console.WriteLine(lambda);
                 //    Console.WriteLine(y + " " + yt);
@@ -143,6 +175,7 @@ namespace lab2
                 yt = y;
             }
             x += lambda * d;
+            //Console.WriteLine(k.ToString());
             //  Console.WriteLine(x);
             return lambda;
         }

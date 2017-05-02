@@ -32,6 +32,15 @@ namespace lab2
             _vect = v;
         }
 
+        public bool CheckAB(double a, double b)
+        {
+            foreach (var i in _vect)
+                if (i < a || i > b)
+                    return false;
+            return true;
+
+        }
+
         public static Vector operator +(Vector v1, Vector v2)
         {
             if (v1.Length != v2.Length)
@@ -52,6 +61,7 @@ namespace lab2
             return newVector;
         }
 
+
         public static Vector operator *(Vector v, double k)
         {
             Vector newVector = new Vector(v.Length);
@@ -59,6 +69,32 @@ namespace lab2
                 newVector[i] = v[i] * k;
             return newVector;
         }
+
+        public static Vector operator -(Vector v, double k)
+        {
+            Vector newVector = new Vector(v.Length);
+            for (int i = 0; i < v.Length; i++)
+                newVector[i] = v[i] - k;
+            return newVector;
+        }
+
+        public static Vector operator /(Vector v, double k)
+        {
+            Vector newVector = new Vector(v.Length);
+            for (int i = 0; i < v.Length; i++)
+                newVector[i] = v[i] / k;
+            return newVector;
+        }
+
+        public Vector Copy()
+        {
+            int n = Length;
+            double[] clone = new double[n];
+            for (int i = 0; i < n; i++)
+                clone[i] = _vect[i];
+            return new Vector(clone);
+        }
+
         public static Vector operator *(double k, Vector v)
         {
             Vector newVector = new Vector(v.Length);
@@ -66,6 +102,23 @@ namespace lab2
                 newVector[i] = v[i] * k;
             return newVector;
         }
+
+        public static double operator *(Vector v1, Vector v2)
+        {
+            if (v1.Length != v2.Length)
+                throw new InvalidOperationException();
+            double scalar = 0;
+            for (int i = 0; i < v1.Length; i++)
+                scalar += v1[i] * v2[i];
+            return scalar;
+        }
+
+        public double Modus()
+        {
+            return Math.Sqrt(_vect.Select(e => e * e).Sum());
+        }
+
+
 
         public double this[int i]
         {
