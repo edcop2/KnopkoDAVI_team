@@ -47,10 +47,10 @@ namespace lab3
 
         public void Calculate()
         {
-            Lambda = GetRootsOfCubicEquations(P[0], P[1], P[2]).ToArray();
 
 
             List<double> roots = new CharactericEqual(P.ToList()).GetRoots();
+            Lambda = roots.Select(e => Math.Round(e, 2)).ToArray();
             Matrix a = new Matrix(A);
             OwnMatrix = Utils.GetOwnVectors(a, roots.ToArray());
 
@@ -89,7 +89,7 @@ namespace lab3
             //}
             //MessageBox.Show(s);
         }
-        
+
 
         private void InitArray(out double[][] at, double lambda)
         {

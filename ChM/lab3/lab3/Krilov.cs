@@ -75,7 +75,7 @@ namespace lab3
             Gauss ga = new Gauss(N);
             ga.A = m;
             ga.B = b;
-            Res = ga.Calculate();
+            Res = ga.Calculate().Select(e => Math.Round(e, 2)).ToArray();
             //s += "\n\n";
             //s += string.Format("{0} {1} {2}",Res[0], Res[1], Res[2]);
             //   MessageBox.Show(s);
@@ -101,7 +101,7 @@ namespace lab3
             s += "Характериситическое уравнение: \n λ^3 ";
             for (int i = 0, j = 2; i < N; i++, j--)
             {
-                if (j >1)
+                if (j > 1)
                 {
                     if (Res[i] < 0)
                     {
@@ -112,7 +112,7 @@ namespace lab3
                         s += string.Format("+ {0}*λ^{1} ", Res[i], j);
                     }
                 }
-                else if (j==1)
+                else if (j == 1)
                 {
                     if (Res[i] < 0)
                     {

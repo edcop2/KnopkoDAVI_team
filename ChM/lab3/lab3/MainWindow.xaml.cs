@@ -34,13 +34,11 @@ namespace lab3
         {
             _a = new DataArray(n, n);
             dataGridMatrix.ItemsSource = _a.Data.DefaultView;
-            int[,] a = new int[3, 3] { { -2, 4, 3 }, { 1, 5, 1 }, { 2, -4, -1 } };
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
-                    _a[i][j] = a[i, j];
+                    _a[i][j] = 0;
             }
-
         }
 
         private void buttonCalc_Click(object sender, RoutedEventArgs e)
@@ -53,11 +51,10 @@ namespace lab3
 
                 string s = "";
                 s += kri.GetKhaEqu();
-
                 KhaEqu ke = new KhaEqu();
                 ke.SetAB(_a);
                 ke.P = kri.Res;
-                ke.Calculate();
+                ke.Calculate();   
                 s += string.Format("\nСобственные числа:\n λ1 = {0}\n λ2 = {1}\n λ3 = {2}", ke.Lambda[0], ke.Lambda[1], ke.Lambda[2]);
                 ResText.Text = s;
                 s = "";
@@ -94,6 +91,26 @@ namespace lab3
                 }
             }
 
+        }
+
+        private void label1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int[,] a = new int[3, 3] { { -2, 4, 3 }, { 1, 5, 1 }, { 2, -4, -1 } };
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                    _a[i][j] = a[i, j];
+            }
+        }
+
+        private void label4_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int[,] a = new int[3, 3] { { 7, 3, 5 }, { 3, -2, 1 }, { -1, 0, 4 } };
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                    _a[i][j] = a[i, j];
+            }
         }
     }
 }

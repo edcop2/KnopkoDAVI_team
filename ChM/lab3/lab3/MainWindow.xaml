@@ -26,6 +26,8 @@
                 </Grid>
             </GroupBox>
             <Button x:Name="buttonCalc" Content="Вычислить" HorizontalAlignment="Left" Margin="38,195,0,0" VerticalAlignment="Top" Width="172" Height="54" Click="buttonCalc_Click" Grid.Column="2"/>
+            <Label x:Name="label1" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="38,10,0,0" VerticalAlignment="Top" Height="40" Width="84" MouseDoubleClick="label1_MouseDoubleClick"/>
+            <Label x:Name="label4" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="127,10,0,0" VerticalAlignment="Top" Height="40" Width="83" MouseDoubleClick="label4_MouseDoubleClick"/>
         </Grid>
         <Grid Grid.Row="2">
             <DataGrid x:Name="dataGridOwn"  Margin="43,107,450,15" CanUserAddRows="False"  ColumnWidth="*" />
