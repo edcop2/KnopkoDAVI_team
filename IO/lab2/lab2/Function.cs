@@ -23,6 +23,23 @@ namespace lab2
                     return double.NaN;
             }
         }
+
+        public double F(Vector x)
+        {
+            switch (Flag)
+            {
+                case 0:
+                    return Math.Pow(x[0] - 2, 4) + Math.Pow(x[0] - 2 * x[1], 2);
+                case 1:
+                    return 2 * x[0] * x[1] * x[2] - 4 * x[0] * x[2] - 2 * x[1] * x[2] - x[0] * x[0] + x[1] * x[1] + x[2] * x[2] - 2 * x[0] - 4 * x[1] + 4 * x[2];
+                case 2:
+                    return Math.Exp(x[1]) - Math.Cos(x[0] * x[0] - x[1]);
+                default:
+                    return double.NaN;
+            }
+        }
+
+
         public double F2(double[] x)
         {
             switch (Flag)
