@@ -41,7 +41,7 @@ namespace lab2.Algorithms
 
 
 
-            while (Math.Abs(pf.F((a + b) / 2)) >= eps)
+            while (Math.Abs(b - a) >= eps)
             {
                 double x = (a + b) / 2;
                 if (pf.F(a) * pf.F(x) < 0)
@@ -50,6 +50,7 @@ namespace lab2.Algorithms
                     a = x;
                 Log.Add(x.ToString());
             }
+            Log.Add(((a + b) / 2).ToString());
             Solutions.Add((a + b) / 2);
         }
     }

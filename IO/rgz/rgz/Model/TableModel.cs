@@ -815,23 +815,22 @@ namespace rgz.Model
                 AddCell.Is = true;
                 ClearNW();
                 Find2Min(rows, columns);
-                j1 = int.Parse(North.Min());
-                i1 = int.Parse(West.Min());
-                if (j1 < i1)
+                j1 = North.Select(e => e != null ? int.Parse(e) : int.MinValue).Max();
+                i1 = West.Select(e => e != null ? int.Parse(e) : int.MinValue).Max();
+                if (j1 > i1)
                 {
                     j2 = MinNorth(columns);
                     i2 = MinInColumn(j2, rows);
                     if (j1 <= int.MaxValue - 10 * C[i2][j2])
-                        Writter.Append("Минимальный штраф: " + j1);
+                        Writter.Append("Максимальный штраф: " + j1);
                     Writter.Append(string.Format("Минимальная издержка  в стобце#{0}: {1}\n", j2 + 1, C[i2][j2]));
-
                 }
                 else
                 {
                     i2 = MinWest(rows);
                     j2 = MinInRow(i2, columns);
                     if (i1 <= int.MaxValue - 10 * C[i2][j2])
-                        Writter.Append("Минимальный штраф: " + i1 + "\n");
+                        Writter.Append("Максимальный штраф: " + i1 + "\n");
                     Writter.Append(string.Format("Минимальная издержка в строке#{0}: {1}\n", i2 + 1, C[i2][j2]));
                 }
                 Path[i2][j2] = true;
@@ -905,13 +904,13 @@ namespace rgz.Model
 
         public int MinNorth(List<int> columns)
         {
-            int min = int.MaxValue;
+            int min = int.MinValue;
             int k = -1;
             for (int i = 0; i < M; i++)
             {
                 if (!columns.Contains(i))
                 {
-                    if (min > int.Parse(North[i]))
+                    if (min < int.Parse(North[i]))
                     {
                         k = i;
                         min = int.Parse(North[i]);
@@ -942,13 +941,13 @@ namespace rgz.Model
 
         public int MinWest(List<int> rows)
         {
-            int min = int.MaxValue;
+            int min = int.MinValue;
             int k = -1;
             for (int i = 0; i < N; i++)
             {
                 if (!rows.Contains(i))
                 {
-                    if (min > int.Parse(West[i]))
+                    if (min < int.Parse(West[i]))
                     {
                         k = i;
                         min = int.Parse(West[i]);

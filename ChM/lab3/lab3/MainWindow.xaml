@@ -1,0 +1,44 @@
+﻿<Window x:Class="lab3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab3"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="label" Content="A=" Grid.Column="0"  HorizontalAlignment="Center" FontSize="28"  VerticalAlignment="Center"/>
+            <DataGrid x:Name="dataGridMatrix" Grid.Column="1"  Margin="10,10,10,10" CanUserAddRows="False"  ColumnWidth="*"  />
+            <GroupBox x:Name="groupBoxAlg" Header="Алгоритм" HorizontalAlignment="Left" Margin="32,50,0,0" VerticalAlignment="Top" Height="106" Width="196" Grid.Column="2">
+                <Grid>
+                    <RadioButton x:Name="radioButtonL" Content="Метод Леверье-Фадеева" HorizontalAlignment="Left" Margin="21,20,0,0" VerticalAlignment="Top"/>
+                    <RadioButton x:Name="radioButtonK" Content="Метод Крылова" HorizontalAlignment="Left" Margin="21,48,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </GroupBox>
+            <Button x:Name="buttonCalc" Content="Вычислить" HorizontalAlignment="Left" Margin="38,195,0,0" VerticalAlignment="Top" Width="172" Height="54" Click="buttonCalc_Click" Grid.Column="2"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="dataGridOwn"  Margin="43,107,450,15" CanUserAddRows="False"  ColumnWidth="*" />
+            <RichTextBox x:Name="richTextBox2" HorizontalAlignment="Left" Height="137" Margin="416,107,0,0" VerticalAlignment="Top" Width="314"
+                         IsReadOnly="True">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Name="ResText" Text=""/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <Label x:Name="label2" Content="Матрица собственных векторов" HorizontalAlignment="Left" Margin="80,51,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="label3" Content="Соственные числа" HorizontalAlignment="Left" Margin="530,59,0,0" VerticalAlignment="Top"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -24,9 +24,12 @@ namespace lab2
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
         public MainWindow()
         {
             InitializeComponent();
+
             radioButtonGold.IsChecked = true;
         }
 
@@ -143,7 +146,7 @@ namespace lab2
                 s += "Решение найдено за " + log.Count + " итераций\n\n";
                 for (int i = 0; i < log.Count; i++)
                 {
-                    s += string.Format("x({0}) = {1}\n", i, log[i]);
+                    s += string.Format("x({0}) = {1}\n", i, Math.Round(double.Parse(log[i]), textBoxEps.Text.Length - 2));
                 }
                 s += "\nОтвет: \n";
                 foreach (var i in solutions)
@@ -371,7 +374,7 @@ namespace lab2
             textBoxFunc.Text = "";
             textBoxSols.Text = "";
         }
-        
+
     }
     #endregion
 }
