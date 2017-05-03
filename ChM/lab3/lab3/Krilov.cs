@@ -48,7 +48,6 @@ namespace lab3
             {
                 ys.Add(Multiply(ys[i]));
             }
-
             double[][] m = new double[N][];
             double[] b = ys[ys.Count - 1].Select(e => e * -1).ToArray();
             for (int i = 0; i < N; i++)
@@ -59,26 +58,10 @@ namespace lab3
                     m[i][j] = ys[ys.Count - 2 - j][i];
                 }
             }
-            //string s = "";
-            //foreach (var i in ys)
-            //{
-            //    s += string.Format("{0} {1} {2}", i[0], i[1], i[2]) + "\n";
-            //}
-            ////messagebox.show(s);
-            //s += "\n\n";
-            //for (int i = 0; i < N; i++)
-            //{
-            //    for (int j = 0; j < N; j++)
-            //        s += m[i][j] + "p" + (j + 1) + " ";
-            //    s += " = " + b[i] + "\n";
-            //}
             Gauss ga = new Gauss(N);
             ga.A = m;
             ga.B = b;
             Res = ga.Calculate().Select(e => Math.Round(e, 2)).ToArray();
-            //s += "\n\n";
-            //s += string.Format("{0} {1} {2}",Res[0], Res[1], Res[2]);
-            //   MessageBox.Show(s);
         }
 
         private double[] Multiply(double[] y)

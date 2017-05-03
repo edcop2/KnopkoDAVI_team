@@ -43,13 +43,11 @@ namespace lab3
             List<Matrix> bn = new List<Matrix>();
             an.Add(A);
             traces.Add(an[0].GetTrace());
-          //  Res.Add(traces[0]);
             bn.Add(A - traces[0] * Matrix.IdentityMatrix);
             for (int k = 1, i=2; k < N; k++, i++)
             {
                 an.Add(A * bn[k-1]);
                 traces.Add(an[k].GetTrace()/i);
-                //Res.Add(traces[k] / i);
                 bn.Add(an[k] - traces[k] * Matrix.IdentityMatrix);
             }
             Res = traces.Select(e => -e).ToList();
