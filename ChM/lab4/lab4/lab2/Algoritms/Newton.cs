@@ -31,11 +31,11 @@ namespace lab2.Algoritms
             Log.Clear();
         }
 
-        public void Calculate(double t, int n, double[] x, double[] y)
+        public double Calculate(double t, List<double> x, List<double> y)
         {
             double res = y[0], F, den;
             int i, j, k;
-            for (i = 1; i < n; i++)
+            for (i = 1; i < x.Count; i++)
             {
                 F = 0;
                 for (j = 0; j <= i; j++)
@@ -50,7 +50,7 @@ namespace lab2.Algoritms
                 for (k = 0; k < i; k++) F *= (t - x[k]);
                 res += F;
             }
-            Solutions.Add(res);
+            return res;
         }
     }
 }

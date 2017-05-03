@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -84,7 +85,7 @@ namespace lab2
             AddText(canvas, "X", width - 10, y0 - 14);
             AddText(canvas, "Y", x0 - 10, 2);
         }
-        private static void AddLine(Canvas canvas, SolidColorBrush color, double x1, double y1, double x2, double y2)
+        public static void AddLine(Canvas canvas, SolidColorBrush color, double x1, double y1, double x2, double y2)
         {
             canvas.Children.Add(new Line() { X1 = x1, X2 = x2, Y1 = y1, Y2 = y2, Stroke = color });
         }
@@ -116,6 +117,24 @@ namespace lab2
             canvas.Children.Add(polyline);
         }
 
+        public static void DrawPoints(Canvas canvas, SolidColorBrush color, List<Point> points)
+        {
+            Polyline polyline = new Polyline()
+            {
+                Stroke = color,
+                ClipToBounds = true
+            };
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                double dy = points[i].Y / xScale;
+                if (double.IsNaN(dy) || double.IsInfinity(dy))
+                    continue;
+                polyline.Points.Add(new Point(x0 + points[i].X * xScale, y0 - points[i].Y * yScale));
+            }
+            canvas.Children.Add(polyline);
+        }
+
         public static void DrawPoint(Canvas canvas, SolidColorBrush color, int size, double x, double y)
         {
             Ellipse ellipse = new Ellipse()
@@ -129,6 +148,13 @@ namespace lab2
             Canvas.SetTop(ellipse, y0 - y * yScale - size / 2);
             Canvas.SetLeft(ellipse, x0 + x * xScale - size / 2);
         }
-   
+
+        public static void DrawLine(Canvas canvas, SolidColorBrush color, double x1, double y1, double x2, double y2)
+        {
+            double dy1 = y1 / xScale;
+            double dy2 = y2 / xScale;
+            canvas.Children.Add(new Line() { X1 = x1, X2 = x2, Y1 = y1 * yScale, Y2 = y2 * yScale, Stroke = color });
+        }
+
     }
 }

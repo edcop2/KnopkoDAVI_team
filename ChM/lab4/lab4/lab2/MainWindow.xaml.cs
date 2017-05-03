@@ -25,21 +25,32 @@ namespace lab2
     public partial class MainWindow : Window
     {
 
+        public List<double> XPoints = new List<double>();
+        public List<double> YPoints = new List<double>();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            for(double i=0; i<5; i+= 1)
+            {
+                XPoints.Add(i);
+                YPoints.Add(i * i * i);
+            }
+
             radioButtonGold.IsChecked = true;
+            xValues.ItemsSource = XPoints;
+            yValues.ItemsSource = YPoints;
         }
 
         PolyFunc pf = new PolyFunc();
-        DihMethod dih = new DihMethod();
+        Lagranje dih = new Lagranje();
         Newton combo = new Newton();
         List<double> solutions = new List<double>();
         Point mousePos = new Point();
         List<string> log = new List<string>();
         string filePath = null;
+        List<Point> points = new List<Point>();
 
         #region Private Functions
 
@@ -64,20 +75,7 @@ namespace lab2
 
         private void buttonDraw_Click(object sender, RoutedEventArgs e)
         {
-            // dataGridGx.Items.Refresh();
 
-            if (SafeParse(textBoxXMin.Text) >= SafeParse(textBoxXMax.Text))
-            {
-                if (SafeParse(textBoxXMin.Text) == SafeParse(textBoxXMax.Text) || SafeParse(textBoxXMax.Text) - SafeParse(textBoxXMin.Text) < 1)
-                {
-                    MessageBox.Show("Incorrect drawing range by x-axis!\nNeed xMin < xMax and xMax - yMin >= 1", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                string temp = textBoxXMin.Text;
-                textBoxXMin.Text = textBoxXMax.Text;
-                textBoxXMax.Text = temp;
-            }
             double xMin = SafeParse(textBoxXMin.Text);
             double xMax = SafeParse(textBoxXMax.Text);
 
@@ -98,59 +96,39 @@ namespace lab2
 
             CanvasBuilder.ClearCanvas(canvas);
             CanvasBuilder.DrawGrid(canvas, xMax, xMin, yMax, yMin);
-            pf.StringFunction = textBoxFunc.Text;
-            if (pf.CheckFunc())
-                CanvasBuilder.DrawFunction(canvas, Brushes.Blue, pf.F);
-            foreach (double i in solutions)
-            {
-                CanvasBuilder.DrawPoint(canvas, Brushes.Green, 13, i, pf.F(i));
-            }
+
+            CanvasBuilder.DrawPoints(canvas, Brushes.Red, points);
         }
 
         private void buttonCalc_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                pf.StringFunction = textBoxFunc.Text;
-                pf.Eps = SafeParse(textBoxEps.Text);
-
+                points = new List<Point>();
+                xValues.ItemsSource = XPoints;
+                yValues.ItemsSource = YPoints;
+                string s = "";
                 solutions.Clear();
                 if (radioButtonGold.IsChecked.Value)
                 {
-                    dih.Clear();
-                    dih.pf = pf;
-                    double a = SafeParse(textBoxFrom.Text);
-                    double b = SafeParse(textBoxTo.Text);
-                    double eps = SafeParse(textBoxEps.Text);
-                    dih.Calculate(a, b, eps);
-                    solutions = dih.Solutions;
                     log = dih.Log;
-                    solutions.Sort();
+                    for (double i = 0; i <= XPoints.Last(); i += 0.1)
+                        points.Add(new Point(i,dih.Calculate(i,XPoints,YPoints)));
 
                 }
                 else
                 {
                     combo.Clear();
-                    combo.pf = pf;
-                    double a = SafeParse(textBoxFrom.Text);
-                    double b = SafeParse(textBoxTo.Text);
-                    double eps = SafeParse(textBoxEps.Text);
-                    combo.Calculate(a, b, eps);
-                    solutions = combo.Solutions;
                     log = combo.Log;
-                    solutions.Sort();
+                    for (double i = 0; i < XPoints.Last(); i += 0.1)
+                        points.Add(new Point(i, combo.Calculate(i, XPoints, YPoints)));
                 }
 
-                string s = "";
-                int k = pf.IsReverse ? -1 : 1;
-                s += "Решение найдено за " + log.Count + " итераций\n\n";
-                for (int i = 0; i < log.Count; i++)
-                {
-                    s += string.Format("x({0}) = {1}\n", i, Math.Round(double.Parse(log[i]), textBoxEps.Text.Length - 2));
-                }
                 s += "\nОтвет: \n";
-                foreach (var i in solutions)
-                    s += "(" + Math.Round(i, textBoxEps.Text.Length - 2) + "; " + k * Math.Round(pf.F(i), textBoxEps.Text.Length - 2) + ") \n ";
+                foreach(Point p in points)
+                {
+                    s += Math.Round(p.X,2) + "      " + Math.Round(p.Y,2)+ "\n";
+                }
                 textBoxSols.Text = s;
                 buttonDraw_Click(sender, new RoutedEventArgs());
 
@@ -284,12 +262,10 @@ namespace lab2
 
                 menuItemClear_Click(sender, new RoutedEventArgs());
                 pf = sf.pf;
-                textBoxEps.Text = sf.eps;
                 textBoxXMin.Text = sf.xMin;
                 textBoxXMax.Text = sf.xMax;
                 textBoxYMin.Text = sf.yMin;
                 textBoxYMax.Text = sf.yMax;
-                textBoxFunc.Text = pf.StringFunction;
                 textBoxSols.Text = "";
                 buttonDraw_Click(sender, new RoutedEventArgs());
             }
@@ -304,11 +280,10 @@ namespace lab2
             if (filePath != null && File.Exists(filePath))
             {
 
-                SerializedFunc sf = new SerializedFunc(pf, textBoxEps.Text, textBoxXMin.Text, textBoxXMax.Text, textBoxYMin.Text, textBoxYMax.Text);
 
                 try
                 {
-                    sf.Write(filePath);
+                   // sf.Write(filePath);
                     MessageBox.Show("Файл сохранено", "Сохранено", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception)
@@ -326,7 +301,6 @@ namespace lab2
 
         private void menuItemSaveAs_Click(object sender, RoutedEventArgs e)
         {
-            SerializedFunc sf = new SerializedFunc(pf, textBoxEps.Text, textBoxXMin.Text, textBoxXMax.Text, textBoxYMin.Text, textBoxYMax.Text);
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "points.xml";
@@ -338,7 +312,7 @@ namespace lab2
             {
                 try
                 {
-                    sf.Write(sfd.FileName);
+                   // sf.Write(sfd.FileName);
                     filePath = sfd.FileName;
                     MessageBox.Show("Файл сохранено");
                 }
@@ -364,14 +338,12 @@ namespace lab2
         private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
             pf = new PolyFunc();
-            dih = new DihMethod();
+            dih = new Lagranje();
             combo = new Newton();
-            textBoxEps.Text = "0,01";
             textBoxXMin.Text = "-10";
             textBoxXMax.Text = "10";
             textBoxYMin.Text = "-10";
             textBoxYMax.Text = "10";
-            textBoxFunc.Text = "";
             textBoxSols.Text = "";
         }
 
