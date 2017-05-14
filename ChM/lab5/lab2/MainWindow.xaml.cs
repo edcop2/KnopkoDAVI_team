@@ -36,10 +36,12 @@ namespace lab5
 
         PolyFunc pf = new PolyFunc();
         NewtonKotex nk = new NewtonKotex();
+        RoltonRabinovich rr = new RoltonRabinovich();
         List<double> solutions = new List<double>();
         Point mousePos = new Point();
         List<string> log = new List<string>();
         string filePath = null;
+        List<lab2.Point> points = new List<lab2.Point>();
 
         #region Private Functions
 
@@ -98,13 +100,13 @@ namespace lab5
 
             CanvasBuilder.ClearCanvas(canvas);
             CanvasBuilder.DrawGrid(canvas, xMax, xMin, yMax, yMin);
-            CanvasBuilder.DrawFunction(canvas, Brushes.Blue, pf.F);
+            if (radioButtonNewton.IsChecked.Value)
+                CanvasBuilder.DrawFunction(canvas, Brushes.Blue, pf.F);
             if (!radioButtonNewton.IsChecked.Value)
             {
-                foreach (double i in solutions)
-                {
-                    CanvasBuilder.DrawPoint(canvas, Brushes.Green, 13, i, pf.F(i));
-                }
+                CanvasBuilder.DrawFunction(canvas, Brushes.Blue, points);
+                foreach (var i in points)
+                    CanvasBuilder.DrawPoint(canvas, Brushes.Red, 13, i.x, i.y);
             }
         }
 
@@ -119,8 +121,6 @@ namespace lab5
                     nk.Clear();
                     double a = SafeParse(textBoxA.Text);
                     double b = SafeParse(textBoxB.Text);
-                    //double a = 0;
-                    //double b = Math.PI / 2;
                     double n = SafeParse(textBoxEps.Text);
                     nk.Calculate(a, b, (int)n, n);
                     solutions = nk.Solutions;
@@ -134,26 +134,29 @@ namespace lab5
                     }
                     s += "\nОтвет: \n";
                     foreach (var i in solutions)
-                        s += i+"\n ";
+                        s += i + "\n ";
                     textBoxSols.Text = s;
                     buttonDraw_Click(sender, new RoutedEventArgs());
 
                 }
-                //else
-                //{
-                //    combo.Clear();
-                //    combo.pf = pf;
-                //    double a = SafeParse(textBoxFrom.Text);
-                //    double b = SafeParse(textBoxTo.Text);
-                //    double eps = SafeParse(textBoxEps.Text);
-                //    combo.Calculate(a, b, eps);
-                //    solutions = combo.Solutions;
-                //    log = combo.Log;
-                //    solutions.Sort();
-                //}
-
-
-
+                else
+                {
+                    double a = SafeParse(textBoxA.Text);
+                    double b = SafeParse(textBoxB.Text);
+                    double n = SafeParse(textBoxEps.Text);
+                    double steps = SafeParse(textBoxSteps.Text);
+                    points = rr.Rolton(a, n, b, (int)steps);
+                    string s = "";
+                    s += "Точки \n\n";
+                    for (int i = 0; i < points.Count; i++)
+                    {
+                        s += string.Format("x: {0}; y: {1}\n", Math.Round(points[i].x, 2), Math.Round(points[i].y, 2));
+                    }
+                    textBoxSols.Text = s;
+                    textBoxXMin.Text = a.ToString();
+                    textBoxXMax.Text = n.ToString();
+                    buttonDraw_Click(sender, new RoutedEventArgs());
+                }
             }
             catch
             {
@@ -361,15 +364,15 @@ namespace lab5
 
         private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
-           // pf = new PolyFunc();
-           // nk = new NewtonKotex();
-           //// combo = new CombinedMethod();
-           // textBoxEps.Text = "0,01";
-           // textBoxXMin.Text = "-10";
-           // textBoxXMax.Text = "10";
-           // textBoxYMin.Text = "-10";
-           // textBoxYMax.Text = "10";
-           // textBoxSols.Text = "";
+            // pf = new PolyFunc();
+            // nk = new NewtonKotex();
+            //// combo = new CombinedMethod();
+            // textBoxEps.Text = "0,01";
+            // textBoxXMin.Text = "-10";
+            // textBoxXMax.Text = "10";
+            // textBoxYMin.Text = "-10";
+            // textBoxYMax.Text = "10";
+            // textBoxSols.Text = "";
         }
 
         #endregion
@@ -385,6 +388,29 @@ namespace lab5
             textBoxXMax.Text = (Math.PI / 2 + 0.5).ToString();
             textBoxYMin.Text = "-2";
             textBoxYMax.Text = "3";
+            groupBoxInt.Header = "Промежуток";
+            labelStep.Visibility = Visibility.Hidden;
+            textBoxSteps.Visibility = Visibility.Hidden;
+        }
+
+        private void radioButtonRolton_Checked(object sender, RoutedEventArgs e)
+        {
+            labelEqu.Content = "y' = cos(1,5x + y) + 1,5(x-y)";
+            groupBoxInt.Header = "Начальные данные";
+            labelInt1.Content = "x0";
+            labelInt2.Content = "y0";
+            labelN.Content = "x1";
+            textBoxEps.Text = "1";
+            textBoxA.Text = "0";
+            textBoxB.Text = "0";
+            labelStep.Visibility = Visibility.Visible;
+            textBoxSteps.Visibility = Visibility.Visible;
+            textBoxSteps.Text = "10";
+            textBoxXMin.Text = "0";
+            textBoxXMax.Text = "1";
+            textBoxYMin.Text = "-2";
+            textBoxYMax.Text = "3";
+
         }
     }
 }

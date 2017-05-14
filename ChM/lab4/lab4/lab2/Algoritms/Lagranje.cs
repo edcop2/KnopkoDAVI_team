@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace lab2.Algorithms
 {
-    public class Lagranje
+    public class Gauss
     {
 
         public PolyFunc pf { get; set; }
@@ -19,7 +19,7 @@ namespace lab2.Algorithms
         public List<List<double>> Dels { get; set; }
 
 
-        public Lagranje()
+        public Gauss()
         {
             pf = new PolyFunc();
             Solutions = new List<double>();
@@ -33,6 +33,16 @@ namespace lab2.Algorithms
             Solutions.Clear();
             Log.Clear();
             Dels.Clear();
+        }
+
+
+
+        private double Fact(double x)
+        {
+            if (x == 0)
+                return 1;
+            else
+                return x * Fact(x - 1);
         }
 
 
@@ -55,45 +65,50 @@ namespace lab2.Algorithms
                 {
                     t = Dels[j][i] - Dels[j][i - 1];
                     temp.Add(t);
-                    MessageBox.Show(t.ToString());
                 }
                 Dels.Add(temp);
             }
-            //string s ="";
-            //foreach (var i in Dels)
-            //{
-            //    foreach (var j in i)
-            //        s += j + " ";
-            //    s += "\n";
-            //}
-            //MessageBox.Show(s);
-        }
-
-        private double Fact(double x)
-        {
-            if (x == 0)
-                return 1;
-            else
-                return x * Fact(x - 1);
         }
 
 
         public double Calculate(double x, List<double> x_values, List<double> y_values)
         {
-            double lagrange_pol = 0;
-            double basics_pol;
+            double gauss_pol = 0;
+            double basic_pol = 1;
 
-            //MessageBox.Show("hu");
             int x0 = x_values.Count / 2;
             if (Dels.Count == 0)
                 CalculateDels(x_values, y_values);
 
-            double q = (x - x_values[x0]) / 0.1;
-            lagrange_pol += y_values[x0];
-            lagrange_pol+=q*Dels[1]
-
-
-            return lagrange_pol;
+            double q = (x - x_values[x0]) / 1;
+            gauss_pol += y_values[x0];
+            for (int j = 1, k = 1, k1 = 0; j < y_values.Count; j++)
+            {
+                basic_pol = q;
+                for (int m = 1, m1 = 0, m2 = 1; m < j; m++)
+                {
+                    if (m1 == 0)
+                    {
+                        basic_pol *= q + m2;
+                        m1 = 1;
+                    }
+                    else
+                    {
+                        basic_pol *= q - m2;
+                        m2++;
+                        m1 = 0;
+                    }
+                }
+                gauss_pol += basic_pol * Dels[j][x0 - k] / Fact(j);
+                if (k1 != 0)
+                {
+                    k++;
+                    k1 = 0;
+                }
+                else
+                    k1++;
+            }
+            return gauss_pol;
         }
     }
 }

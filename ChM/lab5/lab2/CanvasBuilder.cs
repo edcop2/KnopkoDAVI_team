@@ -115,6 +115,45 @@ namespace lab5
             }
             canvas.Children.Add(polyline);
         }
+        public static void DrawFunction(Canvas canvas, SolidColorBrush color, List<lab2.Point> points)
+        {
+            Polyline polyline = new Polyline()
+            {
+                Stroke = color,
+                ClipToBounds = true
+            };
+
+            for (double x = 0; x < width; ++x)
+            {
+                double dy = Lagrange((x - x0) / xScale, points);
+                if (double.IsNaN(dy) || double.IsInfinity(dy))
+                    continue;
+                polyline.Points.Add(new System.Windows.Point(x, y0 - dy * yScale));
+            }
+            canvas.Children.Add(polyline);
+        }
+
+        public static double Lagrange(double x, List<lab2.Point> points)
+        {
+            double result = 0;
+            for (int i = 0; i < points.Count; i++)
+            {
+                double sum = points[i].y;
+                for (int j = 0; j < points.Count; j++)
+                {
+                    if (i != j)
+                    {
+                        sum *= (x - points[j].x);
+                        if ((points[i].x - points[j].x) != 0)
+                        {
+                            sum /= (points[i].x - points[j].x);
+                        }
+                    }
+                }
+                result += sum;
+            }
+            return result;
+        }
 
         public static void DrawPoint(Canvas canvas, SolidColorBrush color, int size, double x, double y)
         {
@@ -129,6 +168,6 @@ namespace lab5
             Canvas.SetTop(ellipse, y0 - y * yScale - size / 2);
             Canvas.SetLeft(ellipse, x0 + x * xScale - size / 2);
         }
-   
+        
     }
 }

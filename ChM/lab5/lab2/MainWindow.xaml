@@ -47,18 +47,20 @@
                 <GroupBox x:Name="groupBoxAlg" Header="Методы" HorizontalAlignment="Left" Margin="25,303,0,0" VerticalAlignment="Top" Height="80" Width="189">
                     <Grid>
                         <RadioButton x:Name="radioButtonNewton" Content="Ньютон-Котес" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonNewton_Checked" />
-                        <RadioButton x:Name="radioButtonCubic" Content="Ролстон-Робинович" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="radioButtonRolton" Content="Ролстон-Робинович" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="radioButtonRolton_Checked"/>
                     </Grid>
                 </GroupBox>
-                <Label x:Name="labelN" Content="n=" HorizontalAlignment="Left" Margin="52,69,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="textBoxEps" HorizontalAlignment="Left" Height="23" Margin="76,72,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="46"/>
                 <Label x:Name="labelEqu" Content="∫sin(2* cos x) dx" HorizontalAlignment="Left" Margin="36,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.026,-0.231" Height="37" Width="157"/>
-                <GroupBox x:Name="groupBoxInt" Header="Промежуток" HorizontalAlignment="Left" Margin="25,121,0,0" VerticalAlignment="Top" Height="80" Width="201">
+                <GroupBox x:Name="groupBoxInt" Header="Промежуток" HorizontalAlignment="Left" Margin="26,68,0,0" VerticalAlignment="Top" Height="133" Width="201">
                     <Grid>
                         <TextBox x:Name="textBoxA" HorizontalAlignment="Left" Height="23" Margin="28,21,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="54"/>
                         <TextBox x:Name="textBoxB" HorizontalAlignment="Left" Height="23" Margin="127,21,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49"/>
                         <Label x:Name="labelInt1" Content="a" HorizontalAlignment="Left" Margin="7,18,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="labelInt2" Content="b" HorizontalAlignment="Left" Margin="105,18,0,0" VerticalAlignment="Top"/>
+                        <Label x:Name="labelN" Content="n=" HorizontalAlignment="Left" Margin="12,75,0,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="textBoxEps" HorizontalAlignment="Left" Height="23" Margin="36,78,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="46"/>
+                        <Label x:Name="labelStep" Content="Шаги" HorizontalAlignment="Left" Margin="105,74,0,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="textBoxSteps" HorizontalAlignment="Left" Height="23" Margin="144,78,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="32"/>
 
                     </Grid>
                 </GroupBox>

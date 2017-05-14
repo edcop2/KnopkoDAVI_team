@@ -44,7 +44,7 @@ namespace lab2
         }
 
         PolyFunc pf = new PolyFunc();
-        Lagranje dih = new Lagranje();
+        Gauss dih = new Gauss();
         Newton combo = new Newton();
         List<double> solutions = new List<double>();
         Point mousePos = new Point();
@@ -338,7 +338,7 @@ namespace lab2
         private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
             pf = new PolyFunc();
-            dih = new Lagranje();
+            dih = new Gauss();
             combo = new Newton();
             textBoxXMin.Text = "-10";
             textBoxXMax.Text = "10";
