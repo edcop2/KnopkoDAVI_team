@@ -180,30 +180,6 @@ namespace lab2
             return lambda;
         }
 
-
-
-        //private double RosesAreRedVioletsAreBlueEverybodyLovesIOFckU2(double[] x)
-        //{
-        //    int xc = x.Length;
-        //  //  double xmin = F(x), xt;
-        //    double xd;
-        //    for (int i = 0; ; i++)
-        //    {
-        //        xt = xmin;
-        //        for (int xi = 0; xi < xc; xi++)
-        //            x[xi] = AxeEffect.Calculate(A, B, Eps, x, xi);
-        //        xmin = F(x);
-        //        xd = Math.Abs(xt - xmin);
-        //        if (xd <= Eps)
-        //        {
-        //            It = i + 1;
-        //            VMin = x;
-        //            return xmin;
-        //        }
-        //    }
-
-        //    return xmin;
-        //}
-
+        
     }
 }
