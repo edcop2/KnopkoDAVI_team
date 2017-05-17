@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AgainThisNewton.cs" />
     <Compile Include="Function.cs" />
+    <Compile Include="LevenTOR.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

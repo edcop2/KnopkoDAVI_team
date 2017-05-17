@@ -447,6 +447,22 @@ namespace lab4
             return buf;
         }
 
+        public static Matrix GetIdentityMatrix(int n)
+        {
+            Matrix im = new Matrix(n);
+            for (int i=0; i<n;i++)
+            {
+                for (int j=0; j<n;j++)
+                {
+                    if (i == j)
+                        im[i][j] = 1;
+                    else
+                        im[i][j] = 0;
+                }
+            }
+            return im;
+        }
+
 
         public static Matrix IdentityMatrix
         {
