@@ -122,7 +122,7 @@ namespace lab5
                     double a = SafeParse(textBoxA.Text);
                     double b = SafeParse(textBoxB.Text);
                     double n = SafeParse(textBoxEps.Text);
-                    nk.Calculate(a, b, (int)n, n);
+                    nk.Calculate(a, b, (int)n, (b-a)/n);
                     solutions = nk.Solutions;
                     log = nk.Log;
                     solutions.Sort();
@@ -134,7 +134,7 @@ namespace lab5
                     }
                     s += "\nОтвет: \n";
                     foreach (var i in solutions)
-                        s += i + "\n ";
+                        s += Math.Round(i,2) + "\n ";
                     textBoxSols.Text = s;
                     buttonDraw_Click(sender, new RoutedEventArgs());
 
@@ -383,9 +383,9 @@ namespace lab5
             labelEqu.Content = "∫sin(2 * cos x) dx";
             textBoxEps.Text = "4";
             textBoxA.Text = "0";
-            textBoxB.Text = (Math.PI / 2).ToString();
+            textBoxB.Text = Math.PI.ToString();
             textBoxXMin.Text = "-0,5";
-            textBoxXMax.Text = (Math.PI / 2 + 0.5).ToString();
+            textBoxXMax.Text = (Math.PI  + 0.5).ToString();
             textBoxYMin.Text = "-2";
             textBoxYMax.Text = "3";
             groupBoxInt.Header = "Промежуток";

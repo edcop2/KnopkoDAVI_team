@@ -47,7 +47,7 @@
                 <GroupBox x:Name="groupBoxAlg" Header="Методы" HorizontalAlignment="Left" Margin="25,303,0,0" VerticalAlignment="Top" Height="80" Width="189">
                     <Grid>
                         <RadioButton x:Name="radioButtonNewton" Content="Ньютон-Котес" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonNewton_Checked" />
-                        <RadioButton x:Name="radioButtonRolton" Content="Ролстон-Робинович" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="radioButtonRolton_Checked"/>
+                        <RadioButton x:Name="radioButtonRolton" Content="Рамстон-Робинович" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="radioButtonRolton_Checked"/>
                     </Grid>
                 </GroupBox>
                 <Label x:Name="labelEqu" Content="∫sin(2* cos x) dx" HorizontalAlignment="Left" Margin="36,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.026,-0.231" Height="37" Width="157"/>

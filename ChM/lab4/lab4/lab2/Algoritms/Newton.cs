@@ -1,11 +1,12 @@
-﻿using lab2.Algorithms;
+﻿using lab4.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
-namespace lab2.Algoritms
+namespace lab4.Algoritms
 {
     class Newton
     {
@@ -43,11 +44,13 @@ namespace lab2.Algoritms
                     den = 1;
                     for (k = 0; k <= i; k++)
                     {
-                        if (k != j) den *= (x[j] - x[k]);
+                        if (k != j)
+                            den *= (x[j] - x[k]);
                     }
                     F += y[j] / den;
                 }
-                for (k = 0; k < i; k++) F *= (t - x[k]);
+                for (k = 0; k < i; k++)
+                    F *= (t - x[k]);
                 res += F;
             }
             return res;

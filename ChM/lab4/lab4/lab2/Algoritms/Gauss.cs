@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace lab2.Algorithms
+namespace lab4.Algorithms
 {
     public class Gauss
     {
@@ -68,11 +68,20 @@ namespace lab2.Algorithms
                 }
                 Dels.Add(temp);
             }
+            //string s = "";
+            //for (int i = 0; i < Dels.Count; i++)
+            //{
+            //    for (int j = 0; j < Dels[i].Count; j++)
+            //        s += Dels[i][j] + " ";
+            //    s += "\n";
+            //}
+            //MessageBox.Show(s);
         }
 
 
         public double Calculate(double x, List<double> x_values, List<double> y_values)
         {
+
             double gauss_pol = 0;
             double basic_pol = 1;
 
@@ -80,7 +89,7 @@ namespace lab2.Algorithms
             if (Dels.Count == 0)
                 CalculateDels(x_values, y_values);
 
-            double q = (x - x_values[x0]) / 1;
+            double q = (x - x_values[x0]) / (x_values[2] - x_values[1]);
             gauss_pol += y_values[x0];
             for (int j = 1, k = 1, k1 = 0; j < y_values.Count; j++)
             {

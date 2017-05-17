@@ -1,5 +1,5 @@
-﻿using lab2.Algorithms;
-using lab2.Algoritms;
+﻿using lab4.Algorithms;
+using lab4.Algoritms;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace lab2
+namespace lab4
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -32,7 +32,7 @@ namespace lab2
         {
             InitializeComponent();
 
-            for(double i=0; i<5; i+= 1)
+            for (double i = 0; i < 5; i += 1)
             {
                 XPoints.Add(i);
                 YPoints.Add(i * i * i);
@@ -44,8 +44,8 @@ namespace lab2
         }
 
         PolyFunc pf = new PolyFunc();
-        Gauss dih = new Gauss();
-        Newton combo = new Newton();
+        Gauss ga = new Gauss();
+        Newton ne = new Newton();
         List<double> solutions = new List<double>();
         Point mousePos = new Point();
         List<string> log = new List<string>();
@@ -111,23 +111,24 @@ namespace lab2
                 solutions.Clear();
                 if (radioButtonGold.IsChecked.Value)
                 {
-                    log = dih.Log;
-                    for (double i = 0; i <= XPoints.Last(); i += 0.1)
-                        points.Add(new Point(i,dih.Calculate(i,XPoints,YPoints)));
+                    ga.Clear();
+                    log = ga.Log;
+                    for (double i = XPoints.First(); i <= XPoints.Last(); i += 0.1)
+                        points.Add(new Point(i, ga.Calculate(i, XPoints, YPoints)));
 
                 }
                 else
                 {
-                    combo.Clear();
-                    log = combo.Log;
-                    for (double i = 0; i < XPoints.Last(); i += 0.1)
-                        points.Add(new Point(i, combo.Calculate(i, XPoints, YPoints)));
+                    ne.Clear();
+                    log = ne.Log;
+                    for (double i = XPoints.First(); i <= XPoints.Last(); i += 0.1)
+                        points.Add(new Point(i, ne.Calculate(i, XPoints, YPoints)));
                 }
 
                 s += "\nОтвет: \n";
-                foreach(Point p in points)
+                foreach (Point p in points)
                 {
-                    s += Math.Round(p.X,2) + "      " + Math.Round(p.Y,2)+ "\n";
+                    s += Math.Round(p.X, 2) + "      " + Math.Round(p.Y, 2) + "\n";
                 }
                 textBoxSols.Text = s;
                 buttonDraw_Click(sender, new RoutedEventArgs());
@@ -283,7 +284,7 @@ namespace lab2
 
                 try
                 {
-                   // sf.Write(filePath);
+                    // sf.Write(filePath);
                     MessageBox.Show("Файл сохранено", "Сохранено", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception)
@@ -312,7 +313,7 @@ namespace lab2
             {
                 try
                 {
-                   // sf.Write(sfd.FileName);
+                    // sf.Write(sfd.FileName);
                     filePath = sfd.FileName;
                     MessageBox.Show("Файл сохранено");
                 }
@@ -338,8 +339,8 @@ namespace lab2
         private void menuItemClear_Click(object sender, RoutedEventArgs e)
         {
             pf = new PolyFunc();
-            dih = new Gauss();
-            combo = new Newton();
+            ga = new Gauss();
+            ne = new Newton();
             textBoxXMin.Text = "-10";
             textBoxXMax.Text = "10";
             textBoxYMin.Text = "-10";
@@ -347,6 +348,30 @@ namespace lab2
             textBoxSols.Text = "";
         }
 
+        private void label11_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            XPoints.Clear();
+            YPoints.Clear();
+            XPoints.AddRange(new double[] { -5, -3, -1, 1, 3 });
+            YPoints.AddRange(new double[] { 4, -4, 0, 40, 140 });
+            xValues.ItemsSource = XPoints;
+            yValues.ItemsSource = YPoints;
+            xValues.Items.Refresh();
+            yValues.Items.Refresh();
+
+        }
+
+        private void label22_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            XPoints.Clear();
+            YPoints.Clear();
+            XPoints.AddRange(new double[] { -6, -3, 0, 3, 6 });
+            YPoints.AddRange(new double[] { 5, 12, 7, 3, 2 });
+            xValues.ItemsSource = XPoints;
+            yValues.ItemsSource = YPoints;
+            xValues.Items.Refresh();
+            yValues.Items.Refresh();
+        }
     }
     #endregion
 }

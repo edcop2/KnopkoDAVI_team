@@ -68,7 +68,7 @@
     </Compile>
     <Compile Include="CanvasBuilder.cs" />
     <Compile Include="Algoritms\Function.cs" />
-    <Compile Include="Algoritms\Lagranje.cs" />
+    <Compile Include="Algoritms\Gauss.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

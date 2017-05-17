@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace lab3
 {
@@ -50,6 +51,15 @@ namespace lab3
                 traces.Add(an[k].GetTrace()/i);
                 bn.Add(an[k] - traces[k] * Matrix.IdentityMatrix);
             }
+            //string s = "";
+            //for (int i=0; i<traces.Count; i++)
+            //{
+            //    s += traces[i]+"\n";
+            //    s += an[i] + "\n";
+            //    s += bn[i] + "\n" + "\n";
+            //}
+            //MessageBox.Show(s);
+              
             Res = traces.Select(e => -e).ToList();
         }
 

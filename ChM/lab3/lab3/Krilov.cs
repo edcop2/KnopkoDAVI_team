@@ -58,6 +58,15 @@ namespace lab3
                     m[i][j] = ys[ys.Count - 2 - j][i];
                 }
             }
+          //  string s = "";
+          //  for (int i=0; i<m.Length; i++)
+          //  {
+          //      for (int j = 0; j < m[i].Length; j++)
+          //          s += m[i][j] + " ";
+          //      s += " " + b[i];
+          //      s += "\n";
+          //  }
+          ////  MessageBox.Show(s);
             Gauss ga = new Gauss(N);
             ga.A = m;
             ga.B = b;
