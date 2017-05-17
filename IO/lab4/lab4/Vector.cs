@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace lab3
+namespace lab4
 {
+
     public class Vector
     {
         private double[] _vect;
@@ -71,7 +72,7 @@ namespace lab3
             Vector bV = new Vector(n);
             bV.SetToZero();
             bV[k] = 1;
-            return bV;            
+            return bV;
         }
 
         public static Vector operator +(Vector v1, Vector v2)
@@ -145,6 +146,23 @@ namespace lab3
                 newVector[i] = v1[i] * v2[i];
             return newVector;
         }
+
+        public double[] ToDouble()
+        {
+            return _vect;
+        }
+
+
+        public double ScalarMultiply(Vector v2)
+        {
+            if (this.Length != v2.Length)
+                throw new InvalidOperationException();
+            double scalar = 0;
+            for (int i = 0; i < this.Length; i++)
+                scalar += this[i] * v2[i];
+            return scalar;
+        }
+
 
         public double Norm
         {

@@ -61,24 +61,13 @@ namespace lab2
 
             for (int k = 0; ; k++)
             {
-                //   Console.WriteLine("k=" + k);
                 lambdas.Clear();
                 for (int j = 0; j < N; j++)
                     lambdas.Add(Research(ref x, dVectors[j]));
-                // Console.WriteLine("fd"+(x- new Vector(x0)));
-                 // Console.WriteLine("fd");
-              //  Console.WriteLine(lambdas[0] + "  " + lambdas[1] + " " + lambdas[2]);
-                //Console.WriteLine("");
-                //  Console.WriteLine();
-                //    Console.WriteLine(lambdas[0]*dVectors[0] + "  " + lambdas[1] * dVectors[1]);
                 dVectors = Gramm(dVectors, lambdas);
-                //foreach (var i in dVectors)
-                //    Console.WriteLine(i);
-                //Console.WriteLine();
-              //  Console.WriteLine(x);
-                //Console.WriteLine();
                 if ((lambdas.Select(e => Math.Abs(e))).Sum() < eps || k > 100)
                 {
+                    It = k + 1;
                     VMin = x;
                     Min = F(x);
                     break;

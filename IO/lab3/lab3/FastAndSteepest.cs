@@ -66,7 +66,6 @@ namespace lab3
                 }
                 tMin = min;
             }
-
             return a;
         }
 
