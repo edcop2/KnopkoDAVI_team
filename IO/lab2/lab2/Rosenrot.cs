@@ -112,17 +112,6 @@ namespace lab2
             }
             for (int i = 0; i < n; i++)
                 dVectors[i] = b[i] / b[i].Modus();
-            //Console.WriteLine("A:");
-            //foreach (var i in a)
-            //    Console.WriteLine(i);
-            //Console.WriteLine();
-            //Console.WriteLine("B:");
-            //foreach (var i in b)
-            //    Console.WriteLine(i);
-            //Console.WriteLine();
-            //Console.WriteLine("D:");
-            //foreach (var i in dVectors)
-            //    Console.WriteLine(i);
             return dVectors;
         }
 
@@ -139,13 +128,8 @@ namespace lab2
             {
                 lambda += k * q;
                 y = F(x + lambda * d);
-                //      Console.WriteLine("i= " + i + "  l= " + lambda);
-                //   Console.WriteLine(x + lambda * d);
-                //      Console.WriteLine(lambda);
-                //    Console.WriteLine(y + " " + yt);
                 if (Math.Abs(yt - y) < Eps)
                 {
-                    // Console.WriteLine("eps");
                     break;
                 }
                 if (y > yt)
@@ -153,10 +137,7 @@ namespace lab2
                     k *= Shrink;
                     if (F(x + d * (lambda + k)) > F(x + d * (lambda - k)))
                     {
-                        //Console.WriteLine("dif1: " + (lambda + k) + "   " + (lambda - k));
-                        //Console.WriteLine("dif2: " + F(x + d * (lambda + k)) + "   " + F(x + d * (lambda - k)));
                         q = -1;
-                        //  Console.WriteLine("gfdgjdf;gjs;fsdl;khjg;lsdjgf;ldajg;sldjfj;l");
                     }
                     else
                         q = 1;
@@ -164,11 +145,7 @@ namespace lab2
                 yt = y;
             }
             x += lambda * d;
-            //Console.WriteLine(k.ToString());
-            //  Console.WriteLine(x);
             return lambda;
-        }
-
-        
+        }        
     }
 }

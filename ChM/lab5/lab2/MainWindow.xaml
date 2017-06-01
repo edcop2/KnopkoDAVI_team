@@ -64,6 +64,8 @@
 
                     </Grid>
                 </GroupBox>
+                <Label x:Name="label" Content="" HorizontalAlignment="Left" Margin="36,220,0,0" VerticalAlignment="Top" Height="78" Width="83" MouseDoubleClick="label_MouseDoubleClick"/>
+                <Label x:Name="label1" Content="" HorizontalAlignment="Left" Margin="124,220,0,0" VerticalAlignment="Top" Height="78" Width="90" MouseDoubleClick="label1_MouseDoubleClick"/>
             </Grid>
             <Grid Grid.Column="1" SizeChanged="Grid_SizeChanged">
                 <Canvas Name="canvas"  Background="GhostWhite" Margin="10,10,10,40" MouseWheel="canvas_MouseWheel" MouseMove="canvas_MouseMove" MouseLeftButtonDown="canvas_MouseLeftButtonDown" ClipToBounds="True"/>

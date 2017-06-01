@@ -130,11 +130,6 @@ namespace lab3
             s += "= 0";
 
             return s;
-        }
-
-
-
-
-
+        }       
     }
 }

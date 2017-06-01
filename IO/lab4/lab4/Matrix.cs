@@ -331,11 +331,13 @@ namespace lab4
         }
 
 
+        private Matrix _inv = null;
+
         public Matrix GetInverseMatrix
         {
             get
             {
-                return Inverse(this);
+                return _inv ?? Inverse(this);
             }
         }
 
@@ -346,15 +348,15 @@ namespace lab4
                 throw new ArgumentException("Матрица не квадратн");
             Matrix inv = new Matrix(mA.ColumnsCount);
             double det = mA.Determinant;
+            //xCsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssonsole.WriteLine(Math.Round(det,3));
+
             if (det == 0)
                 return null;
-            //Console.WriteLine("det done "+det);
             for (int i = 0; i < mA.RowsCount; i++)
             {
                 for (int t = 0; t < mA.ColumnsCount; t++)
                 {
                     Matrix tmp = mA.Exclude(i, t);
-                    //  Console.WriteLine("excluded");
                     inv[t][i] = (1 / det) * Math.Pow(-1, i + t) * tmp.Determinant;
                 }
             }
@@ -380,11 +382,13 @@ namespace lab4
             return newM;
         }
 
+        private double? _det = null;
+
         public double Determinant
         {
             get
             {
-                return Determ(matrix);
+                return _det ?? Determ(matrix);
             }
         }
 
@@ -394,16 +398,18 @@ namespace lab4
             if (matrix.Length != matrix[0].Length)
                 throw new Exception(" Число строк в матрице не совпадает с числом столбцов");
             double det = 0;
-            int Rank = matrix.GetLength(0);
+
+            int Rank = matrix.Length;
             if (Rank == 1)
                 det = matrix[0][0];
             if (Rank == 2)
                 det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
             if (Rank > 2)
             {
+                det = 1;
                 for (int j = 0; j < matrix.Length; j++)
                 {
-                    det += Math.Pow(-1, 0 + j) * matrix[0][j] * Determ(GetMinor(matrix, 0, j));
+                    det *= matrix[j][j];
                 }
             }
             return det;
@@ -411,8 +417,8 @@ namespace lab4
 
         public Matrix Transpose()
         {
-            Matrix tM = new Matrix(ColumnsCount,RowsCount);
-            for (int i=0; i< ColumnsCount; i++)
+            Matrix tM = new Matrix(ColumnsCount, RowsCount);
+            for (int i = 0; i < ColumnsCount; i++)
             {
                 for (int j = 0; j < RowsCount; j++)
                     tM[j][i] = matrix[i][j];
@@ -450,9 +456,9 @@ namespace lab4
         public static Matrix GetIdentityMatrix(int n)
         {
             Matrix im = new Matrix(n);
-            for (int i=0; i<n;i++)
+            for (int i = 0; i < n; i++)
             {
-                for (int j=0; j<n;j++)
+                for (int j = 0; j < n; j++)
                 {
                     if (i == j)
                         im[i][j] = 1;

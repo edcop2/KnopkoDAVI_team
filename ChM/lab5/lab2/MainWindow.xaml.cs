@@ -25,6 +25,9 @@ namespace lab5
     public partial class MainWindow : Window
     {
 
+        private bool newkot = true;
+
+        private int flag = 1;
 
         public MainWindow()
         {
@@ -122,7 +125,8 @@ namespace lab5
                     double a = SafeParse(textBoxA.Text);
                     double b = SafeParse(textBoxB.Text);
                     double n = SafeParse(textBoxEps.Text);
-                    nk.Calculate(a, b, (int)n, (b-a)/n);
+                    nk.pf.Flag = flag;
+                    nk.Calculate(a, b, (int)n, (b - a) / n);
                     solutions = nk.Solutions;
                     log = nk.Log;
                     solutions.Sort();
@@ -134,7 +138,7 @@ namespace lab5
                     }
                     s += "\nОтвет: \n";
                     foreach (var i in solutions)
-                        s += Math.Round(i,2) + "\n ";
+                        s += Math.Round(i, 2) + "\n ";
                     textBoxSols.Text = s;
                     buttonDraw_Click(sender, new RoutedEventArgs());
 
@@ -145,7 +149,7 @@ namespace lab5
                     double b = SafeParse(textBoxB.Text);
                     double n = SafeParse(textBoxEps.Text);
                     double steps = SafeParse(textBoxSteps.Text);
-                    points = rr.Rolton(a, n, b, (int)steps);
+                    points = rr.Rolton(a, n, b, (int)steps,flag);
                     string s = "";
                     s += "Точки \n\n";
                     for (int i = 0; i < points.Count; i++)
@@ -379,38 +383,118 @@ namespace lab5
 
         private void radioButtonNewton_Checked(object sender, RoutedEventArgs e)
         {
-
-            labelEqu.Content = "∫sin(2 * cos x) dx";
-            textBoxEps.Text = "4";
-            textBoxA.Text = "0";
-            textBoxB.Text = Math.PI.ToString();
-            textBoxXMin.Text = "-0,5";
-            textBoxXMax.Text = (Math.PI  + 0.5).ToString();
-            textBoxYMin.Text = "-2";
-            textBoxYMax.Text = "3";
-            groupBoxInt.Header = "Промежуток";
-            labelStep.Visibility = Visibility.Hidden;
-            textBoxSteps.Visibility = Visibility.Hidden;
+            newkot = true;
+                labelEqu.Content = "∫sin(2 * cos x) dx";
+                textBoxEps.Text = "4";
+                textBoxA.Text = "0";
+                textBoxB.Text = Math.PI.ToString();
+                textBoxXMin.Text = "-0,5";
+                textBoxXMax.Text = (Math.PI + 0.5).ToString();
+                textBoxYMin.Text = "-2";
+                textBoxYMax.Text = "3";
+                nk.pf.Flag = 1;
+                groupBoxInt.Header = "Промежуток";
+                labelStep.Visibility = Visibility.Hidden;
+                textBoxSteps.Visibility = Visibility.Hidden;
         }
 
         private void radioButtonRolton_Checked(object sender, RoutedEventArgs e)
         {
-            labelEqu.Content = "y' = cos(1,5x + y) + 1,5(x-y)";
-            groupBoxInt.Header = "Начальные данные";
-            labelInt1.Content = "x0";
-            labelInt2.Content = "y0";
-            labelN.Content = "x1";
-            textBoxEps.Text = "1";
-            textBoxA.Text = "0";
-            textBoxB.Text = "0";
-            labelStep.Visibility = Visibility.Visible;
-            textBoxSteps.Visibility = Visibility.Visible;
-            textBoxSteps.Text = "10";
-            textBoxXMin.Text = "0";
-            textBoxXMax.Text = "1";
-            textBoxYMin.Text = "-2";
-            textBoxYMax.Text = "3";
+            newkot = false;
+                flag = 1;
+                labelEqu.Content = "y' = cos(1,5x + y) + 1,5(x-y)";
+                groupBoxInt.Header = "Начальные данные";
+                labelInt1.Content = "x0";
+                labelInt2.Content = "y0";
+                labelN.Content = "x1";
+                textBoxEps.Text = "1";
+                textBoxA.Text = "0";
+                textBoxB.Text = "0";
+                labelStep.Visibility = Visibility.Visible;
+                textBoxSteps.Visibility = Visibility.Visible;
+                textBoxSteps.Text = "10";
+                textBoxXMin.Text = "0";
+                textBoxXMax.Text = "1";
+                textBoxYMin.Text = "-2";
+                textBoxYMax.Text = "3";
+            }
 
+        
+
+        private void label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (newkot)
+            {
+                labelEqu.Content = "∫sin(2 * cos x) dx";
+                textBoxEps.Text = "4";
+                textBoxA.Text = "0";
+                textBoxB.Text = Math.PI.ToString();
+                textBoxXMin.Text = "-0,5";
+                textBoxXMax.Text = (Math.PI + 0.5).ToString();
+                textBoxYMin.Text = "-2";
+                textBoxYMax.Text = "3";
+                nk.pf.Flag = 1;
+                groupBoxInt.Header = "Промежуток";
+                labelStep.Visibility = Visibility.Hidden;
+                textBoxSteps.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                flag = 1;
+                labelEqu.Content = "y' = cos(1,5x + y) + 1,5(x-y)";
+                groupBoxInt.Header = "Начальные данные";
+                labelInt1.Content = "x0";
+                labelInt2.Content = "y0";
+                labelN.Content = "x1";
+                textBoxEps.Text = "1";
+                textBoxA.Text = "0";
+                textBoxB.Text = "0";
+                labelStep.Visibility = Visibility.Visible;
+                textBoxSteps.Visibility = Visibility.Visible;
+                textBoxSteps.Text = "10";
+                textBoxXMin.Text = "0";
+                textBoxXMax.Text = "1";
+                textBoxYMin.Text = "-2";
+                textBoxYMax.Text = "3";
+            }
+        }
+
+        private void label1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (newkot)
+            {
+                labelEqu.Content = "∫(1,5 * x^2 + x)/(x^5 + 1) dx";
+                textBoxEps.Text = "4";
+                textBoxA.Text = "0";
+                textBoxB.Text = "1,2";
+                textBoxXMin.Text = "-0,5";
+                textBoxXMax.Text = (1.2 + 0.5).ToString();
+                textBoxYMin.Text = "-2";
+                textBoxYMax.Text = "3";
+                nk.pf.Flag = 2;
+                groupBoxInt.Header = "Промежуток";
+                labelStep.Visibility = Visibility.Hidden;
+                textBoxSteps.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                flag = 2;
+                labelEqu.Content = "y' = 1 - 0,1y/(x + 2) + sin(2x + y)";
+                groupBoxInt.Header = "Начальные данные";
+                labelInt1.Content = "x0";
+                labelInt2.Content = "y0";
+                labelN.Content = "x1";
+                textBoxEps.Text = "1";
+                textBoxA.Text = "0";
+                textBoxB.Text = "0";
+                labelStep.Visibility = Visibility.Visible;
+                textBoxSteps.Visibility = Visibility.Visible;
+                textBoxSteps.Text = "10";
+                textBoxXMin.Text = "0";
+                textBoxXMax.Text = "1";
+                textBoxYMin.Text = "-2";
+                textBoxYMax.Text = "3";
+            }
         }
     }
 }

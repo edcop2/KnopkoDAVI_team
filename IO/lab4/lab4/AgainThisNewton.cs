@@ -93,21 +93,5 @@ namespace lab4
             MinV = x.Copy();
         }
 
-        public double Optimize(Vector x, Vector dFs, int k)
-        {
-            double a;
-            double min, tMin = FF.F(x);
-            for (a = FF.Eps; ; a += FF.Eps)
-            {
-                min = FF.F(x - dFs[k] * (x.BasicVector(k) * a));
-                if (min >= tMin)
-                {
-                    break;
-                }
-                tMin = min;
-            }
-            return a;
-        }
-
     }
 }

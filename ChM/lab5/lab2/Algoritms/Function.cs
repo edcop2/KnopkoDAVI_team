@@ -56,7 +56,9 @@ namespace lab5.Algorithms
             double solution = double.NaN;
             if (Flag == 1)
                 solution = Math.Sin(2 * Math.Cos(x));
-            return solution;
+            else
+                solution = (1.5 * Math.Pow(x, 2) + x) / (Math.Pow(x, 5) + 1);
+            return solution; 
         }
 
         public double dF(double x)

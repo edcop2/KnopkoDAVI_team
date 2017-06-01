@@ -55,6 +55,7 @@ namespace lab3
                     else
                         alpha *= Beta;
                 }
+               // Console.WriteLine(alpha);
                 x = x + alpha * antiGrad;
                 nt = antiGrad.Norm;
             }

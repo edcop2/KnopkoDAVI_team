@@ -150,7 +150,7 @@ namespace lab3
         {
             get
             {
-                return _vect.Sum(e => Math.Abs(e));
+                return Math.Sqrt(_vect.Sum(e => Math.Pow(e,2)));
             }
 
         }

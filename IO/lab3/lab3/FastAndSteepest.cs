@@ -28,49 +28,54 @@ namespace lab3
 
         }
 
+
         public void Descend(Vector x)
         {
             Vector dFs;
-            Vector alpha;
+            double alpha;
+            double delt;
             int n = x.Length;
+            Vector xt = null;
             for (It = 0; ; It++)
             {
+               // Console.WriteLine("====="+It+"=====");
                 dFs = new Vector(n);
-                alpha = new Vector(n);
                 for (int i = 0; i < n; i++)
                 {
                     dFs[i] = FF.PdF(x, i);
                 }
+                // Console.WriteLine(dFs);
+                //  Console.WriteLine(dFs.Norm);
                 if (dFs.Norm < FF.Eps)
                 {
                     break;
                 }
-                for (int i = 0; i < n; i++)
-                    alpha[i] = Optimize(x, dFs, i);
+                alpha = Optimize(x, dFs);
+              //  Console.WriteLine(alpha);
+                
+                xt = x.Copy();
                 x = x - alpha * dFs;
+                //    Console.WriteLine(x);
             }
             Min = FF.F(x);
             MinV = x.Copy();
         }
 
-        public double Optimize(Vector x, Vector dFs, int k)
+
+        public double Optimize(Vector x, Vector dFs)
         {
             double a;
             double min, tMin = FF.F(x);
-            for (a = FF.Eps; ; a+=FF.Eps)
+            for (a = FF.Eps; ; a += FF.Eps)
+            {   
+                min = FF.F(x - dFs * a);
+            if (min >= tMin)
             {
-                min = FF.F(x - dFs[k] * (x.BasicVector(k) * a));     
-                if (min >= tMin )
-                {
-                    break;
-                }
-                tMin = min;
+                break;
             }
+            tMin = min;
+        }
             return a;
         }
-
-
-
-
-    }
+}
 }

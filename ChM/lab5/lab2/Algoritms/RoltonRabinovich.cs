@@ -9,13 +9,20 @@ namespace lab5.Algoritms
 {
     public class RoltonRabinovich
     {
+
+        public static int Flag { get; set; } = 1;
+
         static double f(double x, double y)
         {
-            return Math.Cos(1.5 * x + y) + 1.5 * (x - y);
+            if (Flag == 1)
+                return Math.Cos(1.5 * x + y) + 1.5 * (x - y);
+            else
+                return 1 - 0.1 * y / (x + 2) - Math.Sin(2 * x + y);
         }
 
-        public List<Point> Rolton(double x, double x1, double y, int n)
+        public List<Point> Rolton(double x, double x1, double y, int n, int flag=1)
         {
+            Flag = flag;
             List<Point> result = new List<Point>() { new Point(x, y) };
             double h = 0;
             double k1 = 0;
