@@ -50,25 +50,26 @@ namespace UltimateWuxiaDownloader
             var savePathDocx = path + ".docx";
             var wordDoc = word.Documents.Open(FileName: filePath, ReadOnly: false);
             wordDoc.SaveAs2(FileName: savePathDocx, FileFormat: WdSaveFormat.wdFormatXMLDocument);
-            wordDoc.Close();
             word.Documents.Close();
+         //   wordDoc.Close();
         }
 
 
         static void Main(string[] args)
         {
-            for (int i = 1270; i < 1319; i++)
+            for (int i = 244; i <= 309; i++)
             {
-                string htmlResponse = getResponse("http://www.wuxiaworld.com/mga-index/mga-chapter-"+i+"/");
-                string path = "d:\\mga\\mga-chapter"+i;
+                string htmlResponse = getResponse("http://www.wuxiaworld.com/tgr-index/tgr-chapter-" + i + "/");
+                string path = "D:\\Books\\Wux\\TGR\\tgr-chapter-" + i;
                 string res = MainArticle(htmlResponse);
                 string html = "<html><head><meta charset=\"UTF-8\"></head><body><p><strong> ";
                 html += res;
                 html += "</body></html> ";
                 byte[] b = Encoding.Default.GetBytes(html);
-                System.IO.File.WriteAllBytes(path+".html", b);
+                System.IO.File.WriteAllBytes(path + ".html", b);
                 Converter(path);
-              //  Console.WriteLine(res);
+                Console.WriteLine("Chaper " + i + " done.");
+                //  Console.WriteLine(res);
             }
         }
     }
