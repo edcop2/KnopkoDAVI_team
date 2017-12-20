@@ -7,13 +7,13 @@ namespace WpfApp1.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ExpEvalDeleteMigration : IMigrationMetadata
+    public sealed partial class QualityAttributesAddedMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ExpEvalDeleteMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(QualityAttributesAddedMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712041655403_ExpEvalDeleteMigration"; }
+            get { return "201712201844241_QualityAttributesAddedMigration"; }
         }
         
         string IMigrationMetadata.Source

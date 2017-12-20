@@ -37,13 +37,13 @@
                 </MenuItem>
             </Menu>
         </Grid>
-        <Grid Grid.Column="0" Grid.Row="1">
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
             <TabControl Name="MyTabControl" Grid.Row="1" Margin="10,10,10,10">
-                <TabItem Header="Конкурентоспособность">
+                <!--<TabItem Header="Конкурентоспособность">
                     <Grid  Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
@@ -57,7 +57,7 @@
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
                             </DataGrid>
-                            <Label Content="Текущий проект" HorizontalAlignment="Left" Margin="20,12,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Оценки экспертов текущего проекта" HorizontalAlignment="Left" Margin="20,12,0,0" VerticalAlignment="Top"/>
                             <Button  Name="ButtonCompRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="257,246,0,0" VerticalAlignment="Top" Width="50" Click="ButtonCompRefresh_Click"/>
                             <Button Name="ButtomCompCalc" Content="Calculate" HorizontalAlignment="Left" Margin="35,246,0,0" VerticalAlignment="Top" Width="75" Click="ButtomCompCalc_Click"/>
 
@@ -92,23 +92,23 @@
                         <GroupBox Header="Q(j)" HorizontalAlignment="Left" Height="50" Margin="147,10,0,0" VerticalAlignment="Top" Width="120">
                             <TextBox Name="TextBoxQj" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Margin="10,0,0,0"/>
                         </GroupBox>
-                        <GroupBox Header="Затраты на реконструкцию помещения" HorizontalAlignment="Left" Height="50" Margin="137,65,0,0" VerticalAlignment="Top" Width="120">
+                        <GroupBox Header="Затраты на реконструкцию помещения" HorizontalAlignment="Left" Height="50" Margin="137,65,0,0" VerticalAlignment="Top" Width="255">
                             <TextBox Name="TextBoxRepairRoomCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Margin="10,0,0,0"/>
                         </GroupBox>
-                        <GroupBox Header="Затраты на приобритение пакетов" HorizontalAlignment="Left" Height="50" Margin="137,120,0,0" VerticalAlignment="Top" Width="120">
+                        <GroupBox Header="Затраты на приобритение пакетов" HorizontalAlignment="Left" Height="50" Margin="137,120,0,0" VerticalAlignment="Top" Width="225">
                             <TextBox Name="TextBoxPackageBuyingCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Margin="10,0,0,0"/>
                         </GroupBox>
-                        <GroupBox Header="Затраты на прокладку линий связи" HorizontalAlignment="Left" Height="50" Margin="137,175,0,0" VerticalAlignment="Top" Width="120">
+                        <GroupBox Header="Затраты на прокладку линий связи" HorizontalAlignment="Left" Height="50" Margin="137,175,0,0" VerticalAlignment="Top" Width="244">
                             <TextBox Name="TextBoxConLinesBuildCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Margin="10,0,0,0"/>
                         </GroupBox>
-                        <GroupBox Header="Затраты на создание информационной базы" HorizontalAlignment="Left" Height="50" Margin="137,230,0,0" VerticalAlignment="Top" Width="120">
+                        <GroupBox Header="Затраты на создание информационной базы" HorizontalAlignment="Left" Height="50" Margin="137,230,0,-5" VerticalAlignment="Top" Width="271">
                             <TextBox Name="TextBoxInformBaseCreationCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Margin="10,0,0,0"/>
                         </GroupBox>
-                        <GroupBox Header="Затраты на подготовку кадров" HorizontalAlignment="Left" Height="50" Margin="272,65,0,0" VerticalAlignment="Top" Width="120">
+                        <GroupBox Header="Затраты на подготовку кадров" HorizontalAlignment="Left" Height="50" Margin="376,120,0,0" VerticalAlignment="Top" Width="194">
                             <TextBox Name="TextBoxPersonalLearningCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Margin="10,0,0,0"/>
                         </GroupBox>
-                        <Button Name="ButtonExpensesCalc" Content="Calc" HorizontalAlignment="Left" Margin="316,175,0,0" VerticalAlignment="Top" Width="76" Click="ButtonExpensesCalc_Click"/>
-                        <Button x:Name="ButtonExpensesSave" Content="Save" HorizontalAlignment="Left" Margin="316,230,0,0" VerticalAlignment="Top" Width="76" Click="ButtonExpensesSave_Click"/>
+                        <Button Name="ButtonExpensesCalc" Content="Calc" HorizontalAlignment="Left" Margin="452,175,0,0" VerticalAlignment="Top" Width="76" Click="ButtonExpensesCalc_Click"/>
+                        <Button x:Name="ButtonExpensesSave" Content="Save" HorizontalAlignment="Left" Margin="452,229,0,0" VerticalAlignment="Top" Width="76" Click="ButtonExpensesSave_Click"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Эксплуатационные затраты">
@@ -182,14 +182,154 @@
                             </Grid>
                         </GroupBox>
                     </Grid>
+                </TabItem>-->
+                <TabItem Header="Показатели качества">
+                    <Grid>
+                        <DataGrid Name="QualityDataGrid" Margin="10,50,10,100" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                        </DataGrid>
+                        <Button Name="QualityDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="QualityDataGridRefreshButton_Click"/>
+                        <TextBox Name="QualityTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
+                        <Label Content="Коэффициент технического уровня первого проекта ко второму" HorizontalAlignment="Right" Margin="0,0,91,7" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="QualityTotalOtherTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,58" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
+                        <Label Content="Обобщенный показатель качества аналога" HorizontalAlignment="Right" Margin="0,0,91,55" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="QualityTotalProjectTextBox" HorizontalAlignment="Left" Height="23" Margin="264,0,0,47" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
+                        <Label Content="Обобщенный показатель качества проекта" HorizontalAlignment="Left" Margin="10,0,0,47" VerticalAlignment="Bottom"/>
+                        <Button x:Name="QualityDataGridLoadButton" Content="Load" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="76" Click="QualityDataGridLoadButton_Click"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Сотрудники">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <DataGrid Name="SlaveDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}"  AutoGenerateColumns="False">
+                            </DataGrid>
+                            <Button Name="SlaveDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="SlaveDataGridRefreshButton_Click"/>
+                            <TextBox Name="SlaveTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="96"/>
+                            <Label Content="Всего" HorizontalAlignment="Right" Margin="0,0,111,13" VerticalAlignment="Bottom"/>
+                            <Button Name="SlaveDataGridAddRowButton"  Content="Add Row" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="75" Click="SlaveDataGridAddRowButton_Click"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <DataGrid Name="ExploitSlaveDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}"  AutoGenerateColumns="False">
+                            </DataGrid>
+                            <Button Name="ExploitSlaveDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="ExploitSlaveDataGridRefreshButton_Click"/>
+                            <TextBox Name="ExploitSlaveTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="96"/>
+                            <Label Content="Всего" HorizontalAlignment="Right" Margin="0,0,111,13" VerticalAlignment="Bottom"/>
+                            <Button Name="ExploitSlaveDataGridAddRowButton"  Content="Add Row" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="75" Click="ExploitSlaveDataGridAddRowButton_Click"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Материалы">
+                    <Grid>
+                        <DataGrid Name="MaterialDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                        </DataGrid>
+                        <Button Name="MaterialDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="MaterialDataGridRefreshButton_Click"/>
+                        <TextBox Name="MaterialTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
+                        <Label Content="Всего" HorizontalAlignment="Right" Margin="0,0,91,7" VerticalAlignment="Bottom"/>
+                        <Button Name="MaterialDataGridAddRowButton"  Content="Add Row" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="75" Click="MaterialDataGridAddRowButton_Click"/>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Оборудование">
+                    <Grid>
+                        <DataGrid Name="EquipDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}" AutoGenerateColumns="False"/>
+                        <Button Name="EquipDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="EquipDataGridRefreshButton_Click"/>
+                        <TextBox Name="EquipTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="107"/>
+                        <Label Content="Затраты на оборудование" HorizontalAlignment="Right" Margin="0,0,122,10" VerticalAlignment="Bottom"/>
+                        <Button Name="EquipDataGridAddRowButton"  Content="Add Row" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="75" Click="EquipDataGridAddRowButton_Click"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Доп. данные">
+                    <Grid>
+                        <GroupBox Header="Затраты на реконструкцию помещений, грн." HorizontalAlignment="Left" Height="59" Margin="10,10,0,0" VerticalAlignment="Top" Width="313">
+                            <TextBox Name="TextBoxRepairСost" Text="0" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="119,10,0,0" />
+                        </GroupBox>
+                        <GroupBox Header="Затраты на приобритение типовых разработок, грн." HorizontalAlignment="Left" Height="55" Margin="10,83,0,0" VerticalAlignment="Top" Width="313">
+                            <TextBox x:Name="TextBoxPacketСost" Text="0" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Margin="120,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Затраты на прокладку линий связи, грн." HorizontalAlignment="Left" Height="55" Margin="10,154,0,0" VerticalAlignment="Top" Width="313">
+                            <TextBox x:Name="TextBoxLineСost" Text="0" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Margin="120,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Затраты на создание информационной базы, грн." HorizontalAlignment="Left" Height="55" Margin="10,224,0,0" VerticalAlignment="Top" Width="313">
+                            <TextBox x:Name="TextBoxInfoDbСost" Text="0" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Margin="120,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Затраты на подготовку кадров, грн." HorizontalAlignment="Left" Height="55" Margin="10,299,0,0" VerticalAlignment="Top" Width="313">
+                            <TextBox x:Name="TextBoxSlaveTrainingСost" TextAlignment="Right" Text="0" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Margin="120,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Тариф на электроэнергию, грн." HorizontalAlignment="Left" Height="59" Margin="380,155,0,0" VerticalAlignment="Top" Width="314">
+                            <TextBox x:Name="TextBoxElectroСost" Text="0.57" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="119,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Коэффициент дополнительной з/п" HorizontalAlignment="Left" Height="59" Margin="380,228,0,0" VerticalAlignment="Top" Width="314">
+                            <TextBox x:Name="TextBoxAddPayment" Text="0.4" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="119,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Коэффициент отчислений на социальные нужды з/п" HorizontalAlignment="Left" Height="59" Margin="380,299,0,0" VerticalAlignment="Top" Width="314">
+                            <TextBox x:Name="TextBoxSocPayment" Text="0.22" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="119,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Использование машинноговремени" HorizontalAlignment="Left" Height="128" Margin="380,10,0,0" VerticalAlignment="Top" Width="696">
+                            <Grid>
+                                <GroupBox Header="Необходимое время, час." HorizontalAlignment="Left" Height="59" Margin="10,10,0,0" VerticalAlignment="Top" Width="294">
+                                    <TextBox x:Name="TextBoxMachineTime" Text="0" TextAlignment="Right" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="0,10,10,0" />
+                                </GroupBox>
+                                <GroupBox Header="Необходимое время, грн./час" HorizontalAlignment="Right" Height="59" Margin="10,10,10,0" VerticalAlignment="Top" Width="294">
+                                    <TextBox x:Name="TextBoxMachineTimePrice" Text="0" TextAlignment="Right" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="0,10,10,0" />
+                                </GroupBox>
+
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Затраты">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.ColumnSpan="2" Content="Show" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+
+                        <DataGrid Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" Name="TotalCostsDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" />
+                        <DataGrid Grid.Row="1" Grid.Column="1" Margin="10,10,10,10" Name="ExploitCostsDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" />
+                        <Label Grid.Row="0" Grid.Column="0" Content="Капитальные вложения" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                        <Label Grid.Row="0" Grid.Column="1" Content="Эксплуатационные затраты" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Экономический эффект">
+                    <Grid>
+                        <Button Name="EcoEffectButon" Grid.Row="0" Grid.ColumnSpan="2" Content="Show" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="76" Click="EcoEffectButon_Click"/>
+                        <DataGrid Name="EcoEffectDataGrid" Margin="10,40,10,100"/>
+                        <Label HorizontalAlignment="Left" Margin="10,0,0,28" VerticalAlignment="Bottom" Width="336" Height="48">
+                            <Label.Content>
+                                <TextBlock TextWrapping="Wrap">Экономический эффект от использования разрабатываемой системы (программного продукта), грн.</TextBlock>
+                            </Label.Content>
+                        </Label>
+                        <TextBox Name="EcoEffectTextBox" HorizontalAlignment="Left" Height="23" Margin="185,0,0,5" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Bottom" Width="120"/>
+                        <TextBox Name="EcoTimeTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,53" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
+                        <Label Content="Срок окупаемости, лет" HorizontalAlignment="Right" Margin="0,0,91,50" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="ActualEcoEffectTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
+                        <Label Content="Фактический коэффициент экономической эффективности" HorizontalAlignment="Right" Margin="0,0,91,10" VerticalAlignment="Bottom"/>
+
+                    </Grid>
                 </TabItem>
             </TabControl>
             <Grid Grid.Row="0">
-                <TextBox Grid.Column="0" x:Name="ProjectNameTextBox" HorizontalAlignment="Left" Height="23" Margin="104,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                <Label Grid.Column="0" Content="Project Name" HorizontalAlignment="Left" Margin="16,28,0,0" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="0" x:Name="ProjectNameTextBox" HorizontalAlignment="Left" Height="23" Margin="152,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                <Label Grid.Column="0" Content="Название проекта" HorizontalAlignment="Left" Margin="16,28,0,0" VerticalAlignment="Top"/>
+                <Button Name="ButtonGlobalSave" Content="Save" HorizontalAlignment="Left" Margin="373,28,0,0" VerticalAlignment="Top" Width="75" Click="ButtonGlobalSave_Click"/>
+                <ComboBox Name="OtherProjectComboBox" HorizontalAlignment="Left" Margin="898,28,0,0" VerticalAlignment="Top" Width="120"/>
+                <Label Grid.Column="0" Content="Проект аналог" HorizontalAlignment="Left" Margin="769,22,0,0" VerticalAlignment="Top"/>
             </Grid>
         </Grid>
-        <Grid Grid.Column="0" Grid.Row="2">
+
+
+
+
+        <!--<Grid Grid.Column="0" Grid.Row="2">
             <TextBox Name="TextBoxAns" IsReadOnly="True" Margin="10,10,10,10"/>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
@@ -207,6 +347,6 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="2">
             <Image Name="AppImage"  Margin="10,10,10,10" Source="IMG/darknes.jpg"/>
-        </Grid>
+        </Grid>-->
     </Grid>
 </Window>

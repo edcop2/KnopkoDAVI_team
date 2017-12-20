@@ -23,14 +23,11 @@ namespace WpfApp1.Data
 
 
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ExpertEval> ExpertEvals { get; set; }
-        public DbSet<Eval> Evals { get; set; }
-        public DbSet<DevCost> DevCosts { get; set; }
-        public DbSet<CbQj> CbQjs { get; set; }
-        public DbSet<OpCost> OpCosts { get; set; }
-        public DbSet<EmpTime> EmpTimes { get; set; }
+        public DbSet<Slave> Slaves { get; set; }
+        public DbSet<Material> Materials { get; set; }
         public DbSet<Equip> Equips { get; set; }
-        public DbSet<EcoEffect> EcoEffects { get; set; }
+        public DbSet<QualityAttribute> QualityAttributes { get; set; }
+
 
 
 

@@ -7,13 +7,13 @@ namespace WpfApp1.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class DbWipeMigration : IMigrationMetadata
+    public sealed partial class GlobalUPdateMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DbWipeMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(GlobalUPdateMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712092152268_DbWipeMigration"; }
+            get { return "201712201732223_GlobalUPdateMigration"; }
         }
         
         string IMigrationMetadata.Source

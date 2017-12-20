@@ -105,49 +105,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\AppDbContext.cs" />
-    <Compile Include="Data\Migrations\201712041559140_ExpertEvalMigration.cs" />
-    <Compile Include="Data\Migrations\201712041559140_ExpertEvalMigration.Designer.cs">
-      <DependentUpon>201712041559140_ExpertEvalMigration.cs</DependentUpon>
+    <Compile Include="Data\Migrations\201712201732223_GlobalUPdateMigration.cs" />
+    <Compile Include="Data\Migrations\201712201732223_GlobalUPdateMigration.Designer.cs">
+      <DependentUpon>201712201732223_GlobalUPdateMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\Migrations\201712041655403_ExpEvalDeleteMigration.cs" />
-    <Compile Include="Data\Migrations\201712041655403_ExpEvalDeleteMigration.Designer.cs">
-      <DependentUpon>201712041655403_ExpEvalDeleteMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Migrations\201712041658477_ExpEvalUpdateMigration.cs" />
-    <Compile Include="Data\Migrations\201712041658477_ExpEvalUpdateMigration.Designer.cs">
-      <DependentUpon>201712041658477_ExpEvalUpdateMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Migrations\201712092152268_DbWipeMigration.cs" />
-    <Compile Include="Data\Migrations\201712092152268_DbWipeMigration.Designer.cs">
-      <DependentUpon>201712092152268_DbWipeMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Migrations\201712111652285_ProjectChangedMigration.cs" />
-    <Compile Include="Data\Migrations\201712111652285_ProjectChangedMigration.Designer.cs">
-      <DependentUpon>201712111652285_ProjectChangedMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Migrations\201712131325155_OpCostsAddedMigration.cs" />
-    <Compile Include="Data\Migrations\201712131325155_OpCostsAddedMigration.Designer.cs">
-      <DependentUpon>201712131325155_OpCostsAddedMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Migrations\201712131438449_EcoEffectAddedMigration.cs" />
-    <Compile Include="Data\Migrations\201712131438449_EcoEffectAddedMigration.Designer.cs">
-      <DependentUpon>201712131438449_EcoEffectAddedMigration.cs</DependentUpon>
+    <Compile Include="Data\Migrations\201712201844241_QualityAttributesAddedMigration.cs" />
+    <Compile Include="Data\Migrations\201712201844241_QualityAttributesAddedMigration.Designer.cs">
+      <DependentUpon>201712201844241_QualityAttributesAddedMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Migrations\Configuration.cs" />
-    <Compile Include="Data\Repos\CompetRepo.cs" />
-    <Compile Include="Data\Repos\ProjectRepo.cs" />
-    <Compile Include="Models\DataArray.cs" />
-    <Compile Include="Models\DevCost.cs" />
-    <Compile Include="Models\EcoEffect.cs" />
-    <Compile Include="Models\ExpertEval.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\OpCost.cs" />
+    <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Equip.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\QualityAttribute.cs" />
+    <Compile Include="Models\Slave.cs" />
+    <Compile Include="Models\TwoColumnView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,26 +139,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Data\Migrations\201712041559140_ExpertEvalMigration.resx">
-      <DependentUpon>201712041559140_ExpertEvalMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Data\Migrations\201712201732223_GlobalUPdateMigration.resx">
+      <DependentUpon>201712201732223_GlobalUPdateMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201712041655403_ExpEvalDeleteMigration.resx">
-      <DependentUpon>201712041655403_ExpEvalDeleteMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201712041658477_ExpEvalUpdateMigration.resx">
-      <DependentUpon>201712041658477_ExpEvalUpdateMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201712092152268_DbWipeMigration.resx">
-      <DependentUpon>201712092152268_DbWipeMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201712111652285_ProjectChangedMigration.resx">
-      <DependentUpon>201712111652285_ProjectChangedMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201712131325155_OpCostsAddedMigration.resx">
-      <DependentUpon>201712131325155_OpCostsAddedMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\Migrations\201712131438449_EcoEffectAddedMigration.resx">
-      <DependentUpon>201712131438449_EcoEffectAddedMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Data\Migrations\201712201844241_QualityAttributesAddedMigration.resx">
+      <DependentUpon>201712201844241_QualityAttributesAddedMigration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
