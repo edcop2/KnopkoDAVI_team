@@ -205,6 +205,11 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <DataGrid Name="SlaveDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}"  AutoGenerateColumns="False">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Remove" Name="MenuItemEmployeeDelete" Click="MenuItemEmployeeDelete_Click" />
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
                             </DataGrid>
                             <Button Name="SlaveDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="SlaveDataGridRefreshButton_Click"/>
                             <TextBox Name="SlaveTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="96"/>
@@ -213,6 +218,11 @@
                         </Grid>
                         <Grid Grid.Row="1">
                             <DataGrid Name="ExploitSlaveDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}"  AutoGenerateColumns="False">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Remove" Name="MenuItemExploitEmployeeDelete" Click="MenuItemExploitEmployeeDelete_Click" />
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
                             </DataGrid>
                             <Button Name="ExploitSlaveDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="ExploitSlaveDataGridRefreshButton_Click"/>
                             <TextBox Name="ExploitSlaveTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="96"/>
@@ -224,6 +234,11 @@
                 <TabItem Header="Материалы">
                     <Grid>
                         <DataGrid Name="MaterialDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Remove" Name="MenuItemMaterialDelete" Click="MenuItemMaterialDelete_Click" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
                         </DataGrid>
                         <Button Name="MaterialDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="MaterialDataGridRefreshButton_Click"/>
                         <TextBox Name="MaterialTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="76"/>
@@ -234,7 +249,13 @@
                 </TabItem>
                 <TabItem Header="Оборудование">
                     <Grid>
-                        <DataGrid Name="EquipDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}" AutoGenerateColumns="False"/>
+                        <DataGrid Name="EquipDataGrid" Margin="10,50,10,50" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Remove" Name="MenuItemEquipDelete" Click="MenuItemEquipDelete_Click" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
                         <Button Name="EquipDataGridRefreshButton" Content="Refresh" HorizontalAlignment="Right" Margin="0,25,10,0" VerticalAlignment="Top" Width="76" Click="EquipDataGridRefreshButton_Click"/>
                         <TextBox Name="EquipTotalTextBox" HorizontalAlignment="Right" Height="23" Margin="0,0,10,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="107"/>
                         <Label Content="Затраты на оборудование" HorizontalAlignment="Right" Margin="0,0,122,10" VerticalAlignment="Bottom"/>
@@ -272,8 +293,22 @@
                                 <GroupBox Header="Необходимое время, час." HorizontalAlignment="Left" Height="59" Margin="10,10,0,0" VerticalAlignment="Top" Width="294">
                                     <TextBox x:Name="TextBoxMachineTime" Text="0" TextAlignment="Right" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="0,10,10,0" />
                                 </GroupBox>
-                                <GroupBox Header="Необходимое время, грн./час" HorizontalAlignment="Right" Height="59" Margin="10,10,10,0" VerticalAlignment="Top" Width="294">
+                                <GroupBox Header="Стоимость часа машинного времени, грн./час" HorizontalAlignment="Right" Height="59" Margin="10,10,10,0" VerticalAlignment="Top" Width="294">
                                     <TextBox x:Name="TextBoxMachineTimePrice" Text="0" TextAlignment="Right" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="0,10,10,0" />
+                                </GroupBox>
+
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Коэффициент накладных расходов" HorizontalAlignment="Left" Height="59" Margin="741,150,0,0" VerticalAlignment="Top" Width="314">
+                            <TextBox x:Name="TextBoxInvoicesKOef" Text="0.2" TextAlignment="Right" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="119,10,0,0"/>
+                        </GroupBox>
+                        <GroupBox Header="Сроки проекта" HorizontalAlignment="Left" Height="170" Margin="741,230,0,0" VerticalAlignment="Top" Width="361">
+                            <Grid>
+                                <GroupBox Header="Дата начала" HorizontalAlignment="Left" Height="59" Margin="19,10,0,0" VerticalAlignment="Top" Width="294">
+                                    <TextBox x:Name="TextBoxDateStart" Text="0" TextAlignment="Right" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="0,10,10,0" />
+                                </GroupBox>
+                                <GroupBox Header="Дата окончания" HorizontalAlignment="Right" Height="59" Margin="0,89,36,0" VerticalAlignment="Top" Width="294">
+                                    <TextBox x:Name="TextBoxDateEnd" IsReadOnly="True"  Text="0" TextAlignment="Right" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Margin="0,10,10,0" />
                                 </GroupBox>
 
                             </Grid>

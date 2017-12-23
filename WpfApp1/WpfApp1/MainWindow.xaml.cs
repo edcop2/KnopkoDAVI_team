@@ -683,7 +683,7 @@ namespace WpfApp1
 
         private void OtherCostsSetup(out double repairCost, out double packetCost, out double lineCost,
             out double slaveTrainingCost, out double electroCost, out double machineTime, out double machineTimePrice,
-            out double addPayment, out double socPayment)
+            out double addPayment, out double socPayment, out double invoicesKoef)
         {
             if (!double.TryParse(TextBoxRepairСost.Text, out repairCost))
             {
@@ -782,13 +782,23 @@ namespace WpfApp1
                 MessageBox.Show("Введите правильно коэффициент соц. выплат");
             }
 
+            if (!double.TryParse(TextBoxInvoicesKOef.Text, out invoicesKoef))
+            {
+                MessageBox.Show("Введите правильно коэффициент накладных выплат");
+            }
+
+            if (invoicesKoef < 0)
+            {
+                MessageBox.Show("Введите правильно коэффициент накладных выплат");
+            }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double repairCost, packetCost, lineCost, slaveTrainingCost, electroCost, machineTime, machineTimePrice, addPayment, socPayment;
+            double repairCost, packetCost, lineCost, slaveTrainingCost, electroCost, machineTime, machineTimePrice, addPayment, socPayment, invoicesKoef;
             OtherCostsSetup(out repairCost, out packetCost, out lineCost, out slaveTrainingCost, out electroCost,
-                out machineTime, out machineTimePrice, out addPayment, out socPayment);
+                out machineTime, out machineTimePrice, out addPayment, out socPayment, out invoicesKoef);
 
             try
             {
@@ -809,11 +819,11 @@ namespace WpfApp1
                     Math.Round(_projectMaterial.Sum(u => u.Total), 2).ToString()));
                 _totalCosts.Add(TwoColumnView.Create("Затраты на машинное время",
                     Math.Round(machineTimeCosts, 2).ToString()));
-                var invoices = _totalCosts.Sum(u => double.Parse(u.Second)) * 0.2;
+                var invoices = _totalCosts.Sum(u => double.Parse(u.Second)) * invoicesKoef;
                 _totalCosts.Add(TwoColumnView.Create("Накладные расходы", Math.Round(invoices, 2).ToString()));
                 var devTotal = _totalCosts.Sum(u => double.Parse(u.Second));
-                _totalCosts.Add(TwoColumnView.Create("Затраты на разработку", Math.Round(devTotal, 2).ToString()));
-                _totalCosts.Add(TwoColumnView.Create("Затраты на внедрение", Math.Round(implementCosts, 2).ToString()));
+                _totalCosts.Add(TwoColumnView.Create("Вложения на проэктирование", Math.Round(devTotal, 2).ToString()));
+                _totalCosts.Add(TwoColumnView.Create("Вложения на реализацию проекта", Math.Round(implementCosts, 2).ToString()));
                 _curProject.CapCost = devTotal + implementCosts;
                 _totalCosts.Add(TwoColumnView.Create("ИТОГО", Math.Round(implementCosts + devTotal, 2).ToString()));
 
@@ -851,6 +861,12 @@ namespace WpfApp1
         {
             SlaveDataGrid.Items.Refresh();
             SlaveTotalTextBox.Text = Math.Round(_projectSlaves.Sum(u => u.TotalPayment), 2).ToString();
+            DateTime startDate;
+            if (DateTime.TryParse(TextBoxDateStart.Text, out startDate))
+            {
+                var endDate = startDate.AddDays(_projectSlaves.Max(u => u.WorkDays));
+                TextBoxDateEnd.Text = endDate.ToShortDateString();
+            }
         }
         private void ExploitSlaveDataGridRefreshButton_Click(object sender, RoutedEventArgs e)
         {
@@ -934,6 +950,7 @@ namespace WpfApp1
                 var otherProject = _context.Projects.ToList()[OtherProjectComboBox.SelectedIndex];
                 if (otherProject != null)
                 {
+                    _ecoEffect.Clear();
                     _ecoEffect.Add(ThreeColumnView.Create("Себестоимость (текущие эксплуатационные затраты), грн",
                         Math.Round(otherProject.ExploitCost, 2).ToString(),
                         Math.Round(_curProject.ExploitCost, 2).ToString()));
@@ -967,6 +984,11 @@ namespace WpfApp1
 
         private void QualityDataGridRefreshButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_qualityAttributeView.Sum(u => u.Coef) != 1)
+            {
+                MessageBox.Show("Сумма всех коэффициентов должна быть ровна 1");
+                return;
+            }
             QualityDataGrid.Items.Refresh();
             var myQa = _qualityAttributeView.Sum(u => u.MyQu);
             var otherQa = _qualityAttributeView.Sum(u => u.OtherQu);
@@ -996,6 +1018,54 @@ namespace WpfApp1
                 }
                 QualityDataGrid.Items.Refresh();
             }
+        }
+
+        private void MenuItemMaterialDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var index = MaterialDataGrid.SelectedIndex;
+                MaterialDataGrid.CommitEdit();
+                _projectMaterial.RemoveAt(index);
+                MaterialDataGrid.Items.Refresh();
+            }
+            catch { }
+        }
+
+        private void MenuItemEquipDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var index = EquipDataGrid.SelectedIndex;
+                EquipDataGrid.CommitEdit();
+                _totalEquips.RemoveAt(index);
+                EquipDataGrid.Items.Refresh();
+            }
+            catch { }
+        }
+
+        private void MenuItemEmployeeDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var index = SlaveDataGrid.SelectedIndex;
+                SlaveDataGrid.CommitEdit();
+                _projectSlaves.RemoveAt(index);
+                SlaveDataGrid.Items.Refresh();
+            }
+            catch { }
+        }
+
+        private void MenuItemExploitEmployeeDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var index = ExploitSlaveDataGrid.SelectedIndex;
+                ExploitSlaveDataGrid.CommitEdit();
+                _exploitSlaves.RemoveAt(index);
+                ExploitSlaveDataGrid.Items.Refresh();
+            }
+            catch { }
         }
     }
 }

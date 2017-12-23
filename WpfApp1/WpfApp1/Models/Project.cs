@@ -47,8 +47,9 @@ namespace WpfApp1.Models
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QualityAttribute> QualityAttributes { get; set; }
 
-        
-        
+
+
+        public double OneCost => ExploitCost + 0.33 * CapCost;
 
         public static Project Create(string projectName)
         {
